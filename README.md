@@ -1,15 +1,21 @@
 # Birlik Elektrik Web Sitesi
 
-Birlik Elektrik için oluşturulmuş modern ve responsive bir web sitesi.
+Birlik Elektrik için profesyonel web sitesi ve admin paneli projesi.
 
 ## Özellikler
 
-- Modern ve temiz tasarım
-- Tamamen mobile-friendly responsive yapı
-- Tüm cihazlarda uyumlu görünüm
-- Hızlı ve optimize edilmiş kodlama
-- SEO dostu yapı
-- Kolay kullanım ve navigasyon
+- Responsive tasarım
+- Admin paneli
+- Proje ve hizmet yönetimi
+- İletişim formu
+- Bülten aboneliği
+- Firebase entegrasyonu
+
+## Canlı Demo
+
+Projenin geçici canlı demosu:
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy)
 
 ## İçerik Bölümleri
 
@@ -22,17 +28,20 @@ Birlik Elektrik için oluşturulmuş modern ve responsive bir web sitesi.
 
 ## Teknolojiler
 
-- HTML5
-- CSS3
-- JavaScript (vanilla)
-- Font Awesome ikonları
-- Google Fonts (Poppins)
+- HTML5, CSS3, JavaScript
+- Firebase (Firestore, Authentication, Storage)
+- Responsive Design
 
 ## Kurulum
 
-1. Repoyu bilgisayarınıza klonlayın
-2. İndexten ana sayfayı açın
-3. Gerektiğinde içeriği özelleştirin
+1. Repository'yi klonlayın:
+```bash
+git clone https://github.com/aligencturk/BirlikElektrik.git
+```
+
+2. Web sunucunuza yükleyin veya lokal olarak çalıştırın
+
+3. Firebase yapılandırma bilgilerinizi `js/firebase/config.js` dosyasına ekleyin
 
 ## Kullanım
 
@@ -48,4 +57,4 @@ Web tarayıcısında `index.html` dosyasını açarak siteyi görüntüleyebilir
 
 ## Lisans
 
-Bu proje MIT lisansı altında lisanslanmıştır. 
+Tüm hakları saklıdır © 2025 Birlik Elektrik 
