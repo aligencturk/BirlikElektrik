@@ -230,42 +230,43 @@
                 }
             });
             
-            // Kullanıcı giriş durumunu kontrol et
+            // Kullanıcı girişini kontrol et
             firebase.auth().onAuthStateChanged(function(user) {
-                if (user) {
-                    // Kullanıcı bilgilerini göster
-                    const userEmail = document.getElementById('userEmail');
-                    const userName = document.getElementById('userName');
-                    const userInitials = document.getElementById('userInitials');
+                if (!user) {
+                    // Kullanıcı giriş yapmamışsa login sayfasına yönlendir
+                    window.location.href = 'login.html';
+                    return;
+                }
+                
+                // Kullanıcı bilgilerini ayarla
+                const userEmail = document.getElementById('userEmail');
+                const userName = document.getElementById('userName');
+                const userInitials = document.getElementById('userInitials');
+                
+                userEmail.textContent = user.email;
+                
+                if (user.displayName) {
+                    userName.textContent = user.displayName;
                     
-                    userEmail.textContent = user.email;
+                    // Baş harfleri göster
+                    const nameParts = user.displayName.split(' ');
+                    let initials = '';
                     
-                    if (user.displayName) {
-                        userName.textContent = user.displayName;
-                        
-                        // Baş harfleri göster
-                        const nameParts = user.displayName.split(' ');
-                        let initials = '';
-                        
-                        if (nameParts.length === 1) {
-                            initials = nameParts[0].charAt(0);
-                        } else {
-                            initials = nameParts[0].charAt(0) + nameParts[nameParts.length - 1].charAt(0);
-                        }
-                        
-                        userInitials.textContent = initials.toUpperCase();
+                    if (nameParts.length === 1) {
+                        initials = nameParts[0].charAt(0);
                     } else {
-                        // E-posta adresinin ilk harfini kullan
-                        userName.textContent = 'Admin';
-                        userInitials.textContent = user.email.charAt(0).toUpperCase();
+                        initials = nameParts[0].charAt(0) + nameParts[nameParts.length - 1].charAt(0);
                     }
                     
-                    // Mesajları yükle
-                    loadMessages('all');
+                    userInitials.textContent = initials.toUpperCase();
                 } else {
-                    // Kullanıcı giriş yapmamış, login sayfasına yönlendir
-                    window.location.href = 'login.html';
+                    // E-posta adresinin ilk harfini kullan
+                    userName.textContent = 'Admin';
+                    userInitials.textContent = user.email.charAt(0).toUpperCase();
                 }
+                
+                // Mesajları yükle
+                loadMessages('all');
             });
             
             // Filtreleme

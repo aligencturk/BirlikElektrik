@@ -188,119 +188,120 @@
     <!-- Admin JS -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Koleksiyona referans oluştur
-            const subscribersRef = db.collection('newsletterSubscribers');
-            
-            // Sidebar Toggle
-            const sidebarToggle = document.getElementById('sidebarToggle');
-            const adminSidebar = document.getElementById('adminSidebar');
-            
-            sidebarToggle.addEventListener('click', function() {
-                adminSidebar.classList.toggle('show');
-                
-                // Icon değiştir
-                const icon = this.querySelector('i');
-                if (icon.classList.contains('fa-bars')) {
-                    icon.classList.remove('fa-bars');
-                    icon.classList.add('fa-times');
-                } else {
-                    icon.classList.remove('fa-times');
-                    icon.classList.add('fa-bars');
-                }
-            });
-            
-            // Çıkış yapma
-            const logoutButton = document.getElementById('logoutButton');
-            
-            logoutButton.addEventListener('click', async function(e) {
-                e.preventDefault();
-                
-                try {
-                    await firebase.auth().signOut();
-                    window.location.href = 'login.html';
-                } catch (error) {
-                    console.error('Çıkış yapılırken hata oluştu:', error);
-                    alert('Çıkış yapılırken bir hata oluştu.');
-                }
-            });
-            
-            // Kullanıcı giriş durumunu kontrol et
+            // Kullanıcı girişini kontrol et
             firebase.auth().onAuthStateChanged(function(user) {
-                if (user) {
-                    // Kullanıcı bilgilerini göster
-                    const userEmail = document.getElementById('userEmail');
-                    const userName = document.getElementById('userName');
-                    const userInitials = document.getElementById('userInitials');
+                if (!user) {
+                    // Kullanıcı giriş yapmamışsa login sayfasına yönlendir
+                    window.location.href = 'login.html';
+                    return;
+                }
+                
+                // Kullanıcı bilgilerini ayarla
+                const userEmail = document.getElementById('userEmail');
+                const userName = document.getElementById('userName');
+                const userInitials = document.getElementById('userInitials');
+                
+                userEmail.textContent = user.email;
+                
+                if (user.displayName) {
+                    userName.textContent = user.displayName;
                     
-                    userEmail.textContent = user.email;
+                    // Baş harfleri göster
+                    const nameParts = user.displayName.split(' ');
+                    let initials = '';
                     
-                    if (user.displayName) {
-                        userName.textContent = user.displayName;
-                        
-                        // Baş harfleri göster
-                        const nameParts = user.displayName.split(' ');
-                        let initials = '';
-                        
-                        if (nameParts.length === 1) {
-                            initials = nameParts[0].charAt(0);
-                        } else {
-                            initials = nameParts[0].charAt(0) + nameParts[nameParts.length - 1].charAt(0);
-                        }
-                        
-                        userInitials.textContent = initials.toUpperCase();
+                    if (nameParts.length === 1) {
+                        initials = nameParts[0].charAt(0);
                     } else {
-                        // E-posta adresinin ilk harfini kullan
-                        userName.textContent = 'Admin';
-                        userInitials.textContent = user.email.charAt(0).toUpperCase();
+                        initials = nameParts[0].charAt(0) + nameParts[nameParts.length - 1].charAt(0);
                     }
                     
-                    // Aboneleri yükle
-                    loadSubscribers();
+                    userInitials.textContent = initials.toUpperCase();
                 } else {
-                    // Kullanıcı giriş yapmamış, login sayfasına yönlendir
-                    window.location.href = 'login.html';
+                    // E-posta adresinin ilk harfini kullan
+                    userName.textContent = 'Admin';
+                    userInitials.textContent = user.email.charAt(0).toUpperCase();
                 }
+                
+                // Koleksiyona referans oluştur
+                const subscribersRef = db.collection('newsletterSubscribers');
+                
+                // Sidebar Toggle
+                const sidebarToggle = document.getElementById('sidebarToggle');
+                const adminSidebar = document.getElementById('adminSidebar');
+                
+                sidebarToggle.addEventListener('click', function() {
+                    adminSidebar.classList.toggle('show');
+                    
+                    // Icon değiştir
+                    const icon = this.querySelector('i');
+                    if (icon.classList.contains('fa-bars')) {
+                        icon.classList.remove('fa-bars');
+                        icon.classList.add('fa-times');
+                    } else {
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+                
+                // Çıkış yapma
+                const logoutButton = document.getElementById('logoutButton');
+                
+                logoutButton.addEventListener('click', async function(e) {
+                    e.preventDefault();
+                    
+                    try {
+                        await firebase.auth().signOut();
+                        window.location.href = 'login.html';
+                    } catch (error) {
+                        console.error('Çıkış yapılırken hata oluştu:', error);
+                        alert('Çıkış yapılırken bir hata oluştu.');
+                    }
+                });
+                
+                // Modal açma/kapama
+                const subscriberModal = document.getElementById('subscriberModal');
+                const addSubscriberBtn = document.getElementById('addSubscriberBtn');
+                const closeModal = document.getElementById('closeModal');
+                const cancelBtn = document.getElementById('cancelBtn');
+                
+                addSubscriberBtn.addEventListener('click', function() {
+                    resetForm();
+                    document.getElementById('modalTitle').textContent = 'Yeni Bülten Abonesi Ekle';
+                    subscriberModal.classList.add('show');
+                });
+                
+                closeModal.addEventListener('click', function() {
+                    subscriberModal.classList.remove('show');
+                });
+                
+                cancelBtn.addEventListener('click', function() {
+                    subscriberModal.classList.remove('show');
+                });
+                
+                // Delete Modal
+                const deleteModal = document.getElementById('deleteModal');
+                const closeDeleteModal = document.getElementById('closeDeleteModal');
+                const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+                
+                closeDeleteModal.addEventListener('click', function() {
+                    deleteModal.classList.remove('show');
+                });
+                
+                cancelDeleteBtn.addEventListener('click', function() {
+                    deleteModal.classList.remove('show');
+                });
+                
+                // Formu sıfırla
+                function resetForm() {
+                    document.getElementById('subscriberForm').reset();
+                    document.getElementById('subscriberId').value = '';
+                    document.getElementById('subscriberActive').checked = true;
+                }
+                
+                // Aboneleri yükle
+                loadSubscribers();
             });
-            
-            // Modal açma/kapama
-            const subscriberModal = document.getElementById('subscriberModal');
-            const addSubscriberBtn = document.getElementById('addSubscriberBtn');
-            const closeModal = document.getElementById('closeModal');
-            const cancelBtn = document.getElementById('cancelBtn');
-            
-            addSubscriberBtn.addEventListener('click', function() {
-                resetForm();
-                document.getElementById('modalTitle').textContent = 'Yeni Bülten Abonesi Ekle';
-                subscriberModal.classList.add('show');
-            });
-            
-            closeModal.addEventListener('click', function() {
-                subscriberModal.classList.remove('show');
-            });
-            
-            cancelBtn.addEventListener('click', function() {
-                subscriberModal.classList.remove('show');
-            });
-            
-            // Delete Modal
-            const deleteModal = document.getElementById('deleteModal');
-            const closeDeleteModal = document.getElementById('closeDeleteModal');
-            const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
-            
-            closeDeleteModal.addEventListener('click', function() {
-                deleteModal.classList.remove('show');
-            });
-            
-            cancelDeleteBtn.addEventListener('click', function() {
-                deleteModal.classList.remove('show');
-            });
-            
-            // Formu sıfırla
-            function resetForm() {
-                document.getElementById('subscriberForm').reset();
-                document.getElementById('subscriberId').value = '';
-                document.getElementById('subscriberActive').checked = true;
-            }
             
             // Aboneleri yükle
             async function loadSubscribers() {

@@ -274,69 +274,44 @@
                 }
             });
             
-            // Kullanıcı giriş durumunu kontrol et
-            function checkAuthState() {
-                if (typeof firebase === 'undefined') {
-                    console.error('Firebase yüklenemedi!');
+            // Kullanıcı girişini kontrol et
+            firebase.auth().onAuthStateChanged(function(user) {
+                if (!user) {
+                    // Kullanıcı giriş yapmamışsa login sayfasına yönlendir
+                    window.location.href = 'login.html';
                     return;
                 }
                 
-                if (typeof firebase.auth !== 'function') {
-                    console.error('Firebase Authentication modülü bulunamadı!');
-                    showAlert('Firebase Authentication modülü yüklenemedi. Modül olmadan da devam edebilirsiniz.', 'warning');
-                    
-                    // Kullanıcıyı görsel olarak bilgilendir
-                    document.getElementById('userEmail').textContent = 'Auth Yüklenmedi';
-                    document.getElementById('userName').textContent = 'Yetkisiz Kullanıcı';
-                    document.getElementById('userInitials').textContent = 'X';
-                    
-                    // Yine de sayfa içeriğini yüklemeyi dene
-                    loadAboutData();
-                    return;
-                }
+                // Kullanıcı bilgilerini ayarla
+                const userEmail = document.getElementById('userEmail');
+                const userName = document.getElementById('userName');
+                const userInitials = document.getElementById('userInitials');
                 
-                firebase.auth().onAuthStateChanged(function(user) {
-                    if (user) {
-                        // Kullanıcı bilgilerini göster
-                        const userEmail = document.getElementById('userEmail');
-                        const userName = document.getElementById('userName');
-                        const userInitials = document.getElementById('userInitials');
-                        
-                        userEmail.textContent = user.email;
-                        
-                        if (user.displayName) {
-                            userName.textContent = user.displayName;
-                            
-                            // Baş harfleri göster
-                            const nameParts = user.displayName.split(' ');
-                            let initials = '';
-                            
-                            if (nameParts.length === 1) {
-                                initials = nameParts[0].charAt(0);
-                            } else {
-                                initials = nameParts[0].charAt(0) + nameParts[nameParts.length - 1].charAt(0);
-                            }
-                            
-                            userInitials.textContent = initials.toUpperCase();
-                        } else {
-                            // E-posta adresinin ilk harfini kullan
-                            userName.textContent = 'Admin';
-                            userInitials.textContent = user.email.charAt(0).toUpperCase();
-                        }
-                        
-                        // Hakkımızda verilerini yükle
-                        loadAboutData();
+                userEmail.textContent = user.email;
+                
+                if (user.displayName) {
+                    userName.textContent = user.displayName;
+                    
+                    // Baş harfleri göster
+                    const nameParts = user.displayName.split(' ');
+                    let initials = '';
+                    
+                    if (nameParts.length === 1) {
+                        initials = nameParts[0].charAt(0);
                     } else {
-                        // Kullanıcı giriş yapmamış, login sayfasına yönlendir
-                        window.location.href = 'login.html';
+                        initials = nameParts[0].charAt(0) + nameParts[nameParts.length - 1].charAt(0);
                     }
-                });
-            }
-            
-            // Firebase modülleri yüklendikten sonra auth kontrolü yap
-            setTimeout(function() {
-                checkAuthState();
-            }, 1000);
+                    
+                    userInitials.textContent = initials.toUpperCase();
+                } else {
+                    // E-posta adresinin ilk harfini kullan
+                    userName.textContent = 'Admin';
+                    userInitials.textContent = user.email.charAt(0).toUpperCase();
+                }
+                
+                // Hakkımızda verilerini yükle
+                loadAboutData();
+            });
             
             // Hakkımızda verilerini yükle
             function loadAboutData() {
