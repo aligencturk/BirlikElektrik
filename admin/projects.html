@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birlik Elektrik Admin - Projeler</title>
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="admin-header">
+        <div class="container">
+            <div class="admin-header-content">
+                <div class="admin-menu">
+                    <button id="sidebarToggle"><i class="fas fa-bars"></i></button>
+                </div>
+                <div class="admin-logo">
+                    <img src="../img/elektrik-bg1.jpg" alt="Birlik Elektrik Logo">
+                    <h1><span>Birlik</span> Elektrik</h1>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <aside class="admin-sidebar" id="adminSidebar">
+        <div class="admin-sidebar-content">
+            <div class="admin-sidebar-user">
+                <div class="admin-user-avatar" id="userInitials">
+                    A
+                </div>
+                <div class="admin-user-info">
+                    <h3 id="userName">Admin</h3>
+                    <p id="userEmail">admin@birlikelektrik.com</p>
+                </div>
+            </div>
+            <ul class="admin-nav">
+                <li class="admin-nav-item">
+                    <a href="index.html" class="admin-nav-link">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </a>
+                </li>
+                <li class="admin-nav-item">
+                    <a href="projects.html" class="admin-nav-link active">
+                        <i class="fas fa-project-diagram"></i> Projeler
+                    </a>
+                </li>
+                <li class="admin-nav-item">
+                    <a href="services.html" class="admin-nav-link">
+                        <i class="fas fa-tools"></i> Hizmetler
+                    </a>
+                </li>
+                <li class="admin-nav-item">
+                    <a href="messages.html" class="admin-nav-link">
+                        <i class="fas fa-envelope"></i> Mesajlar
+                    </a>
+                </li>
+                <li class="admin-nav-item">
+                    <a href="newsletter.html" class="admin-nav-link">
+                        <i class="fas fa-newspaper"></i> Bülten Aboneleri
+                    </a>
+                </li>
+                <li class="admin-nav-item">
+                    <a href="#" id="logoutButton" class="admin-nav-link">
+                        <i class="fas fa-sign-out-alt"></i> Çıkış Yap
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-content">
+        <div class="container">
+            <div class="admin-table-header">
+                <h1>Projeler</h1>
+                <button class="btn btn-primary" id="newProjectBtn"><i class="fas fa-plus"></i> Yeni Proje Ekle</button>
+            </div>
+            
+            <!-- Connection Status -->
+            <div class="alert alert-warning connection-alert" id="connectionAlert" style="display: none;">
+                <i class="fas fa-wifi"></i> <span id="connectionStatus">Firebase bağlantısı kurulamadı.</span>
+                <button id="connectionRetryBtn" class="btn btn-sm btn-outline-primary ml-2">
+                    <i class="fas fa-sync-alt"></i> Yeniden Dene
+                </button>
+            </div>
+            
+            <!-- Alert Messages -->
+            <div class="alert alert-success" id="successAlert" style="display: none;"></div>
+            <div class="alert alert-danger" id="errorAlert" style="display: none;"></div>
+            <div class="alert alert-info" id="infoAlert" style="display: none;"></div>
+            
+            <!-- Projects Table -->
+            <div class="admin-table-container">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Görsel</th>
+                            <th>Başlık</th>
+                            <th>Açıklama</th>
+                            <th>Kategori</th>
+                            <th>Durum</th>
+                            <th>Tarih</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody id="projectsTableBody">
+                        <tr>
+                            <td colspan="7" class="loading">
+                                <i class="fas fa-spinner fa-spin"></i> Projeler yükleniyor...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Project Modal -->
+    <div class="admin-modal" id="projectModal">
+        <div class="admin-modal-content">
+            <div class="admin-modal-header">
+                <h2 id="modalTitle">Yeni Proje Ekle</h2>
+                <button class="admin-modal-close" id="closeModal">&times;</button>
+            </div>
+            <div class="admin-modal-body">
+                <form id="projectForm">
+                    <input type="hidden" id="projectId">
+                    
+                    <div class="admin-form-group">
+                        <label for="projectTitle">Proje Başlığı</label>
+                        <input type="text" id="projectTitle" class="admin-form-control" required>
+                    </div>
+                    
+                    <div class="admin-form-group">
+                        <label for="projectDescription">Proje Açıklaması</label>
+                        <textarea id="projectDescription" class="admin-form-control" rows="4" required></textarea>
+                    </div>
+                    
+                    <div class="admin-form-group">
+                        <label for="projectCategory">Kategori</label>
+                        <select id="projectCategory" class="admin-form-select" required>
+                            <option value="" disabled selected>Kategori Seçin</option>
+                            <option value="konut">Konut</option>
+                            <option value="ticari">Ticari</option>
+                            <option value="endustriyel">Endüstriyel</option>
+                            <option value="altyapi">Altyapı</option>
+                            <option value="aydinlatma">Aydınlatma</option>
+                            <option value="guvenlik">Güvenlik Sistemleri</option>
+                            <option value="diger">Diğer</option>
+                        </select>
+                    </div>
+                    
+                    <div class="admin-form-group">
+                        <label for="projectStatus">Durum</label>
+                        <div class="admin-form-check">
+                            <input type="checkbox" id="projectCompleted" class="admin-form-check-input">
+                            <label for="projectCompleted">Tamamlandı</label>
+                        </div>
+                    </div>
+                    
+                    <div class="admin-form-group">
+                        <label for="projectImage">Proje Görseli</label>
+                        <div class="image-upload-container">
+                            <input type="file" id="projectImage" class="admin-form-control" accept="image/*">
+                            <div class="image-upload-info">
+                                <p><i class="fas fa-info-circle"></i> Önerilen boyut: 600x400px, <strong>Maksimum boyut: 2MB</strong></p>
+                                <p><i class="fas fa-check-circle"></i> Desteklenen formatlar: JPG, PNG, GIF</p>
+                                <p><i class="fas fa-exclamation-triangle text-warning"></i> Not: Şu anda görsel yükleme işlemi Base64 formatında yapılmaktadır. Büyük görseller sayfayı yavaşlatabilir.</p>
+                            </div>
+                        </div>
+                        <div id="imagePreviewContainer" style="margin-top: 15px; display: none;">
+                            <p>Seçilen Görsel:</p>
+                            <img id="imagePreview" src="" alt="Seçilen Görsel" style="max-width: 100%; max-height: 200px; display: block; margin-bottom: 10px;">
+                        </div>
+                        <div id="currentImageContainer" style="margin-top: 15px; display: none;">
+                            <p>Mevcut Görsel:</p>
+                            <img id="currentImage" src="" alt="Mevcut Proje Görseli" style="max-width: 100%; max-height: 200px; display: block;">
+                        </div>
+                    </div>
+                    
+                    <div class="admin-form-group">
+                        <label for="projectDate">Tarih</label>
+                        <input type="date" id="projectDate" class="admin-form-control" required>
+                    </div>
+                </form>
+            </div>
+            <div class="admin-modal-footer">
+                <button class="btn btn-secondary" id="cancelBtn">İptal</button>
+                <button class="btn btn-primary" id="saveProjectBtn">Kaydet</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="admin-modal" id="deleteModal">
+        <div class="admin-modal-content" style="max-width: 400px;">
+            <div class="admin-modal-header">
+                <h2>Projeyi Sil</h2>
+                <button class="admin-modal-close" id="closeDeleteModal">&times;</button>
+            </div>
+            <div class="admin-modal-body">
+                <p>Bu projeyi silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.</p>
+                <input type="hidden" id="deleteProjectId">
+            </div>
+            <div class="admin-modal-footer">
+                <button class="btn btn-secondary" id="cancelDeleteBtn">İptal</button>
+                <button class="btn btn-danger" id="confirmDeleteBtn">Sil</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase JS -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+    
+    <!-- Firebase Config -->
+    <script src="../js/firebase/config.js"></script>
+    
+    <!-- Admin JS -->
+    <script>
+        // Tarayıcı önbelleğini kontrol et ve yeniden yüklemeyi öner
+        if (typeof firebase === 'undefined' || typeof firebase.auth !== 'function') {
+            alert('Firebase modülleri tam olarak yüklenemedi. Lütfen sayfayı yenileyin (Ctrl+F5).');
+            console.error('Firebase modülleri eksik. Tarayıcı önbelleğini temizleyip sayfayı yenileyin.');
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Firebase modüllerinin yüklendiğini kontrol et
+            if (typeof firebase === 'undefined') {
+                console.error('Firebase kütüphanesi yüklenemedi!');
+                showAlert('Firebase kütüphanesi yüklenemedi. Lütfen internet bağlantınızı kontrol edin.', 'error');
+                return;
+            }
+            
+            // Sidebar Toggle
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const adminSidebar = document.getElementById('adminSidebar');
+            
+            sidebarToggle.addEventListener('click', function() {
+                adminSidebar.classList.toggle('show');
+                
+                // Icon değiştir
+                const icon = this.querySelector('i');
+                if (icon.classList.contains('fa-bars')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+            
+            // Firebase bağlantı durumunu izle
+            const connectionAlert = document.getElementById('connectionAlert');
+            const connectionStatus = document.getElementById('connectionStatus');
+            const connectionRetryBtn = document.getElementById('connectionRetryBtn');
+            
+            // Bağlantı durumu değiştiğinde tetiklenecek event listener
+            window.addEventListener('firebaseConnectionChange', function(e) {
+                const isConnected = e.detail.isConnected;
+                
+                if (isConnected) {
+                    connectionAlert.style.display = 'none';
+                    // Eğer bağlantı yeniden sağlandıysa verileri yenile
+                    if (connectionAlert.dataset.wasDisconnected === 'true') {
+                        loadProjects();
+                        showAlert('Firebase bağlantısı yeniden sağlandı.', 'success');
+                    }
+                } else {
+                    connectionAlert.dataset.wasDisconnected = 'true';
+                    connectionAlert.style.display = 'block';
+                    connectionStatus.textContent = 'Firebase bağlantısı kesildi. Çevrimdışı modda çalışıyorsunuz.';
+                }
+            });
+            
+            // Bağlantıyı yeniden dene butonu
+            connectionRetryBtn.addEventListener('click', function() {
+                showAlert('Bağlantı yeniden kuruluyor...', 'info');
+                setTimeout(() => {
+                    loadProjects();
+                }, 1500);
+            });
+            
+            // Çıkış yapma
+            const logoutButton = document.getElementById('logoutButton');
+            
+            logoutButton.addEventListener('click', async function(e) {
+                e.preventDefault();
+                
+                try {
+                    if (typeof firebase === 'undefined') {
+                        throw new Error('Firebase kütüphanesi yüklenemedi!');
+                    }
+                    
+                    if (typeof firebase.auth !== 'function') {
+                        throw new Error('Firebase Authentication modülü bulunamadı!');
+                    }
+                    
+                    await firebase.auth().signOut();
+                    window.location.href = 'login.html';
+                } catch (error) {
+                    console.error('Çıkış yapılırken hata oluştu:', error);
+                    showAlert('Çıkış yapılırken bir hata oluştu: ' + error.message, 'error');
+                }
+            });
+            
+            // Görsel önizleme
+            document.getElementById('projectImage').addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (!file) {
+                    document.getElementById('imagePreviewContainer').style.display = 'none';
+                    return;
+                }
+                
+                // Görsel önizleme alanını göster
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('imagePreview').src = e.target.result;
+                    document.getElementById('imagePreviewContainer').style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+                
+                // Dosya boyutunu kontrol et ve uyarı göster
+                const fileSize = file.size / (1024 * 1024); // MB cinsinden
+                if (fileSize > 2) {
+                    showAlert(`Dosya boyutu ${fileSize.toFixed(2)}MB. 2MB'den küçük dosyalar kullanmanız önerilir.`, 'warning');
+                }
+                
+                // Desteklenmeyen formatta görsel uyarısı
+                const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif'];
+                if (!allowedTypes.includes(file.type)) {
+                    showAlert(`Desteklenmeyen dosya formatı: ${file.type}. Lütfen JPG, PNG veya GIF formatında görsel seçin.`, 'warning');
+                }
+            });
+            
+            // Kullanıcı giriş durumunu kontrol et
+            function checkAuthState() {
+                if (typeof firebase === 'undefined') {
+                    console.error('Firebase yüklenemedi!');
+                    return;
+                }
+                
+                if (typeof firebase.auth !== 'function') {
+                    console.error('Firebase Authentication modülü bulunamadı!');
+                    showAlert('Firebase Authentication modülü yüklenemedi. Modül olmadan da devam edebilirsiniz.', 'warning');
+                    
+                    // Kullanıcıyı görsel olarak bilgilendir
+                    document.getElementById('userEmail').textContent = 'Auth Yüklenmedi';
+                    document.getElementById('userName').textContent = 'Yetkisiz Kullanıcı';
+                    document.getElementById('userInitials').textContent = 'X';
+                    
+                    // Yine de projeleri yüklemeyi dene
+                    loadProjects();
+                    return;
+                }
+                
+                firebase.auth().onAuthStateChanged(function(user) {
+                    if (user) {
+                        // Kullanıcı bilgilerini göster
+                        const userEmail = document.getElementById('userEmail');
+                        const userName = document.getElementById('userName');
+                        const userInitials = document.getElementById('userInitials');
+                        
+                        userEmail.textContent = user.email;
+                        
+                        if (user.displayName) {
+                            userName.textContent = user.displayName;
+                            
+                            // Baş harfleri göster
+                            const nameParts = user.displayName.split(' ');
+                            let initials = '';
+                            
+                            if (nameParts.length === 1) {
+                                initials = nameParts[0].charAt(0);
+                            } else {
+                                initials = nameParts[0].charAt(0) + nameParts[nameParts.length - 1].charAt(0);
+                            }
+                            
+                            userInitials.textContent = initials.toUpperCase();
+                        } else {
+                            // E-posta adresinin ilk harfini kullan
+                            userName.textContent = 'Admin';
+                            userInitials.textContent = user.email.charAt(0).toUpperCase();
+                        }
+                        
+                        // Projeleri yükle
+                        loadProjects();
+                    } else {
+                        // Kullanıcı giriş yapmamış, login sayfasına yönlendir
+                        window.location.href = 'login.html';
+                    }
+                });
+            }
+            
+            // Firebase modülleri yüklendikten sonra auth kontrolü yap
+            // Kullanıcı girişi için belirli bir süre bekle, sonra kontrol et
+            setTimeout(function() {
+                checkAuthState();
+            }, 1000);
+            
+            // Modal açma/kapama
+            const projectModal = document.getElementById('projectModal');
+            const newProjectBtn = document.getElementById('newProjectBtn');
+            const closeModal = document.getElementById('closeModal');
+            const cancelBtn = document.getElementById('cancelBtn');
+            
+            newProjectBtn.addEventListener('click', function() {
+                resetForm();
+                document.getElementById('modalTitle').textContent = 'Yeni Proje Ekle';
+                projectModal.classList.add('show');
+                
+                // Bugünün tarihini varsayılan olarak ayarla
+                const today = new Date().toISOString().split('T')[0];
+                document.getElementById('projectDate').value = today;
+            });
+            
+            closeModal.addEventListener('click', function() {
+                projectModal.classList.remove('show');
+            });
+            
+            cancelBtn.addEventListener('click', function() {
+                projectModal.classList.remove('show');
+            });
+            
+            // Delete Modal
+            const deleteModal = document.getElementById('deleteModal');
+            const closeDeleteModal = document.getElementById('closeDeleteModal');
+            const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+            
+            closeDeleteModal.addEventListener('click', function() {
+                deleteModal.classList.remove('show');
+            });
+            
+            cancelDeleteBtn.addEventListener('click', function() {
+                deleteModal.classList.remove('show');
+            });
+            
+            // Formu sıfırla
+            function resetForm() {
+                document.getElementById('projectForm').reset();
+                document.getElementById('projectId').value = '';
+                document.getElementById('currentImageContainer').style.display = 'none';
+            }
+            
+            // Projeleri yükle
+            async function loadProjects() {
+                try {
+                    const projectsTableBody = document.getElementById('projectsTableBody');
+                    
+                    // Bağlantı durumunu kontrol et
+                    const isConnected = await checkFirebaseConnection();
+                    if (!isConnected) {
+                        projectsTableBody.innerHTML = `
+                            <tr>
+                                <td colspan="7" style="text-align: center;">
+                                    <div class="alert alert-warning">
+                                        <i class="fas fa-wifi"></i> Firebase bağlantısı kurulamadı. Çevrimdışı moddayız. 
+                                        <button id="retryConnectionBtn" class="btn btn-sm btn-outline-primary ml-2">
+                                            <i class="fas fa-sync-alt"></i> Yeniden Dene
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        `;
+                        
+                        // Yeniden bağlantı deneme butonu
+                        document.getElementById('retryConnectionBtn').addEventListener('click', function() {
+                            showAlert('Bağlantı yeniden kuruluyor...', 'info');
+                            setTimeout(() => {
+                                loadProjects();
+                            }, 1500);
+                        });
+                        
+                        // Yerel önbellekten yüklemeyi dene
+                        try {
+                            const cachedProjects = await projectsRef.orderBy('createdAt', 'desc').get({ source: 'cache' });
+                            
+                            if (!cachedProjects.empty) {
+                                showAlert('Projeler yerel önbellekten yüklendi.', 'info');
+                                renderProjects(cachedProjects);
+                            }
+                        } catch (cacheError) {
+                            console.error('Önbellekten yüklenirken hata:', cacheError);
+                        }
+                        
+                        return;
+                    }
+                    
+                    // Tüm projeleri getir
+                    const projectsSnapshot = await projectsRef.orderBy('createdAt', 'desc').get({ source: 'server' });
+                    
+                    if (projectsSnapshot.empty) {
+                        projectsTableBody.innerHTML = `
+                            <tr>
+                                <td colspan="7" style="text-align: center;">Henüz proje bulunmuyor.</td>
+                            </tr>
+                        `;
+                        return;
+                    }
+                    
+                    // Projeleri tabloya ekle
+                    renderProjects(projectsSnapshot);
+                    
+                } catch (error) {
+                    console.error('Projeler yüklenirken hata oluştu:', error);
+                    document.getElementById('projectsTableBody').innerHTML = `
+                        <tr>
+                            <td colspan="7" style="text-align: center;">
+                                <div class="alert alert-danger">
+                                    Projeler yüklenirken bir hata oluştu: ${error.message || 'Bilinmeyen hata'}
+                                    <button id="retryLoadBtn" class="btn btn-sm btn-outline-primary ml-2">
+                                        <i class="fas fa-sync-alt"></i> Yeniden Dene
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                    
+                    // Yeniden yükleme butonu
+                    document.getElementById('retryLoadBtn').addEventListener('click', function() {
+                        loadProjects();
+                    });
+                }
+            }
+            
+            // Firebase bağlantı durumunu kontrol et
+            async function checkFirebaseConnection() {
+                return new Promise((resolve) => {
+                    const isOnline = navigator.onLine;
+                    
+                    if (isOnline) {
+                        // Online olduğumuzda Firestore'a ping atmayı deneyelim
+                        db.collection('_health').doc('_ping')
+                        .set({ timestamp: firebase.firestore.FieldValue.serverTimestamp() })
+                        .then(() => {
+                            resolve(true);
+                        })
+                        .catch((error) => {
+                            console.warn('Firestore ping başarısız:', error);
+                            resolve(false);
+                        });
+                        
+                        // 3 saniye timeout
+                        setTimeout(() => {
+                            resolve(isOnline); // En azından tarayıcı online ise bağlantıyı başarılı sayalım
+                        }, 3000);
+                    } else {
+                        resolve(false);
+                    }
+                });
+            }
+            
+            // Projeleri tabloya render et
+            function renderProjects(projectsSnapshot) {
+                const projectsTableBody = document.getElementById('projectsTableBody');
+                projectsTableBody.innerHTML = '';
+                
+                projectsSnapshot.forEach(doc => {
+                    const project = doc.data();
+                    const date = project.date ? new Date(project.date).toLocaleDateString('tr-TR') : '-';
+                    
+                    // Görsel kontrolü: Base64 mi yoksa URL mi?
+                    let imageHtml = '';
+                    if (project.imageUrl) {
+                        if (project.imageUrl.startsWith('data:image')) {
+                            // Base64 görsel (küçük bir önizleme göster, tam boyutu modalde)
+                            imageHtml = `<img src="${project.imageUrl}" alt="${project.title}" style="max-width: 60px; max-height: 40px;">`;
+                        } else {
+                            // Normal URL
+                            imageHtml = `<img src="${project.imageUrl}" alt="${project.title}" style="max-width: 60px; max-height: 40px;">`;
+                        }
+                    } else {
+                        // Görsel yok
+                        imageHtml = `<img src="https://via.placeholder.com/60x40" alt="Görsel Yok">`;
+                    }
+                    
+                    projectsTableBody.innerHTML += `
+                        <tr>
+                            <td>${imageHtml}</td>
+                            <td>${project.title}</td>
+                            <td>${project.description.length > 30 ? project.description.substring(0, 30) + '...' : project.description}</td>
+                            <td>${getCategoryName(project.category)}</td>
+                            <td>${project.completed ? '<span class="badge badge-success">Tamamlandı</span>' : '<span class="badge badge-warning">Devam Ediyor</span>'}</td>
+                            <td>${date}</td>
+                            <td class="action-buttons">
+                                <button class="btn btn-sm btn-warning edit-project" data-id="${doc.id}">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-sm btn-danger delete-project" data-id="${doc.id}">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                
+                // Düzenleme butonları için event listener
+                document.querySelectorAll('.edit-project').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const projectId = this.getAttribute('data-id');
+                        editProject(projectId);
+                    });
+                });
+                
+                // Silme butonları için event listener
+                document.querySelectorAll('.delete-project').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const projectId = this.getAttribute('data-id');
+                        deleteProject(projectId);
+                    });
+                });
+            }
+            
+            // Kategori adı getir
+            function getCategoryName(categoryId) {
+                const categories = {
+                    'konut': 'Konut',
+                    'ticari': 'Ticari',
+                    'endustriyel': 'Endüstriyel',
+                    'altyapi': 'Altyapı',
+                    'aydinlatma': 'Aydınlatma',
+                    'guvenlik': 'Güvenlik Sistemleri',
+                    'diger': 'Diğer'
+                };
+                
+                return categories[categoryId] || categoryId || '-';
+            }
+            
+            // Proje düzenle
+            async function editProject(projectId) {
+                try {
+                    const projectDoc = await projectsRef.doc(projectId).get();
+                    
+                    if (!projectDoc.exists) {
+                        showAlert('Proje bulunamadı.', 'error');
+                        return;
+                    }
+                    
+                    const project = projectDoc.data();
+                    
+                    // Form alanlarını doldur
+                    document.getElementById('projectId').value = projectId;
+                    document.getElementById('projectTitle').value = project.title || '';
+                    document.getElementById('projectDescription').value = project.description || '';
+                    document.getElementById('projectCategory').value = project.category || '';
+                    document.getElementById('projectCompleted').checked = project.completed || false;
+                    
+                    // Tarih alanını doldur
+                    if (project.date) {
+                        const projectDate = new Date(project.date);
+                        const year = projectDate.getFullYear();
+                        const month = String(projectDate.getMonth() + 1).padStart(2, '0');
+                        const day = String(projectDate.getDate()).padStart(2, '0');
+                        document.getElementById('projectDate').value = `${year}-${month}-${day}`;
+                    } else {
+                        document.getElementById('projectDate').value = new Date().toISOString().split('T')[0];
+                    }
+                    
+                    // Eğer görsel varsa göster
+                    if (project.imageUrl) {
+                        document.getElementById('currentImage').src = project.imageUrl;
+                        document.getElementById('currentImageContainer').style.display = 'block';
+                    } else {
+                        document.getElementById('currentImageContainer').style.display = 'none';
+                    }
+                    
+                    // Modal başlığını değiştir ve göster
+                    document.getElementById('modalTitle').textContent = 'Projeyi Düzenle';
+                    projectModal.classList.add('show');
+                } catch (error) {
+                    console.error('Proje düzenlenirken hata oluştu:', error);
+                    showAlert('Proje düzenlenirken bir hata oluştu.', 'error');
+                }
+            }
+            
+            // Proje silme modalını göster
+            function deleteProject(projectId) {
+                document.getElementById('deleteProjectId').value = projectId;
+                deleteModal.classList.add('show');
+            }
+            
+            // Proje silme onay
+            document.getElementById('confirmDeleteBtn').addEventListener('click', async function() {
+                const projectId = document.getElementById('deleteProjectId').value;
+                
+                if (!projectId) {
+                    deleteModal.classList.remove('show');
+                    return;
+                }
+                
+                try {
+                    // Butonu devre dışı bırak ve yükleniyor göster
+                    this.disabled = true;
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Siliniyor...';
+                    
+                    // Projeyi sil
+                    await dbHelper.deleteProject(projectId);
+                    
+                    // Modalı kapat
+                    deleteModal.classList.remove('show');
+                    
+                    // Projeleri yeniden yükle
+                    loadProjects();
+                    
+                    // Başarı mesajı
+                    showAlert('Proje başarıyla silindi.', 'success');
+                } catch (error) {
+                    console.error('Proje silinirken hata oluştu:', error);
+                    showAlert('Proje silinirken bir hata oluştu.', 'error');
+                } finally {
+                    // Butonu eski haline getir
+                    this.disabled = false;
+                    this.innerHTML = 'Sil';
+                }
+            });
+            
+            // Proje kaydet
+            document.getElementById('saveProjectBtn').addEventListener('click', async function() {
+                const form = document.getElementById('projectForm');
+                
+                // Form doğrulama
+                if (!form.checkValidity()) {
+                    form.reportValidity();
+                    return;
+                }
+                
+                // Form verilerini al
+                const projectId = document.getElementById('projectId').value;
+                const title = document.getElementById('projectTitle').value;
+                const description = document.getElementById('projectDescription').value;
+                const category = document.getElementById('projectCategory').value;
+                const completed = document.getElementById('projectCompleted').checked;
+                const dateStr = document.getElementById('projectDate').value;
+                const imageInput = document.getElementById('projectImage');
+                const imageFile = imageInput.files[0];
+                
+                // Görsel doğrulama
+                if (imageFile) {
+                    // Dosya boyutunu kontrol et (10MB maksimum)
+                    const maxSize = 10 * 1024 * 1024; // 10MB
+                    if (imageFile.size > maxSize) {
+                        showAlert('Görsel dosyası çok büyük! Maksimum 10MB yükleyebilirsiniz.', 'error');
+                        return;
+                    }
+                    
+                    // Dosya tipini kontrol et
+                    const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif'];
+                    if (!allowedTypes.includes(imageFile.type)) {
+                        showAlert('Sadece JPG, PNG ve GIF formatındaki görseller kabul edilmektedir.', 'error');
+                        return;
+                    }
+                }
+                
+                const projectData = {
+                    title,
+                    description,
+                    category,
+                    completed,
+                    date: dateStr
+                };
+                
+                try {
+                    // Butonu devre dışı bırak ve yükleniyor göster
+                    this.disabled = true;
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Kaydediliyor...';
+                    
+                    let result;
+                    
+                    if (projectId) {
+                        // Proje güncelle
+                        result = await dbHelper.updateProject(projectId, projectData, imageFile);
+                    } else {
+                        // Yeni proje ekle
+                        result = await dbHelper.addProject(projectData, imageFile);
+                    }
+                    
+                    if (result.success) {
+                        // Modalı kapat
+                        projectModal.classList.remove('show');
+                        
+                        // Formu sıfırla
+                        form.reset();
+                        document.getElementById('currentImageContainer').style.display = 'none';
+                        
+                        // Projeleri yeniden yükle
+                        loadProjects();
+                        
+                        // Başarı mesajı
+                        showAlert(`Proje başarıyla ${projectId ? 'güncellendi' : 'eklendi'}.`, 'success');
+                    } else {
+                        throw new Error(result.error || 'Bir hata oluştu.');
+                    }
+                } catch (error) {
+                    console.error('Proje kaydedilirken hata oluştu:', error);
+                    
+                    // Hata mesajını analiz et
+                    let errorMessage = error.message || 'Bilinmeyen bir hata oluştu';
+                    
+                    // Firebase storage veya CORS hatası için daha anlaşılır mesaj
+                    if (errorMessage.includes('storage') || errorMessage.includes('CORS')) {
+                        errorMessage = 'Görsel yüklenirken bir hata oluştu. Lütfen daha sonra tekrar deneyin veya farklı bir görsel seçin.';
+                    }
+                    
+                    showAlert(`Proje kaydedilirken bir hata oluştu: ${errorMessage}`, 'error');
+                } finally {
+                    // Butonu eski haline getir
+                    this.disabled = false;
+                    this.innerHTML = 'Kaydet';
+                }
+            });
+            
+            // Uyarı mesajı göster
+            function showAlert(message, type) {
+                const successAlert = document.getElementById('successAlert');
+                const errorAlert = document.getElementById('errorAlert');
+                const infoAlert = document.getElementById('infoAlert');
+                
+                if (type === 'success') {
+                    successAlert.textContent = message;
+                    successAlert.style.display = 'block';
+                    errorAlert.style.display = 'none';
+                    infoAlert.style.display = 'none';
+                    
+                    // 3 saniye sonra kapat
+                    setTimeout(() => {
+                        successAlert.style.display = 'none';
+                    }, 3000);
+                } else if (type === 'error') {
+                    errorAlert.textContent = message;
+                    errorAlert.style.display = 'block';
+                    successAlert.style.display = 'none';
+                    infoAlert.style.display = 'none';
+                    
+                    // 5 saniye sonra kapat
+                    setTimeout(() => {
+                        errorAlert.style.display = 'none';
+                    }, 5000);
+                } else if (type === 'info') {
+                    infoAlert.textContent = message;
+                    infoAlert.style.display = 'block';
+                    successAlert.style.display = 'none';
+                    errorAlert.style.display = 'none';
+                    
+                    // 5 saniye sonra kapat
+                    setTimeout(() => {
+                        infoAlert.style.display = 'none';
+                    }, 5000);
+                }
+            }
+        });
+    </script>
+
+    <style>
+        /* Sidebar ve içerik düzenlemeleri */
+        .admin-header-content {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 15px;
+        }
+        
+        .admin-menu {
+            margin-right: 10px;
+        }
+        
+        .admin-sidebar {
+            position: fixed;
+            top: 0;
+            left: -280px;
+            width: 280px;
+            height: 100%;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1050;
+            transition: left 0.3s ease;
+            overflow-y: auto;
+        }
+        
+        .admin-sidebar.show {
+            left: 0;
+        }
+        
+        .admin-content {
+            transition: margin-left 0.3s ease;
+        }
+        
+        .admin-sidebar.show + .admin-content {
+            margin-left: 280px;
+        }
+        
+        @media (max-width: 992px) {
+            .admin-sidebar.show + .admin-content {
+                margin-left: 0;
+            }
+        }
+        
+        /* Form Grup Aralıkları */
+        .admin-form-group {
+            margin-bottom: 20px;
+        }
+        
+        .admin-form-group:last-child {
+            margin-bottom: 0;
+        }
+        
+        /* Modal stil düzeltmeleri */
+        .admin-modal-body {
+            padding: 20px;
+        }
+        
+        /* Modal içeriği dikey olarak ortalanmış ve esnek boyutlandırma */
+        .admin-modal-content {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Alert Stilleri */
+        .alert {
+            border-radius: 8px;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .alert button {
+            margin-left: auto;
+        }
+        
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border-left: 5px solid #28a745;
+        }
+        
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-left: 5px solid #dc3545;
+        }
+        
+        .alert-warning {
+            background-color: #fff3cd;
+            color: #856404;
+            border-left: 5px solid #ffc107;
+        }
+        
+        .alert-info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border-left: 5px solid #17a2b8;
+        }
+        
+        .alert i {
+            margin-right: 8px;
+        }
+        
+        /* Buton stilleri */
+        .btn-outline-primary {
+            color: #007bff;
+            border-color: #007bff;
+            background-color: transparent;
+        }
+        
+        .btn-outline-primary:hover {
+            color: #fff;
+            background-color: #007bff;
+        }
+        
+        .ml-2 {
+            margin-left: 0.5rem;
+        }
+        
+        /* Bağlantı durumu uyarısı */
+        .connection-alert {
+            display: flex;
+            align-items: center;
+        }
+        
+        .connection-alert button {
+            margin-left: auto;
+            white-space: nowrap;
+        }
+        
+        /* Görsel yükleme alanı */
+        .image-upload-container {
+            border: 2px dashed #ddd;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            margin-bottom: 10px;
+        }
+        
+        .image-upload-info {
+            margin-top: 10px;
+            font-size: 0.85rem;
+            color: #666;
+        }
+        
+        .image-upload-info p {
+            margin: 5px 0;
+        }
+        
+        .image-upload-info i {
+            color: #007bff;
+            margin-right: 5px;
+        }
+        
+        #imagePreviewContainer, #currentImageContainer {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 8px;
+        }
+    </style>
+</body>
+</html> 

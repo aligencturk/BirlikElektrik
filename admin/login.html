@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birlik Elektrik Admin - Giriş</title>
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .login-container {
+            max-width: 400px;
+            width: 90%;
+            padding: 40px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .login-logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .login-logo img {
+            height: 60px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+        
+        .login-logo h1 {
+            font-size: 1.8rem;
+            color: #333;
+            margin: 0;
+        }
+        
+        .login-logo h1 span {
+            color: #007bff;
+        }
+        
+        .login-form-group {
+            margin-bottom: 20px;
+        }
+        
+        .login-form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #495057;
+        }
+        
+        .login-form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            transition: border-color 0.2s ease;
+        }
+        
+        .login-form-control:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        
+        .login-btn:hover {
+            background-color: #0069d9;
+        }
+        
+        .login-btn:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+        
+        .alert {
+            padding: 12px 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .login-footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-logo">
+            <img src="../img/elektrik-bg1.jpg" alt="Birlik Elektrik Logo">
+            <h1><span>Birlik</span> Elektrik</h1>
+        </div>
+        
+        <div class="alert alert-danger" id="errorAlert" style="display: none;"></div>
+        
+        <form id="loginForm">
+            <div class="login-form-group">
+                <label for="email">E-posta Adresi</label>
+                <input type="email" id="email" class="login-form-control" required>
+            </div>
+            
+            <div class="login-form-group">
+                <label for="password">Şifre</label>
+                <input type="password" id="password" class="login-form-control" required>
+            </div>
+            
+            <button type="submit" class="login-btn" id="loginBtn">Giriş Yap</button>
+        </form>
+        
+        <div class="login-footer">
+            Birlik Elektrik Admin Paneli &copy; 2023
+        </div>
+    </div>
+    
+    <!-- Firebase JS -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    
+    <!-- Firebase Config -->
+    <script src="../js/firebase/config.js"></script>
+    
+    <!-- Login JS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hata mesajını göster
+            function showError(message) {
+                const errorAlert = document.getElementById('errorAlert');
+                errorAlert.textContent = message;
+                errorAlert.style.display = 'block';
+                
+                // 5 saniye sonra gizle
+                setTimeout(() => {
+                    errorAlert.style.display = 'none';
+                }, 5000);
+            }
+            
+            // Firebase'in yüklenip yüklenmediğini kontrol et
+            if (typeof firebase === 'undefined') {
+                showError('Firebase kütüphanesi yüklenemedi! Lütfen internet bağlantınızı kontrol edin.');
+                return;
+            }
+            
+            // Authentication modülünün varlığını kontrol et
+            if (typeof firebase.auth !== 'function') {
+                showError('Firebase Authentication modülü yüklenemedi! Lütfen sayfayı yenileyin veya farklı bir tarayıcı deneyin.');
+                console.error('Firebase Authentication modülü bulunamadı!');
+                return;
+            }
+            
+            // Login form
+            const loginForm = document.getElementById('loginForm');
+            const loginBtn = document.getElementById('loginBtn');
+            
+            loginForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Form verilerini al
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                
+                // Butonu devre dışı bırak
+                loginBtn.disabled = true;
+                loginBtn.innerHTML = 'Giriş Yapılıyor...';
+                
+                try {
+                    // Firebase ile giriş yap
+                    await firebase.auth().signInWithEmailAndPassword(email, password);
+                    window.location.href = 'index.html';
+                } catch (error) {
+                    console.error('Giriş yapılırken hata oluştu:', error);
+                    
+                    // Hata mesajını göster
+                    let errorMessage = 'Giriş yapılırken bir hata oluştu.';
+                    
+                    // Hata koduna göre mesaj göster
+                    switch (error.code) {
+                        case 'auth/invalid-email':
+                            errorMessage = 'Geçersiz e-posta adresi.';
+                            break;
+                        case 'auth/user-disabled':
+                            errorMessage = 'Bu kullanıcı hesabı devre dışı bırakılmış.';
+                            break;
+                        case 'auth/user-not-found':
+                            errorMessage = 'Bu e-posta adresiyle kayıtlı bir kullanıcı bulunamadı.';
+                            break;
+                        case 'auth/wrong-password':
+                            errorMessage = 'E-posta adresi veya şifre hatalı.';
+                            break;
+                        case 'auth/too-many-requests':
+                            errorMessage = 'Çok fazla başarısız giriş denemesi. Lütfen daha sonra tekrar deneyin.';
+                            break;
+                        case 'auth/network-request-failed':
+                            errorMessage = 'Ağ bağlantı hatası. İnternet bağlantınızı kontrol edin.';
+                            break;
+                    }
+                    
+                    showError(errorMessage);
+                } finally {
+                    // Butonu eski haline getir
+                    loginBtn.disabled = false;
+                    loginBtn.innerHTML = 'Giriş Yap';
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

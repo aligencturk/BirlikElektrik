@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birlik Elektrik Admin - Hakkımızda</title>
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="admin-header">
+        <div class="container">
+            <div class="admin-header-content">
+                <div class="admin-menu">
+                    <button id="sidebarToggle"><i class="fas fa-bars"></i></button>
+                </div>
+                <div class="admin-logo">
+                    <img src="../img/elektrik-bg1.jpg" alt="Birlik Elektrik Logo">
+                    <h1><span>Birlik</span> Elektrik</h1>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <aside class="admin-sidebar" id="adminSidebar">
+        <div class="admin-sidebar-content">
+            <div class="admin-sidebar-user">
+                <div class="admin-user-avatar" id="userInitials">
+                    A
+                </div>
+                <div class="admin-user-info">
+                    <h3 id="userName">Admin</h3>
+                    <p id="userEmail">admin@birlikelektrik.com</p>
+                </div>
+            </div>
+            <ul class="admin-nav">
+                <li class="admin-nav-item">
+                    <a href="index.html" class="admin-nav-link">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </a>
+                </li>
+                <li class="admin-nav-item">
+                    <a href="projects.html" class="admin-nav-link">
+                        <i class="fas fa-project-diagram"></i> Projeler
+                    </a>
+                </li>
+                <li class="admin-nav-item">
+                    <a href="services.html" class="admin-nav-link">
+                        <i class="fas fa-tools"></i> Hizmetler
+                    </a>
+                </li>
+                <li class="admin-nav-item">
+                    <a href="about.html" class="admin-nav-link active">
+                        <i class="fas fa-info-circle"></i> Hakkımızda
+                    </a>
+                </li>
+                <li class="admin-nav-item">
+                    <a href="messages.html" class="admin-nav-link">
+                        <i class="fas fa-envelope"></i> Mesajlar
+                    </a>
+                </li>
+                <li class="admin-nav-item">
+                    <a href="newsletter.html" class="admin-nav-link">
+                        <i class="fas fa-newspaper"></i> Bülten Aboneleri
+                    </a>
+                </li>
+                <li class="admin-nav-item">
+                    <a href="#" id="logoutButton" class="admin-nav-link">
+                        <i class="fas fa-sign-out-alt"></i> Çıkış Yap
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-content">
+        <div class="container">
+            <!-- Başlık ve Bağlantı Hatası Uyarısı -->
+            <div class="content-header">
+                <div>
+                    <h1>Hakkımızda Sayfası Yönetimi</h1>
+                    <p>Hakkımızda bölümünün içeriğini buradan düzenleyebilirsiniz.</p>
+                </div>
+                <div id="connectionAlert" class="alert alert-warning" style="display: none;">
+                    <div>
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span id="connectionStatus">Bağlantı hatası. Veriler kaydedilmeyebilir.</span>
+                    </div>
+                    <button id="connectionRetryBtn" class="btn btn-sm">Yeniden Dene</button>
+                </div>
+            </div>
+
+            <!-- Hakkımızda Formu -->
+            <div class="admin-card">
+                <div class="admin-card-header">
+                    <h2>Hakkımızda Bilgileri</h2>
+                    <div class="card-actions">
+                        <button id="saveAboutBtn" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Kaydet
+                        </button>
+                    </div>
+                </div>
+                <div class="admin-card-body">
+                    <form id="aboutForm">
+                        <!-- Başlık ve Alt Başlık -->
+                        <div class="admin-form-row">
+                            <div class="admin-form-group">
+                                <label for="aboutTitle">Ana Başlık</label>
+                                <input type="text" id="aboutTitle" class="admin-form-control" placeholder="Örnek: Hakkımızda" required>
+                            </div>
+                            <div class="admin-form-group">
+                                <label for="aboutSubtitle">Alt Başlık</label>
+                                <input type="text" id="aboutSubtitle" class="admin-form-control" placeholder="Örnek: Birlik Elektrik olarak 20 yıllık tecrübemizle hizmetinizdeyiz" required>
+                            </div>
+                        </div>
+
+                        <!-- Ana Metinler -->
+                        <div class="admin-form-group">
+                            <label for="aboutContent1">Birinci Paragraf</label>
+                            <textarea id="aboutContent1" class="admin-form-control" rows="4" placeholder="Şirketiniz hakkında birinci paragraf bilgisi"></textarea>
+                        </div>
+                        <div class="admin-form-group">
+                            <label for="aboutContent2">İkinci Paragraf</label>
+                            <textarea id="aboutContent2" class="admin-form-control" rows="4" placeholder="Şirketiniz hakkında ikinci paragraf bilgisi"></textarea>
+                        </div>
+
+                        <!-- Özellik Listesi -->
+                        <div class="admin-form-group">
+                            <label>Özellikler (Virgülle ayrılmış olarak giriniz)</label>
+                            <input type="text" id="aboutFeatures" class="admin-form-control" placeholder="Örnek: Uzman Kadro, Kaliteli Malzeme, Uygun Fiyat, Garantili İşçilik, 7/24 Hizmet">
+                            <small class="text-muted">Özellikler virgül ile ayrılmalıdır. Örn: "Özellik 1, Özellik 2, Özellik 3"</small>
+                        </div>
+
+                        <!-- Sayısal İstatistikler -->
+                        <div class="admin-card mt-20">
+                            <div class="admin-card-header">
+                                <h3>İstatistikler</h3>
+                            </div>
+                            <div class="admin-card-body">
+                                <div class="admin-form-row">
+                                    <div class="admin-form-group">
+                                        <label for="aboutExperience">Tecrübe (Yıl)</label>
+                                        <input type="number" id="aboutExperience" class="admin-form-control" placeholder="Örnek: 20">
+                                    </div>
+                                    <div class="admin-form-group">
+                                        <label for="aboutProjects">Tamamlanan Proje Sayısı</label>
+                                        <input type="number" id="aboutProjects" class="admin-form-control" placeholder="Örnek: 1500">
+                                    </div>
+                                </div>
+                                <div class="admin-form-row">
+                                    <div class="admin-form-group">
+                                        <label for="aboutExperts">Uzman Personel Sayısı</label>
+                                        <input type="number" id="aboutExperts" class="admin-form-control" placeholder="Örnek: 50">
+                                    </div>
+                                    <div class="admin-form-group">
+                                        <label for="aboutSatisfaction">Müşteri Memnuniyeti (%)</label>
+                                        <input type="number" id="aboutSatisfaction" class="admin-form-control" min="0" max="100" placeholder="Örnek: 99">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Hakkımızda Sayfası Görseli -->
+                        <div class="admin-form-group mt-20">
+                            <label for="aboutImage">Hakkımızda Görseli</label>
+                            <div class="image-upload-container">
+                                <input type="file" id="aboutImage" class="admin-form-control" accept="image/*">
+                                <div class="image-upload-info">
+                                    <p><i class="fas fa-info-circle"></i> Önerilen boyut: 800x600px, <strong>Maksimum boyut: 2MB</strong></p>
+                                    <p><i class="fas fa-check-circle"></i> Desteklenen formatlar: JPG, PNG, GIF</p>
+                                    <p><i class="fas fa-exclamation-triangle text-warning"></i> Not: Görsel Base64 formatında saklanacaktır.</p>
+                                </div>
+                            </div>
+                            <div id="imagePreviewContainer" style="margin-top: 15px; display: none;">
+                                <p>Seçilen Görsel:</p>
+                                <img id="imagePreview" src="" alt="Hakkımızda Görseli" style="max-width: 100%; max-height: 200px; display: block; margin-bottom: 10px;">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Firebase JS -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+    
+    <!-- Firebase Config -->
+    <script src="../js/firebase/config.js"></script>
+    
+    <!-- Admin JS -->
+    <script>
+        // Tarayıcı önbelleğini kontrol et ve yeniden yüklemeyi öner
+        if (typeof firebase === 'undefined' || typeof firebase.auth !== 'function') {
+            alert('Firebase modülleri tam olarak yüklenemedi. Lütfen sayfayı yenileyin (Ctrl+F5).');
+            console.error('Firebase modülleri eksik. Tarayıcı önbelleğini temizleyip sayfayı yenileyin.');
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sidebar Toggle
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const adminSidebar = document.getElementById('adminSidebar');
+            
+            sidebarToggle.addEventListener('click', function() {
+                adminSidebar.classList.toggle('show');
+                
+                // Icon değiştir
+                const icon = this.querySelector('i');
+                if (icon.classList.contains('fa-bars')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+            
+            // Firebase bağlantı durumunu izle
+            const connectionAlert = document.getElementById('connectionAlert');
+            const connectionStatus = document.getElementById('connectionStatus');
+            const connectionRetryBtn = document.getElementById('connectionRetryBtn');
+            
+            // Bağlantı durumu değiştiğinde tetiklenecek event listener
+            window.addEventListener('firebaseConnectionChange', function(e) {
+                if (e.detail.isConnected) {
+                    connectionAlert.style.display = 'none';
+                } else {
+                    connectionAlert.style.display = 'flex';
+                    connectionStatus.textContent = 'Bağlantı hatası. Veriler kaydedilmeyebilir.';
+                }
+            });
+            
+            // Bağlantıyı yeniden dene
+            connectionRetryBtn.addEventListener('click', function() {
+                connectionStatus.textContent = 'Bağlantı kontrol ediliyor...';
+                setTimeout(() => {
+                    if (navigator.onLine) {
+                        connectionAlert.style.display = 'none';
+                    } else {
+                        connectionStatus.textContent = 'İnternet bağlantısı yok. Lütfen bağlantınızı kontrol edin.';
+                    }
+                }, 1500);
+            });
+            
+            // Çıkış yapma
+            const logoutButton = document.getElementById('logoutButton');
+            
+            logoutButton.addEventListener('click', async function(e) {
+                e.preventDefault();
+                
+                try {
+                    if (typeof firebase === 'undefined') {
+                        throw new Error('Firebase kütüphanesi yüklenemedi!');
+                    }
+                    
+                    if (typeof firebase.auth !== 'function') {
+                        throw new Error('Firebase Authentication modülü bulunamadı!');
+                    }
+                    
+                    await firebase.auth().signOut();
+                    window.location.href = 'login.html';
+                } catch (error) {
+                    console.error('Çıkış yapılırken hata oluştu:', error);
+                    showAlert('Çıkış yapılırken bir hata oluştu: ' + error.message, 'error');
+                }
+            });
+            
+            // Kullanıcı giriş durumunu kontrol et
+            function checkAuthState() {
+                if (typeof firebase === 'undefined') {
+                    console.error('Firebase yüklenemedi!');
+                    return;
+                }
+                
+                if (typeof firebase.auth !== 'function') {
+                    console.error('Firebase Authentication modülü bulunamadı!');
+                    showAlert('Firebase Authentication modülü yüklenemedi. Modül olmadan da devam edebilirsiniz.', 'warning');
+                    
+                    // Kullanıcıyı görsel olarak bilgilendir
+                    document.getElementById('userEmail').textContent = 'Auth Yüklenmedi';
+                    document.getElementById('userName').textContent = 'Yetkisiz Kullanıcı';
+                    document.getElementById('userInitials').textContent = 'X';
+                    
+                    // Yine de sayfa içeriğini yüklemeyi dene
+                    loadAboutData();
+                    return;
+                }
+                
+                firebase.auth().onAuthStateChanged(function(user) {
+                    if (user) {
+                        // Kullanıcı bilgilerini göster
+                        const userEmail = document.getElementById('userEmail');
+                        const userName = document.getElementById('userName');
+                        const userInitials = document.getElementById('userInitials');
+                        
+                        userEmail.textContent = user.email;
+                        
+                        if (user.displayName) {
+                            userName.textContent = user.displayName;
+                            
+                            // Baş harfleri göster
+                            const nameParts = user.displayName.split(' ');
+                            let initials = '';
+                            
+                            if (nameParts.length === 1) {
+                                initials = nameParts[0].charAt(0);
+                            } else {
+                                initials = nameParts[0].charAt(0) + nameParts[nameParts.length - 1].charAt(0);
+                            }
+                            
+                            userInitials.textContent = initials.toUpperCase();
+                        } else {
+                            // E-posta adresinin ilk harfini kullan
+                            userName.textContent = 'Admin';
+                            userInitials.textContent = user.email.charAt(0).toUpperCase();
+                        }
+                        
+                        // Hakkımızda verilerini yükle
+                        loadAboutData();
+                    } else {
+                        // Kullanıcı giriş yapmamış, login sayfasına yönlendir
+                        window.location.href = 'login.html';
+                    }
+                });
+            }
+            
+            // Firebase modülleri yüklendikten sonra auth kontrolü yap
+            setTimeout(function() {
+                checkAuthState();
+            }, 1000);
+            
+            // Hakkımızda verilerini yükle
+            function loadAboutData() {
+                if (!db) {
+                    showAlert('Veritabanı bağlantısı kurulamadı!', 'error');
+                    return;
+                }
+                
+                // Yükleniyor... mesajı göster
+                showAlert('Veriler yükleniyor...', 'info');
+                
+                // Veritabanından about verilerini çek
+                db.collection('about').doc('content')
+                    .get()
+                    .then(doc => {
+                        // Yükleme uyarısını kaldır
+                        clearAlert();
+                        
+                        if (doc.exists) {
+                            const data = doc.data();
+                            
+                            // Form elemanlarına verileri doldur
+                            document.getElementById('aboutTitle').value = data.title || '';
+                            document.getElementById('aboutSubtitle').value = data.subtitle || '';
+                            document.getElementById('aboutContent1').value = data.content1 || '';
+                            document.getElementById('aboutContent2').value = data.content2 || '';
+                            document.getElementById('aboutFeatures').value = data.features ? data.features.join(', ') : '';
+                            document.getElementById('aboutExperience').value = data.statistics?.experience || '';
+                            document.getElementById('aboutProjects').value = data.statistics?.projects || '';
+                            document.getElementById('aboutExperts').value = data.statistics?.experts || '';
+                            document.getElementById('aboutSatisfaction').value = data.statistics?.satisfaction || '';
+                            
+                            // Eğer resim varsa göster
+                            if (data.imageUrl) {
+                                document.getElementById('imagePreviewContainer').style.display = 'block';
+                                document.getElementById('imagePreview').src = data.imageUrl;
+                            }
+                            
+                            showAlert('Hakkımızda verileri başarıyla yüklendi.', 'success');
+                        } else {
+                            showAlert('Hakkımızda verileri bulunamadı. Lütfen yeni bilgileri doldurun.', 'warning');
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Hakkımızda verileri alınırken hata oluştu:", error);
+                        showAlert('Veriler yüklenirken bir hata oluştu: ' + error.message, 'error');
+                    });
+            }
+            
+            // Hakkımızda verilerini kaydet
+            document.getElementById('saveAboutBtn').addEventListener('click', function() {
+                // Form validasyonu
+                const form = document.getElementById('aboutForm');
+                if (!form.checkValidity()) {
+                    form.reportValidity();
+                    return;
+                }
+                
+                if (!db) {
+                    showAlert('Veritabanı bağlantısı kurulamadı!', 'error');
+                    return;
+                }
+                
+                // Kaydetme işlemi başladı mesajı
+                showAlert('Veriler kaydediliyor...', 'info');
+                
+                // Formdaki verileri al
+                const title = document.getElementById('aboutTitle').value;
+                const subtitle = document.getElementById('aboutSubtitle').value;
+                const content1 = document.getElementById('aboutContent1').value;
+                const content2 = document.getElementById('aboutContent2').value;
+                const featuresString = document.getElementById('aboutFeatures').value;
+                const features = featuresString ? featuresString.split(',').map(item => item.trim()) : [];
+                
+                const experience = parseInt(document.getElementById('aboutExperience').value) || 0;
+                const projects = parseInt(document.getElementById('aboutProjects').value) || 0;
+                const experts = parseInt(document.getElementById('aboutExperts').value) || 0;
+                const satisfaction = parseInt(document.getElementById('aboutSatisfaction').value) || 0;
+                
+                // Resim işleme
+                const imageFile = document.getElementById('aboutImage').files[0];
+                
+                // Veritabanına kaydetme işlemi
+                saveAboutData({
+                    title,
+                    subtitle,
+                    content1,
+                    content2,
+                    features,
+                    statistics: {
+                        experience,
+                        projects,
+                        experts,
+                        satisfaction
+                    }
+                }, imageFile);
+            });
+            
+            // Hakkımızda verilerini veritabanına kaydet
+            async function saveAboutData(aboutData, imageFile) {
+                try {
+                    // Mevcut resim URL'ini koru (eğer yeni resim yüklenmediyse)
+                    if (!imageFile) {
+                        // Veritabanından mevcut resmi al
+                        const docSnapshot = await db.collection('about').doc('content').get();
+                        if (docSnapshot.exists && docSnapshot.data().imageUrl) {
+                            aboutData.imageUrl = docSnapshot.data().imageUrl;
+                        }
+                    } else {
+                        // Yeni resim varsa Base64'e çevir
+                        try {
+                            // Dosya boyutu kontrol
+                            if (imageFile.size > 2 * 1024 * 1024) {
+                                showAlert(`Dosya boyutu ${(imageFile.size / (1024 * 1024)).toFixed(2)}MB. 2MB'den küçük dosyalar tercih edilir.`, 'warning');
+                            }
+                            
+                            // FileReader ile dosyayı base64'e çevir
+                            const reader = new FileReader();
+                            const base64Promise = new Promise((resolve, reject) => {
+                                reader.onload = e => resolve(e.target.result);
+                                reader.onerror = e => reject(new Error("Görsel okunamadı: " + e.target.error));
+                                reader.readAsDataURL(imageFile);
+                            });
+                            
+                            aboutData.imageUrl = await base64Promise;
+                        } catch (error) {
+                            console.error("Görsel işlenirken hata oluştu:", error);
+                            throw new Error("Görsel işlenirken bir hata oluştu: " + error.message);
+                        }
+                    }
+                    
+                    // Veritabanına kaydet
+                    await db.collection('about').doc('content').set(aboutData, { merge: true });
+                    
+                    showAlert('Hakkımızda bilgileri başarıyla kaydedildi!', 'success');
+                } catch (error) {
+                    console.error("Hakkımızda bilgileri kaydedilirken hata oluştu:", error);
+                    showAlert('Veriler kaydedilirken bir hata oluştu: ' + error.message, 'error');
+                }
+            }
+            
+            // Resim önizleme
+            document.getElementById('aboutImage').addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (!file) {
+                    document.getElementById('imagePreviewContainer').style.display = 'none';
+                    return;
+                }
+                
+                // Dosya boyutunu kontrol et ve uyarı göster
+                const fileSize = file.size / (1024 * 1024); // MB cinsinden
+                if (fileSize > 2) {
+                    showAlert(`Dosya boyutu ${fileSize.toFixed(2)}MB. 2MB'den küçük dosyalar kullanmanız önerilir.`, 'warning');
+                }
+                
+                // Resim önizleme
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('imagePreviewContainer').style.display = 'block';
+                    document.getElementById('imagePreview').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
+            
+            // Alert gösterme fonksiyonu
+            function showAlert(message, type = 'info') {
+                const alertContainer = document.querySelector('.content-header');
+                let alertElement = document.querySelector('.content-header .alert-dynamic');
+                
+                if (!alertElement) {
+                    alertElement = document.createElement('div');
+                    alertElement.className = 'alert alert-dynamic';
+                    alertContainer.insertBefore(alertElement, alertContainer.querySelector('#connectionAlert'));
+                }
+                
+                // Alert tipine göre sınıf ekle
+                alertElement.className = 'alert alert-dynamic';
+                alertElement.classList.add(`alert-${type}`);
+                
+                // İkon belirle
+                let icon = 'info-circle';
+                if (type === 'success') icon = 'check-circle';
+                if (type === 'warning') icon = 'exclamation-triangle';
+                if (type === 'error') icon = 'times-circle';
+                
+                // İçeriği ayarla
+                alertElement.innerHTML = `
+                    <div>
+                        <i class="fas fa-${icon}"></i>
+                        <span>${message}</span>
+                    </div>
+                    <button onclick="this.parentElement.remove()" class="btn btn-sm"><i class="fas fa-times"></i></button>
+                `;
+                
+                // Otomatik kapanma (başarı mesajları için)
+                if (type === 'success') {
+                    setTimeout(() => {
+                        if (alertElement.parentElement) {
+                            alertElement.remove();
+                        }
+                    }, 5000);
+                }
+            }
+            
+            // Alert temizleme
+            function clearAlert() {
+                const alertElement = document.querySelector('.content-header .alert-dynamic');
+                if (alertElement) {
+                    alertElement.remove();
+                }
+            }
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birlik Elektrik Admin - Bülten Aboneleri</title>
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="admin-header">
+        <div class="container">
+            <div class="admin-header-content">
+                <div class="admin-menu">
+                    <button id="sidebarToggle"><i class="fas fa-bars"></i></button>
+                </div>
+                <div class="admin-logo">
+                    <img src="../img/elektrik-bg1.jpg" alt="Birlik Elektrik Logo">
+                    <h1><span>Birlik</span> Elektrik</h1>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <aside class="admin-sidebar" id="adminSidebar">
+        <div class="admin-sidebar-content">
+            <div class="admin-sidebar-user">
+                <div class="admin-user-avatar" id="userInitials">
+                    A
+                </div>
+                <div class="admin-user-info">
+                    <h3 id="userName">Admin</h3>
+                    <p id="userEmail">admin@birlikelektrik.com</p>
+                </div>
+            </div>
+            <ul class="admin-nav">
+                <li class="admin-nav-item">
+                    <a href="index.html" class="admin-nav-link">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </a>
+                </li>
+                <li class="admin-nav-item">
+                    <a href="projects.html" class="admin-nav-link">
+                        <i class="fas fa-project-diagram"></i> Projeler
+                    </a>
+                </li>
+                <li class="admin-nav-item">
+                    <a href="services.html" class="admin-nav-link">
+                        <i class="fas fa-tools"></i> Hizmetler
+                    </a>
+                </li>
+                <li class="admin-nav-item">
+                    <a href="about.html" class="admin-nav-link">
+                        <i class="fas fa-info-circle"></i> Hakkımızda
+                    </a>
+                </li>
+                <li class="admin-nav-item">
+                    <a href="messages.html" class="admin-nav-link">
+                        <i class="fas fa-envelope"></i> Mesajlar
+                    </a>
+                </li>
+                <li class="admin-nav-item">
+                    <a href="newsletter.html" class="admin-nav-link active">
+                        <i class="fas fa-newspaper"></i> Bülten Aboneleri
+                    </a>
+                </li>
+                <li class="admin-nav-item">
+                    <a href="#" id="logoutButton" class="admin-nav-link">
+                        <i class="fas fa-sign-out-alt"></i> Çıkış Yap
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-content">
+        <div class="container">
+            <div class="admin-table-header">
+                <h1>Bülten Aboneleri</h1>
+                <div class="admin-actions">
+                    <button class="btn btn-primary" id="exportCsvBtn">
+                        <i class="fas fa-download"></i> CSV Olarak İndir
+                    </button>
+                    <button class="btn btn-outline-primary" id="addSubscriberBtn">
+                        <i class="fas fa-plus"></i> Yeni Abone Ekle
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Alert Messages -->
+            <div class="alert alert-success" id="successAlert" style="display: none;"></div>
+            <div class="alert alert-danger" id="errorAlert" style="display: none;"></div>
+            
+            <!-- Subscribers Table -->
+            <div class="admin-table-container">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 5%">#</th>
+                            <th style="width: 35%">E-posta</th>
+                            <th style="width: 20%">Adı Soyadı</th>
+                            <th style="width: 20%">Kayıt Tarihi</th>
+                            <th style="width: 10%">Durum</th>
+                            <th style="width: 10%">İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody id="subscribersTableBody">
+                        <tr>
+                            <td colspan="6" class="loading">
+                                <i class="fas fa-spinner fa-spin"></i> Aboneler yükleniyor...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Subscriber Modal -->
+    <div class="admin-modal" id="subscriberModal">
+        <div class="admin-modal-content">
+            <div class="admin-modal-header">
+                <h2 id="modalTitle">Yeni Bülten Abonesi Ekle</h2>
+                <button class="admin-modal-close" id="closeModal">&times;</button>
+            </div>
+            <div class="admin-modal-body">
+                <form id="subscriberForm">
+                    <input type="hidden" id="subscriberId">
+                    
+                    <div class="admin-form-group">
+                        <label for="subscriberEmail">E-posta Adresi</label>
+                        <input type="email" id="subscriberEmail" class="admin-form-control" required>
+                    </div>
+                    
+                    <div class="admin-form-group">
+                        <label for="subscriberName">Adı Soyadı (İsteğe Bağlı)</label>
+                        <input type="text" id="subscriberName" class="admin-form-control">
+                    </div>
+                    
+                    <div class="admin-form-group">
+                        <label for="subscriberStatus">Durum</label>
+                        <div class="admin-form-check">
+                            <input type="checkbox" id="subscriberActive" class="admin-form-check-input" checked>
+                            <label for="subscriberActive">Aktif</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="admin-modal-footer">
+                <button class="btn btn-secondary" id="cancelBtn">İptal</button>
+                <button class="btn btn-primary" id="saveSubscriberBtn">Kaydet</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="admin-modal" id="deleteModal">
+        <div class="admin-modal-content" style="max-width: 400px;">
+            <div class="admin-modal-header">
+                <h2>Aboneliği Sil</h2>
+                <button class="admin-modal-close" id="closeDeleteModal">&times;</button>
+            </div>
+            <div class="admin-modal-body">
+                <p>Bu e-posta aboneliğini silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.</p>
+                <input type="hidden" id="deleteSubscriberId">
+            </div>
+            <div class="admin-modal-footer">
+                <button class="btn btn-secondary" id="cancelDeleteBtn">İptal</button>
+                <button class="btn btn-danger" id="confirmDeleteBtn">Sil</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase JS -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    
+    <!-- Firebase Config -->
+    <script src="../js/firebase/config.js"></script>
+    
+    <!-- Admin JS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Koleksiyona referans oluştur
+            const subscribersRef = db.collection('newsletterSubscribers');
+            
+            // Sidebar Toggle
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const adminSidebar = document.getElementById('adminSidebar');
+            
+            sidebarToggle.addEventListener('click', function() {
+                adminSidebar.classList.toggle('show');
+                
+                // Icon değiştir
+                const icon = this.querySelector('i');
+                if (icon.classList.contains('fa-bars')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+            
+            // Çıkış yapma
+            const logoutButton = document.getElementById('logoutButton');
+            
+            logoutButton.addEventListener('click', async function(e) {
+                e.preventDefault();
+                
+                try {
+                    await firebase.auth().signOut();
+                    window.location.href = 'login.html';
+                } catch (error) {
+                    console.error('Çıkış yapılırken hata oluştu:', error);
+                    alert('Çıkış yapılırken bir hata oluştu.');
+                }
+            });
+            
+            // Kullanıcı giriş durumunu kontrol et
+            firebase.auth().onAuthStateChanged(function(user) {
+                if (user) {
+                    // Kullanıcı bilgilerini göster
+                    const userEmail = document.getElementById('userEmail');
+                    const userName = document.getElementById('userName');
+                    const userInitials = document.getElementById('userInitials');
+                    
+                    userEmail.textContent = user.email;
+                    
+                    if (user.displayName) {
+                        userName.textContent = user.displayName;
+                        
+                        // Baş harfleri göster
+                        const nameParts = user.displayName.split(' ');
+                        let initials = '';
+                        
+                        if (nameParts.length === 1) {
+                            initials = nameParts[0].charAt(0);
+                        } else {
+                            initials = nameParts[0].charAt(0) + nameParts[nameParts.length - 1].charAt(0);
+                        }
+                        
+                        userInitials.textContent = initials.toUpperCase();
+                    } else {
+                        // E-posta adresinin ilk harfini kullan
+                        userName.textContent = 'Admin';
+                        userInitials.textContent = user.email.charAt(0).toUpperCase();
+                    }
+                    
+                    // Aboneleri yükle
+                    loadSubscribers();
+                } else {
+                    // Kullanıcı giriş yapmamış, login sayfasına yönlendir
+                    window.location.href = 'login.html';
+                }
+            });
+            
+            // Modal açma/kapama
+            const subscriberModal = document.getElementById('subscriberModal');
+            const addSubscriberBtn = document.getElementById('addSubscriberBtn');
+            const closeModal = document.getElementById('closeModal');
+            const cancelBtn = document.getElementById('cancelBtn');
+            
+            addSubscriberBtn.addEventListener('click', function() {
+                resetForm();
+                document.getElementById('modalTitle').textContent = 'Yeni Bülten Abonesi Ekle';
+                subscriberModal.classList.add('show');
+            });
+            
+            closeModal.addEventListener('click', function() {
+                subscriberModal.classList.remove('show');
+            });
+            
+            cancelBtn.addEventListener('click', function() {
+                subscriberModal.classList.remove('show');
+            });
+            
+            // Delete Modal
+            const deleteModal = document.getElementById('deleteModal');
+            const closeDeleteModal = document.getElementById('closeDeleteModal');
+            const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+            
+            closeDeleteModal.addEventListener('click', function() {
+                deleteModal.classList.remove('show');
+            });
+            
+            cancelDeleteBtn.addEventListener('click', function() {
+                deleteModal.classList.remove('show');
+            });
+            
+            // Formu sıfırla
+            function resetForm() {
+                document.getElementById('subscriberForm').reset();
+                document.getElementById('subscriberId').value = '';
+                document.getElementById('subscriberActive').checked = true;
+            }
+            
+            // Aboneleri yükle
+            async function loadSubscribers() {
+                try {
+                    const subscribersTableBody = document.getElementById('subscribersTableBody');
+                    
+                    // Tüm aboneleri kayıt tarihine göre getir
+                    const subscribersSnapshot = await subscribersRef.orderBy('createdAt', 'desc').get();
+                    
+                    if (subscribersSnapshot.empty) {
+                        subscribersTableBody.innerHTML = `
+                            <tr>
+                                <td colspan="6" style="text-align: center;">Henüz bülten abonesi bulunmuyor.</td>
+                            </tr>
+                        `;
+                        return;
+                    }
+                    
+                    // Aboneleri tabloya ekle
+                    subscribersTableBody.innerHTML = '';
+                    
+                    let index = 1;
+                    subscribersSnapshot.forEach(doc => {
+                        const subscriber = doc.data();
+                        const subscriberDate = subscriber.createdAt ? new Date(subscriber.createdAt.toDate()) : new Date();
+                        const formattedDate = formatDate(subscriberDate);
+                        
+                        subscribersTableBody.innerHTML += `
+                            <tr>
+                                <td>${index}</td>
+                                <td>${subscriber.email}</td>
+                                <td>${subscriber.name || '-'}</td>
+                                <td>${formattedDate}</td>
+                                <td>${subscriber.active !== false ? '<span class="badge badge-success">Aktif</span>' : '<span class="badge badge-danger">Pasif</span>'}</td>
+                                <td class="action-buttons">
+                                    <button class="btn btn-sm btn-warning edit-subscriber" data-id="${doc.id}">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-danger delete-subscriber" data-id="${doc.id}">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        `;
+                        
+                        index++;
+                    });
+                    
+                    // Düzenleme butonları için event listener
+                    document.querySelectorAll('.edit-subscriber').forEach(button => {
+                        button.addEventListener('click', function() {
+                            const subscriberId = this.getAttribute('data-id');
+                            editSubscriber(subscriberId);
+                        });
+                    });
+                    
+                    // Silme butonları için event listener
+                    document.querySelectorAll('.delete-subscriber').forEach(button => {
+                        button.addEventListener('click', function() {
+                            const subscriberId = this.getAttribute('data-id');
+                            deleteSubscriber(subscriberId);
+                        });
+                    });
+                } catch (error) {
+                    console.error('Aboneler yüklenirken hata oluştu:', error);
+                    document.getElementById('subscribersTableBody').innerHTML = `
+                        <tr>
+                            <td colspan="6" style="text-align: center;">Aboneler yüklenirken bir hata oluştu.</td>
+                        </tr>
+                    `;
+                }
+            }
+            
+            // CSV export
+            document.getElementById('exportCsvBtn').addEventListener('click', async function() {
+                try {
+                    // Butonu devre dışı bırak ve yükleniyor göster
+                    this.disabled = true;
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> İndiriliyor...';
+                    
+                    // Tüm aboneleri getir
+                    const subscribersSnapshot = await subscribersRef.orderBy('email', 'asc').get();
+                    
+                    if (subscribersSnapshot.empty) {
+                        showAlert('İndirilecek abone bulunmuyor.', 'error');
+                        return;
+                    }
+                    
+                    // CSV başlık satırı
+                    let csvContent = 'E-posta,Adı Soyadı,Durum,Kayıt Tarihi\n';
+                    
+                    // Aboneleri CSV'ye ekle
+                    subscribersSnapshot.forEach(doc => {
+                        const subscriber = doc.data();
+                        const subscriberDate = subscriber.createdAt ? new Date(subscriber.createdAt.toDate()) : new Date();
+                        const formattedDate = formatDate(subscriberDate);
+                        
+                        const name = subscriber.name || '';
+                        const status = subscriber.active !== false ? 'Aktif' : 'Pasif';
+                        
+                        // CSV satırı oluştur ve çift tırnak içine al
+                        csvContent += `"${subscriber.email}","${name}","${status}","${formattedDate}"\n`;
+                    });
+                    
+                    // CSV dosyasını indir
+                    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                    const link = document.createElement('a');
+                    const today = new Date();
+                    const formattedToday = `${today.getDate()}.${today.getMonth() + 1}.${today.getFullYear()}`;
+                    
+                    link.href = URL.createObjectURL(blob);
+                    link.download = `birlik-elektrik-aboneler-${formattedToday}.csv`;
+                    link.style.display = 'none';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    
+                    showAlert('Aboneler CSV olarak indirildi.', 'success');
+                } catch (error) {
+                    console.error('CSV indirme hatası:', error);
+                    showAlert('CSV indirme sırasında bir hata oluştu.', 'error');
+                } finally {
+                    // Butonu eski haline getir
+                    this.disabled = false;
+                    this.innerHTML = '<i class="fas fa-download"></i> CSV Olarak İndir';
+                }
+            });
+            
+            // Abone düzenle
+            async function editSubscriber(subscriberId) {
+                try {
+                    const subscriberDoc = await subscribersRef.doc(subscriberId).get();
+                    
+                    if (!subscriberDoc.exists) {
+                        showAlert('Abone bulunamadı.', 'error');
+                        return;
+                    }
+                    
+                    const subscriber = subscriberDoc.data();
+                    
+                    // Form alanlarını doldur
+                    document.getElementById('subscriberId').value = subscriberId;
+                    document.getElementById('subscriberEmail').value = subscriber.email || '';
+                    document.getElementById('subscriberName').value = subscriber.name || '';
+                    document.getElementById('subscriberActive').checked = subscriber.active !== false;
+                    
+                    // Modal başlığını değiştir ve göster
+                    document.getElementById('modalTitle').textContent = 'Aboneyi Düzenle';
+                    subscriberModal.classList.add('show');
+                } catch (error) {
+                    console.error('Abone düzenlenirken hata oluştu:', error);
+                    showAlert('Abone düzenlenirken bir hata oluştu.', 'error');
+                }
+            }
+            
+            // Abone silme modalını göster
+            function deleteSubscriber(subscriberId) {
+                document.getElementById('deleteSubscriberId').value = subscriberId;
+                deleteModal.classList.add('show');
+            }
+            
+            // Abone silme onay
+            document.getElementById('confirmDeleteBtn').addEventListener('click', async function() {
+                const subscriberId = document.getElementById('deleteSubscriberId').value;
+                
+                if (!subscriberId) {
+                    deleteModal.classList.remove('show');
+                    return;
+                }
+                
+                try {
+                    // Butonu devre dışı bırak ve yükleniyor göster
+                    this.disabled = true;
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Siliniyor...';
+                    
+                    // Aboneyi sil
+                    await subscribersRef.doc(subscriberId).delete();
+                    
+                    // Modalı kapat
+                    deleteModal.classList.remove('show');
+                    
+                    // Aboneleri yeniden yükle
+                    loadSubscribers();
+                    
+                    // Başarı mesajı
+                    showAlert('Abonelik başarıyla silindi.', 'success');
+                } catch (error) {
+                    console.error('Abonelik silinirken hata oluştu:', error);
+                    showAlert('Abonelik silinirken bir hata oluştu.', 'error');
+                } finally {
+                    // Butonu eski haline getir
+                    this.disabled = false;
+                    this.innerHTML = 'Sil';
+                }
+            });
+            
+            // Abone kaydet
+            document.getElementById('saveSubscriberBtn').addEventListener('click', async function() {
+                const form = document.getElementById('subscriberForm');
+                
+                // Form doğrulama
+                if (!form.checkValidity()) {
+                    form.reportValidity();
+                    return;
+                }
+                
+                // Form verilerini al
+                const subscriberId = document.getElementById('subscriberId').value;
+                const email = document.getElementById('subscriberEmail').value.trim();
+                const name = document.getElementById('subscriberName').value.trim();
+                const active = document.getElementById('subscriberActive').checked;
+                
+                // E-posta doğrulama
+                if (!validateEmail(email)) {
+                    showAlert('Lütfen geçerli bir e-posta adresi girin.', 'error');
+                    return;
+                }
+                
+                const subscriberData = {
+                    email,
+                    name: name || null,
+                    active,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                };
+                
+                try {
+                    // Butonu devre dışı bırak ve yükleniyor göster
+                    this.disabled = true;
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Kaydediliyor...';
+                    
+                    // E-postanın zaten var olup olmadığını kontrol et
+                    if (!subscriberId) {
+                        const existingEmail = await subscribersRef.where('email', '==', email).get();
+                        
+                        if (!existingEmail.empty) {
+                            showAlert('Bu e-posta adresi zaten kayıtlı.', 'error');
+                            this.disabled = false;
+                            this.innerHTML = 'Kaydet';
+                            return;
+                        }
+                    }
+                    
+                    if (subscriberId) {
+                        // Aboneyi güncelle
+                        await subscribersRef.doc(subscriberId).update(subscriberData);
+                    } else {
+                        // Yeni abone ekle
+                        subscriberData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+                        await subscribersRef.add(subscriberData);
+                    }
+                    
+                    // Modalı kapat
+                    subscriberModal.classList.remove('show');
+                    
+                    // Aboneleri yeniden yükle
+                    loadSubscribers();
+                    
+                    // Başarı mesajı
+                    showAlert(`Abone başarıyla ${subscriberId ? 'güncellendi' : 'eklendi'}.`, 'success');
+                } catch (error) {
+                    console.error('Abone kaydedilirken hata oluştu:', error);
+                    showAlert(`Abone kaydedilirken bir hata oluştu: ${error.message}`, 'error');
+                } finally {
+                    // Butonu eski haline getir
+                    this.disabled = false;
+                    this.innerHTML = 'Kaydet';
+                }
+            });
+            
+            // E-posta doğrulama
+            function validateEmail(email) {
+                const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return re.test(String(email).toLowerCase());
+            }
+            
+            // Tarih formatla
+            function formatDate(date) {
+                return `${date.getDate().toString().padStart(2, '0')}.${(date.getMonth() + 1).toString().padStart(2, '0')}.${date.getFullYear()} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+            }
+            
+            // Uyarı mesajı göster
+            function showAlert(message, type) {
+                const successAlert = document.getElementById('successAlert');
+                const errorAlert = document.getElementById('errorAlert');
+                
+                if (type === 'success') {
+                    successAlert.textContent = message;
+                    successAlert.style.display = 'block';
+                    errorAlert.style.display = 'none';
+                    
+                    // 3 saniye sonra kapat
+                    setTimeout(() => {
+                        successAlert.style.display = 'none';
+                    }, 3000);
+                } else {
+                    errorAlert.textContent = message;
+                    errorAlert.style.display = 'block';
+                    successAlert.style.display = 'none';
+                    
+                    // 5 saniye sonra kapat
+                    setTimeout(() => {
+                        errorAlert.style.display = 'none';
+                    }, 5000);
+                }
+            }
+        });
+    </script>
+
+    <style>
+        /* Sidebar ve içerik düzenlemeleri */
+        .admin-header-content {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 15px;
+        }
+        
+        .admin-menu {
+            margin-right: 10px;
+        }
+        
+        .admin-sidebar {
+            position: fixed;
+            top: 0;
+            left: -280px;
+            width: 280px;
+            height: 100%;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1050;
+            transition: left 0.3s ease;
+            overflow-y: auto;
+        }
+        
+        .admin-sidebar.show {
+            left: 0;
+        }
+        
+        .admin-content {
+            transition: margin-left 0.3s ease;
+        }
+        
+        .admin-sidebar.show + .admin-content {
+            margin-left: 280px;
+        }
+        
+        @media (max-width: 992px) {
+            .admin-sidebar.show + .admin-content {
+                margin-left: 0;
+            }
+        }
+    </style>
+</body>
+</html> 

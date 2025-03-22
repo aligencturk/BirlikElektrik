@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birlik Elektrik Admin - Hizmetler</title>
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="admin-header">
+        <div class="container">
+            <div class="admin-header-content">
+                <div class="admin-menu">
+                    <button id="sidebarToggle"><i class="fas fa-bars"></i></button>
+                </div>
+                <div class="admin-logo">
+                    <img src="../img/elektrik-bg1.jpg" alt="Birlik Elektrik Logo">
+                    <h1><span>Birlik</span> Elektrik</h1>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <aside class="admin-sidebar" id="adminSidebar">
+        <div class="admin-sidebar-content">
+            <div class="admin-sidebar-user">
+                <div class="admin-user-avatar" id="userInitials">
+                    A
+                </div>
+                <div class="admin-user-info">
+                    <h3 id="userName">Admin</h3>
+                    <p id="userEmail">admin@birlikelektrik.com</p>
+                </div>
+            </div>
+            <ul class="admin-nav">
+                <li class="admin-nav-item">
+                    <a href="index.html" class="admin-nav-link">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </a>
+                </li>
+                <li class="admin-nav-item">
+                    <a href="projects.html" class="admin-nav-link">
+                        <i class="fas fa-project-diagram"></i> Projeler
+                    </a>
+                </li>
+                <li class="admin-nav-item">
+                    <a href="services.html" class="admin-nav-link active">
+                        <i class="fas fa-tools"></i> Hizmetler
+                    </a>
+                </li>
+                <li class="admin-nav-item">
+                    <a href="about.html" class="admin-nav-link">
+                        <i class="fas fa-info-circle"></i> Hakkımızda
+                    </a>
+                </li>
+                <li class="admin-nav-item">
+                    <a href="messages.html" class="admin-nav-link">
+                        <i class="fas fa-envelope"></i> Mesajlar
+                    </a>
+                </li>
+                <li class="admin-nav-item">
+                    <a href="newsletter.html" class="admin-nav-link">
+                        <i class="fas fa-newspaper"></i> Bülten Aboneleri
+                    </a>
+                </li>
+                <li class="admin-nav-item">
+                    <a href="#" id="logoutButton" class="admin-nav-link">
+                        <i class="fas fa-sign-out-alt"></i> Çıkış Yap
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-content">
+        <div class="container">
+            <div class="admin-table-header">
+                <h1>Hizmetler</h1>
+                <button class="btn btn-primary" id="newServiceBtn"><i class="fas fa-plus"></i> Yeni Hizmet Ekle</button>
+            </div>
+            
+            <!-- Alert Messages -->
+            <div class="alert alert-success" id="successAlert" style="display: none;"></div>
+            <div class="alert alert-danger" id="errorAlert" style="display: none;"></div>
+            
+            <!-- Services Table -->
+            <div class="admin-table-container">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>İkon</th>
+                            <th>Başlık</th>
+                            <th>Açıklama</th>
+                            <th>Sıra</th>
+                            <th>Durum</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody id="servicesTableBody">
+                        <tr>
+                            <td colspan="6" class="loading">
+                                <i class="fas fa-spinner fa-spin"></i> Hizmetler yükleniyor...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Service Modal -->
+    <div class="admin-modal" id="serviceModal">
+        <div class="admin-modal-content">
+            <div class="admin-modal-header">
+                <h2 id="modalTitle">Yeni Hizmet Ekle</h2>
+                <button class="admin-modal-close" id="closeModal">&times;</button>
+            </div>
+            <div class="admin-modal-body">
+                <form id="serviceForm">
+                    <input type="hidden" id="serviceId">
+                    
+                    <div class="admin-form-group">
+                        <label for="serviceTitle">Hizmet Başlığı</label>
+                        <input type="text" id="serviceTitle" class="admin-form-control" required>
+                    </div>
+                    
+                    <div class="admin-form-group">
+                        <label for="serviceDescription">Hizmet Açıklaması</label>
+                        <textarea id="serviceDescription" class="admin-form-control" rows="4" required></textarea>
+                    </div>
+                    
+                    <div class="admin-form-group">
+                        <label for="serviceIcon">İkon</label>
+                        <select id="serviceIcon" class="admin-form-select" required>
+                            <option value="" disabled selected>İkon Seçin</option>
+                            <option value="fa-plug">Priz (fa-plug)</option>
+                            <option value="fa-lightbulb">Ampul (fa-lightbulb)</option>
+                            <option value="fa-tools">Aletler (fa-tools)</option>
+                            <option value="fa-bolt">Elektrik (fa-bolt)</option>
+                            <option value="fa-shield-alt">Kalkan (fa-shield-alt)</option>
+                            <option value="fa-industry">Fabrika (fa-industry)</option>
+                            <option value="fa-home">Ev (fa-home)</option>
+                            <option value="fa-building">Bina (fa-building)</option>
+                            <option value="fa-solar-panel">Solar Panel (fa-solar-panel)</option>
+                            <option value="fa-network-wired">Ağ (fa-network-wired)</option>
+                            <option value="fa-camera">Kamera (fa-camera)</option>
+                            <option value="fa-cogs">Dişliler (fa-cogs)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="admin-form-group">
+                        <label for="serviceOrder">Sıra</label>
+                        <input type="number" id="serviceOrder" class="admin-form-control" min="1" value="1" required>
+                    </div>
+                    
+                    <div class="admin-form-group">
+                        <label for="serviceStatus">Durum</label>
+                        <div class="admin-form-check">
+                            <input type="checkbox" id="serviceActive" class="admin-form-check-input" checked>
+                            <label for="serviceActive">Aktif</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="admin-modal-footer">
+                <button class="btn btn-secondary" id="cancelBtn">İptal</button>
+                <button class="btn btn-primary" id="saveServiceBtn">Kaydet</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="admin-modal" id="deleteModal">
+        <div class="admin-modal-content" style="max-width: 400px;">
+            <div class="admin-modal-header">
+                <h2>Hizmeti Sil</h2>
+                <button class="admin-modal-close" id="closeDeleteModal">&times;</button>
+            </div>
+            <div class="admin-modal-body">
+                <p>Bu hizmeti silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.</p>
+                <input type="hidden" id="deleteServiceId">
+            </div>
+            <div class="admin-modal-footer">
+                <button class="btn btn-secondary" id="cancelDeleteBtn">İptal</button>
+                <button class="btn btn-danger" id="confirmDeleteBtn">Sil</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase JS -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    
+    <!-- Firebase Config -->
+    <script src="../js/firebase/config.js"></script>
+    
+    <!-- Admin JS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Koleksiyona referans oluştur
+            const servicesRef = db.collection('services');
+            
+            // Sidebar Toggle
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const adminSidebar = document.getElementById('adminSidebar');
+            
+            sidebarToggle.addEventListener('click', function() {
+                adminSidebar.classList.toggle('show');
+                
+                // Icon değiştir
+                const icon = this.querySelector('i');
+                if (icon.classList.contains('fa-bars')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+            
+            // Çıkış yapma
+            const logoutButton = document.getElementById('logoutButton');
+            
+            logoutButton.addEventListener('click', async function(e) {
+                e.preventDefault();
+                
+                try {
+                    await firebase.auth().signOut();
+                    window.location.href = 'login.html';
+                } catch (error) {
+                    console.error('Çıkış yapılırken hata oluştu:', error);
+                    alert('Çıkış yapılırken bir hata oluştu.');
+                }
+            });
+            
+            // Kullanıcı giriş durumunu kontrol et
+            firebase.auth().onAuthStateChanged(function(user) {
+                if (user) {
+                    // Kullanıcı bilgilerini göster
+                    const userEmail = document.getElementById('userEmail');
+                    const userName = document.getElementById('userName');
+                    const userInitials = document.getElementById('userInitials');
+                    
+                    userEmail.textContent = user.email;
+                    
+                    if (user.displayName) {
+                        userName.textContent = user.displayName;
+                        
+                        // Baş harfleri göster
+                        const nameParts = user.displayName.split(' ');
+                        let initials = '';
+                        
+                        if (nameParts.length === 1) {
+                            initials = nameParts[0].charAt(0);
+                        } else {
+                            initials = nameParts[0].charAt(0) + nameParts[nameParts.length - 1].charAt(0);
+                        }
+                        
+                        userInitials.textContent = initials.toUpperCase();
+                    } else {
+                        // E-posta adresinin ilk harfini kullan
+                        userName.textContent = 'Admin';
+                        userInitials.textContent = user.email.charAt(0).toUpperCase();
+                    }
+                    
+                    // Hizmetleri yükle
+                    loadServices();
+                } else {
+                    // Kullanıcı giriş yapmamış, login sayfasına yönlendir
+                    window.location.href = 'login.html';
+                }
+            });
+            
+            // Modal açma/kapama
+            const serviceModal = document.getElementById('serviceModal');
+            const newServiceBtn = document.getElementById('newServiceBtn');
+            const closeModal = document.getElementById('closeModal');
+            const cancelBtn = document.getElementById('cancelBtn');
+            
+            newServiceBtn.addEventListener('click', function() {
+                resetForm();
+                document.getElementById('modalTitle').textContent = 'Yeni Hizmet Ekle';
+                serviceModal.classList.add('show');
+            });
+            
+            closeModal.addEventListener('click', function() {
+                serviceModal.classList.remove('show');
+            });
+            
+            cancelBtn.addEventListener('click', function() {
+                serviceModal.classList.remove('show');
+            });
+            
+            // Delete Modal
+            const deleteModal = document.getElementById('deleteModal');
+            const closeDeleteModal = document.getElementById('closeDeleteModal');
+            const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+            
+            closeDeleteModal.addEventListener('click', function() {
+                deleteModal.classList.remove('show');
+            });
+            
+            cancelDeleteBtn.addEventListener('click', function() {
+                deleteModal.classList.remove('show');
+            });
+            
+            // Formu sıfırla
+            function resetForm() {
+                document.getElementById('serviceForm').reset();
+                document.getElementById('serviceId').value = '';
+                document.getElementById('serviceOrder').value = '1';
+                document.getElementById('serviceActive').checked = true;
+            }
+            
+            // Hizmetleri yükle
+            async function loadServices() {
+                try {
+                    const servicesTableBody = document.getElementById('servicesTableBody');
+                    
+                    // Tüm hizmetleri sıraya göre getir
+                    const servicesSnapshot = await servicesRef.orderBy('order', 'asc').get();
+                    
+                    if (servicesSnapshot.empty) {
+                        servicesTableBody.innerHTML = `
+                            <tr>
+                                <td colspan="6" style="text-align: center;">Henüz hizmet bulunmuyor.</td>
+                            </tr>
+                        `;
+                        return;
+                    }
+                    
+                    // Hizmetleri tabloya ekle
+                    servicesTableBody.innerHTML = '';
+                    servicesSnapshot.forEach(doc => {
+                        const service = doc.data();
+                        
+                        servicesTableBody.innerHTML += `
+                            <tr>
+                                <td><i class="fas ${service.icon}"></i></td>
+                                <td>${service.title}</td>
+                                <td>${service.description.length > 30 ? service.description.substring(0, 30) + '...' : service.description}</td>
+                                <td>${service.order}</td>
+                                <td>${service.active ? '<span class="badge badge-success">Aktif</span>' : '<span class="badge badge-danger">Pasif</span>'}</td>
+                                <td class="action-buttons">
+                                    <button class="btn btn-sm btn-warning edit-service" data-id="${doc.id}">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-danger delete-service" data-id="${doc.id}">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                    
+                    // Düzenleme butonları için event listener
+                    document.querySelectorAll('.edit-service').forEach(button => {
+                        button.addEventListener('click', function() {
+                            const serviceId = this.getAttribute('data-id');
+                            editService(serviceId);
+                        });
+                    });
+                    
+                    // Silme butonları için event listener
+                    document.querySelectorAll('.delete-service').forEach(button => {
+                        button.addEventListener('click', function() {
+                            const serviceId = this.getAttribute('data-id');
+                            deleteService(serviceId);
+                        });
+                    });
+                } catch (error) {
+                    console.error('Hizmetler yüklenirken hata oluştu:', error);
+                    document.getElementById('servicesTableBody').innerHTML = `
+                        <tr>
+                            <td colspan="6" style="text-align: center;">Hizmetler yüklenirken bir hata oluştu.</td>
+                        </tr>
+                    `;
+                }
+            }
+            
+            // Hizmet düzenle
+            async function editService(serviceId) {
+                try {
+                    const serviceDoc = await servicesRef.doc(serviceId).get();
+                    
+                    if (!serviceDoc.exists) {
+                        showAlert('Hizmet bulunamadı.', 'error');
+                        return;
+                    }
+                    
+                    const service = serviceDoc.data();
+                    
+                    // Form alanlarını doldur
+                    document.getElementById('serviceId').value = serviceId;
+                    document.getElementById('serviceTitle').value = service.title || '';
+                    document.getElementById('serviceDescription').value = service.description || '';
+                    document.getElementById('serviceIcon').value = service.icon || '';
+                    document.getElementById('serviceOrder').value = service.order || 1;
+                    document.getElementById('serviceActive').checked = service.active !== false;
+                    
+                    // Modal başlığını değiştir ve göster
+                    document.getElementById('modalTitle').textContent = 'Hizmeti Düzenle';
+                    serviceModal.classList.add('show');
+                } catch (error) {
+                    console.error('Hizmet düzenlenirken hata oluştu:', error);
+                    showAlert('Hizmet düzenlenirken bir hata oluştu.', 'error');
+                }
+            }
+            
+            // Hizmet silme modalını göster
+            function deleteService(serviceId) {
+                document.getElementById('deleteServiceId').value = serviceId;
+                deleteModal.classList.add('show');
+            }
+            
+            // Hizmet silme onay
+            document.getElementById('confirmDeleteBtn').addEventListener('click', async function() {
+                const serviceId = document.getElementById('deleteServiceId').value;
+                
+                if (!serviceId) {
+                    deleteModal.classList.remove('show');
+                    return;
+                }
+                
+                try {
+                    // Butonu devre dışı bırak ve yükleniyor göster
+                    this.disabled = true;
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Siliniyor...';
+                    
+                    // Hizmeti sil
+                    await servicesRef.doc(serviceId).delete();
+                    
+                    // Modalı kapat
+                    deleteModal.classList.remove('show');
+                    
+                    // Hizmetleri yeniden yükle
+                    loadServices();
+                    
+                    // Başarı mesajı
+                    showAlert('Hizmet başarıyla silindi.', 'success');
+                } catch (error) {
+                    console.error('Hizmet silinirken hata oluştu:', error);
+                    showAlert('Hizmet silinirken bir hata oluştu.', 'error');
+                } finally {
+                    // Butonu eski haline getir
+                    this.disabled = false;
+                    this.innerHTML = 'Sil';
+                }
+            });
+            
+            // Hizmet kaydet
+            document.getElementById('saveServiceBtn').addEventListener('click', async function() {
+                const form = document.getElementById('serviceForm');
+                
+                // Form doğrulama
+                if (!form.checkValidity()) {
+                    form.reportValidity();
+                    return;
+                }
+                
+                // Form verilerini al
+                const serviceId = document.getElementById('serviceId').value;
+                const title = document.getElementById('serviceTitle').value;
+                const description = document.getElementById('serviceDescription').value;
+                const icon = document.getElementById('serviceIcon').value;
+                const order = parseInt(document.getElementById('serviceOrder').value) || 1;
+                const active = document.getElementById('serviceActive').checked;
+                
+                const serviceData = {
+                    title,
+                    description,
+                    icon,
+                    order,
+                    active,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                };
+                
+                try {
+                    // Butonu devre dışı bırak ve yükleniyor göster
+                    this.disabled = true;
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Kaydediliyor...';
+                    
+                    if (serviceId) {
+                        // Hizmet güncelle
+                        await servicesRef.doc(serviceId).update(serviceData);
+                    } else {
+                        // Yeni hizmet ekle
+                        serviceData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+                        await servicesRef.add(serviceData);
+                    }
+                    
+                    // Modalı kapat
+                    serviceModal.classList.remove('show');
+                    
+                    // Hizmetleri yeniden yükle
+                    loadServices();
+                    
+                    // Başarı mesajı
+                    showAlert(`Hizmet başarıyla ${serviceId ? 'güncellendi' : 'eklendi'}.`, 'success');
+                } catch (error) {
+                    console.error('Hizmet kaydedilirken hata oluştu:', error);
+                    showAlert(`Hizmet kaydedilirken bir hata oluştu: ${error.message}`, 'error');
+                } finally {
+                    // Butonu eski haline getir
+                    this.disabled = false;
+                    this.innerHTML = 'Kaydet';
+                }
+            });
+            
+            // Uyarı mesajı göster
+            function showAlert(message, type) {
+                const successAlert = document.getElementById('successAlert');
+                const errorAlert = document.getElementById('errorAlert');
+                
+                if (type === 'success') {
+                    successAlert.textContent = message;
+                    successAlert.style.display = 'block';
+                    errorAlert.style.display = 'none';
+                    
+                    // 3 saniye sonra kapat
+                    setTimeout(() => {
+                        successAlert.style.display = 'none';
+                    }, 3000);
+                } else {
+                    errorAlert.textContent = message;
+                    errorAlert.style.display = 'block';
+                    successAlert.style.display = 'none';
+                    
+                    // 5 saniye sonra kapat
+                    setTimeout(() => {
+                        errorAlert.style.display = 'none';
+                    }, 5000);
+                }
+            }
+        });
+    </script>
+
+    <style>
+        /* Sidebar ve içerik düzenlemeleri */
+        .admin-header-content {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 15px;
+        }
+        
+        .admin-menu {
+            margin-right: 10px;
+        }
+        
+        .admin-sidebar {
+            position: fixed;
+            top: 0;
+            left: -280px;
+            width: 280px;
+            height: 100%;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1050;
+            transition: left 0.3s ease;
+            overflow-y: auto;
+        }
+        
+        .admin-sidebar.show {
+            left: 0;
+        }
+        
+        .admin-content {
+            transition: margin-left 0.3s ease;
+        }
+        
+        .admin-sidebar.show + .admin-content {
+            margin-left: 280px;
+        }
+        
+        @media (max-width: 992px) {
+            .admin-sidebar.show + .admin-content {
+                margin-left: 0;
+            }
+        }
+    </style>
+</body>
+</html> 
