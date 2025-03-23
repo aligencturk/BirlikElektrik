@@ -86,9 +86,16 @@
                 <button class="btn btn-primary" id="newServiceBtn"><i class="fas fa-plus"></i> Yeni Hizmet Ekle</button>
             </div>
             
+            <!-- Connection Status -->
+            <div class="alert alert-warning connection-alert" id="connectionAlert" style="display: none;">
+                <i class="fas fa-wifi"></i> <span id="connectionStatus">Firebase bağlantısı kurulamadı.</span>
+                <button id="connectionRetryBtn" class="btn btn-sm btn-outline-primary ml-2">
+                    <i class="fas fa-sync-alt"></i> Yeniden Dene
+                </button>
+            </div>
+            
             <!-- Alert Messages -->
-            <div class="alert alert-success" id="successAlert" style="display: none;"></div>
-            <div class="alert alert-danger" id="errorAlert" style="display: none;"></div>
+            <div id="alertContainer"></div>
             
             <!-- Services Table -->
             <div class="admin-table-container">
@@ -209,10 +216,17 @@
             firebase.auth().onAuthStateChanged(function(user) {
                 if (!user) {
                     // Kullanıcı giriş yapmamışsa login sayfasına yönlendir
+                    console.log('Kullanıcı giriş yapmamış, login sayfasına yönlendiriliyor...');
                     window.location.href = 'login.html';
                     return;
                 }
                 
+                console.log('Kullanıcı giriş yapmış:', user.email);
+                initializeAdmin(user);
+            });
+
+            // Admin arayüzünü başlat
+            function initializeAdmin(user) {
                 // Kullanıcı bilgilerini ayarla
                 const userEmail = document.getElementById('userEmail');
                 const userName = document.getElementById('userName');
@@ -225,93 +239,169 @@
                     
                     // Baş harfleri göster
                     const nameParts = user.displayName.split(' ');
-                    let initials = '';
-                    
-                    if (nameParts.length === 1) {
-                        initials = nameParts[0].charAt(0);
-                    } else {
-                        initials = nameParts[0].charAt(0) + nameParts[nameParts.length - 1].charAt(0);
-                    }
+                    const initials = nameParts.length > 1 
+                        ? nameParts[0].charAt(0) + nameParts[1].charAt(0) 
+                        : nameParts[0].charAt(0);
                     
                     userInitials.textContent = initials.toUpperCase();
                 } else {
-                    // E-posta adresinin ilk harfini kullan
-                    userName.textContent = 'Admin';
-                    userInitials.textContent = user.email.charAt(0).toUpperCase();
+                    // E-posta adresinden başlangıç harflerini alıp göster
+                    const emailParts = user.email.split('@');
+                    const name = emailParts[0];
+                    
+                    userName.textContent = name.charAt(0).toUpperCase() + name.slice(1);
+                    userInitials.textContent = name.charAt(0).toUpperCase();
                 }
+                
+                // Firebase modüllerinin yüklenip yüklenmediğini kontrol et
+                checkFirebaseModules();
+                
+                // Koleksiyona referans oluştur
+                const servicesRef = db.collection('services');
+                
+                // Sidebar Toggle
+                const sidebarToggle = document.getElementById('sidebarToggle');
+                const adminSidebar = document.getElementById('adminSidebar');
+                
+                sidebarToggle.addEventListener('click', function() {
+                    adminSidebar.classList.toggle('show');
+                    
+                    // Icon değiştir
+                    const icon = this.querySelector('i');
+                    if (icon.classList.contains('fa-bars')) {
+                        icon.classList.remove('fa-bars');
+                        icon.classList.add('fa-times');
+                    } else {
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+                
+                // Bağlantı durumunu izleme
+                window.addEventListener('firebaseConnectionChange', function(e) {
+                    const connectionAlert = document.getElementById('connectionAlert');
+                    const connectionStatus = document.getElementById('connectionStatus');
+                    
+                    if (e.detail.isConnected) {
+                        connectionAlert.style.display = 'none';
+                        loadServices(); // Bağlantı yeniden kurulduğunda hizmetleri yeniden yükle
+                    } else {
+                        connectionAlert.style.display = 'flex';
+                        connectionStatus.textContent = 'İnternet bağlantısı yok. Veriler kaydedilmeyebilir.';
+                    }
+                });
+                
+                // Bağlantıyı yeniden dene
+                document.getElementById('connectionRetryBtn').addEventListener('click', function() {
+                    const connectionStatus = document.getElementById('connectionStatus');
+                    connectionStatus.textContent = 'Bağlantı kontrol ediliyor...';
+                    
+                    // Firebase modüllerini tekrar kontrol et
+                    checkFirebaseModules();
+                    
+                    // Hizmetler listesini yeniden yükle
+                    setTimeout(() => {
+                        loadServices();
+                    }, 1000);
+                });
+                
+                // Veritabanı referanslarını kontrol et
+                if (!db) {
+                    showAlert('danger', 'Firestore bağlantısı kurulamadı! Veriler gösterilemiyor.');
+                    document.getElementById('connectionAlert').style.display = 'flex';
+                    return;
+                }
+                
+                // Çıkış yapma
+                const logoutButton = document.getElementById('logoutButton');
+                
+                logoutButton.addEventListener('click', async function(e) {
+                    e.preventDefault();
+                    
+                    try {
+                        await firebase.auth().signOut();
+                        window.location.href = 'login.html';
+                    } catch (error) {
+                        console.error('Çıkış yapılırken hata oluştu:', error);
+                        showAlert('danger', 'Çıkış yapılırken bir hata oluştu.');
+                    }
+                });
+                
+                // Modal açma/kapama
+                const serviceModal = document.getElementById('serviceModal');
+                const newServiceBtn = document.getElementById('newServiceBtn');
+                const closeModal = document.getElementById('closeModal');
+                const cancelBtn = document.getElementById('cancelBtn');
+                
+                newServiceBtn.addEventListener('click', function() {
+                    resetForm();
+                    document.getElementById('modalTitle').textContent = 'Yeni Hizmet Ekle';
+                    serviceModal.classList.add('show');
+                });
+                
+                closeModal.addEventListener('click', function() {
+                    serviceModal.classList.remove('show');
+                });
+                
+                cancelBtn.addEventListener('click', function() {
+                    serviceModal.classList.remove('show');
+                });
+                
+                // Delete Modal
+                const deleteModal = document.getElementById('deleteModal');
+                const closeDeleteModal = document.getElementById('closeDeleteModal');
+                const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+                
+                closeDeleteModal.addEventListener('click', function() {
+                    deleteModal.classList.remove('show');
+                });
+                
+                cancelDeleteBtn.addEventListener('click', function() {
+                    deleteModal.classList.remove('show');
+                });
+                
+                // Hizmet silme onay
+                document.getElementById('confirmDeleteBtn').addEventListener('click', async function() {
+                    deleteServiceConfirm();
+                });
+                
+                // Hizmet kaydet
+                document.getElementById('saveServiceBtn').addEventListener('click', async function() {
+                    saveService();
+                });
                 
                 // Hizmetleri yükle
                 loadServices();
-            });
+            }
             
-            // Koleksiyona referans oluştur
-            const servicesRef = db.collection('services');
-            
-            // Sidebar Toggle
-            const sidebarToggle = document.getElementById('sidebarToggle');
-            const adminSidebar = document.getElementById('adminSidebar');
-            
-            sidebarToggle.addEventListener('click', function() {
-                adminSidebar.classList.toggle('show');
+            // Firebase modüllerini kontrol et
+            function checkFirebaseModules() {
+                console.log('Firebase modül kontrolü yapılıyor...');
                 
-                // Icon değiştir
-                const icon = this.querySelector('i');
-                if (icon.classList.contains('fa-bars')) {
-                    icon.classList.remove('fa-bars');
-                    icon.classList.add('fa-times');
-                } else {
-                    icon.classList.remove('fa-times');
-                    icon.classList.add('fa-bars');
+                // Firebase App kontrol
+                if (typeof firebase === 'undefined') {
+                    showAlert('danger', 'Firebase kütüphanesi yüklenemedi! Sayfayı yenileyin veya ağ bağlantınızı kontrol edin.');
+                    document.getElementById('connectionAlert').style.display = 'flex';
+                    return false;
                 }
-            });
-            
-            // Çıkış yapma
-            const logoutButton = document.getElementById('logoutButton');
-            
-            logoutButton.addEventListener('click', async function(e) {
-                e.preventDefault();
                 
-                try {
-                    await firebase.auth().signOut();
-                    window.location.href = 'login.html';
-                } catch (error) {
-                    console.error('Çıkış yapılırken hata oluştu:', error);
-                    alert('Çıkış yapılırken bir hata oluştu.');
+                // Firestore kontrol
+                if (typeof firebase.firestore !== 'function' || !db) {
+                    showAlert('danger', 'Firebase Firestore modülü bulunamadı! Sayfayı yenileyin veya ağ bağlantınızı kontrol edin.');
+                    document.getElementById('connectionAlert').style.display = 'flex';
+                    return false;
                 }
-            });
-            
-            // Modal açma/kapama
-            const serviceModal = document.getElementById('serviceModal');
-            const newServiceBtn = document.getElementById('newServiceBtn');
-            const closeModal = document.getElementById('closeModal');
-            const cancelBtn = document.getElementById('cancelBtn');
-            
-            newServiceBtn.addEventListener('click', function() {
-                resetForm();
-                document.getElementById('modalTitle').textContent = 'Yeni Hizmet Ekle';
-                serviceModal.classList.add('show');
-            });
-            
-            closeModal.addEventListener('click', function() {
-                serviceModal.classList.remove('show');
-            });
-            
-            cancelBtn.addEventListener('click', function() {
-                serviceModal.classList.remove('show');
-            });
-            
-            // Delete Modal
-            const deleteModal = document.getElementById('deleteModal');
-            const closeDeleteModal = document.getElementById('closeDeleteModal');
-            const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
-            
-            closeDeleteModal.addEventListener('click', function() {
-                deleteModal.classList.remove('show');
-            });
-            
-            cancelDeleteBtn.addEventListener('click', function() {
-                deleteModal.classList.remove('show');
-            });
+                
+                // Auth kontrol
+                if (typeof firebase.auth !== 'function') {
+                    showAlert('danger', 'Firebase Authentication modülü bulunamadı! Sayfayı yenileyin veya ağ bağlantınızı kontrol edin.');
+                    document.getElementById('connectionAlert').style.display = 'flex';
+                    return false;
+                }
+                
+                console.log('Firebase modülleri başarıyla kontrol edildi.');
+                return true;
+            }
             
             // Formu sıfırla
             function resetForm() {
@@ -326,13 +416,28 @@
                 try {
                     const servicesTableBody = document.getElementById('servicesTableBody');
                     
+                    if (!db) {
+                        throw new Error('Firestore bağlantısı kurulamadı');
+                    }
+                    
+                    console.log('Hizmetler yükleniyor...');
+                    
+                    // Loading göster
+                    servicesTableBody.innerHTML = `
+                        <tr>
+                            <td colspan="6" class="loading">
+                                <i class="fas fa-spinner fa-spin"></i> Hizmetler yükleniyor...
+                            </td>
+                        </tr>
+                    `;
+                    
                     // Tüm hizmetleri sıraya göre getir
-                    const servicesSnapshot = await servicesRef.orderBy('order', 'asc').get();
+                    const servicesSnapshot = await db.collection('services').orderBy('order', 'asc').get();
                     
                     if (servicesSnapshot.empty) {
                         servicesTableBody.innerHTML = `
                             <tr>
-                                <td colspan="6" style="text-align: center;">Henüz hizmet bulunmuyor.</td>
+                                <td colspan="6" class="empty">Henüz hizmet bulunmuyor.</td>
                             </tr>
                         `;
                         return;
@@ -342,64 +447,86 @@
                     servicesTableBody.innerHTML = '';
                     servicesSnapshot.forEach(doc => {
                         const service = doc.data();
+                        const serviceId = doc.id;
                         
-                        servicesTableBody.innerHTML += `
-                            <tr>
-                                <td><i class="fas ${service.icon}"></i></td>
-                                <td>${service.title}</td>
-                                <td>${service.description.length > 30 ? service.description.substring(0, 30) + '...' : service.description}</td>
-                                <td>${service.order}</td>
-                                <td>${service.active ? '<span class="badge badge-success">Aktif</span>' : '<span class="badge badge-danger">Pasif</span>'}</td>
-                                <td class="action-buttons">
-                                    <button class="btn btn-sm btn-warning edit-service" data-id="${doc.id}">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button class="btn btn-sm btn-danger delete-service" data-id="${doc.id}">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
+                        const tr = document.createElement('tr');
+                        tr.dataset.id = serviceId;
+                        tr.innerHTML = `
+                            <td><i class="fas ${service.icon}"></i></td>
+                            <td>${service.title || '-'}</td>
+                            <td>${service.description ? (service.description.length > 50 ? service.description.substring(0, 50) + '...' : service.description) : '-'}</td>
+                            <td>${service.order || 1}</td>
+                            <td><span class="status-badge status-${service.active ? 'completed' : 'active'}">${service.active ? 'Aktif' : 'Pasif'}</span></td>
+                            <td class="action-buttons">
+                                <button class="btn btn-sm btn-outline-primary edit-btn" data-id="${serviceId}">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger delete-btn" data-id="${serviceId}">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </td>
                         `;
+                        
+                        servicesTableBody.appendChild(tr);
                     });
                     
-                    // Düzenleme butonları için event listener
-                    document.querySelectorAll('.edit-service').forEach(button => {
-                        button.addEventListener('click', function() {
+                    // Edit ve delete butonlarına olay dinleyicileri ekle
+                    document.querySelectorAll('.edit-btn').forEach(btn => {
+                        btn.addEventListener('click', function() {
                             const serviceId = this.getAttribute('data-id');
                             editService(serviceId);
                         });
                     });
                     
-                    // Silme butonları için event listener
-                    document.querySelectorAll('.delete-service').forEach(button => {
-                        button.addEventListener('click', function() {
+                    document.querySelectorAll('.delete-btn').forEach(btn => {
+                        btn.addEventListener('click', function() {
                             const serviceId = this.getAttribute('data-id');
-                            deleteService(serviceId);
+                            openDeleteModal(serviceId);
                         });
                     });
+                    
+                    console.log('Hizmetler başarıyla yüklendi.');
                 } catch (error) {
                     console.error('Hizmetler yüklenirken hata oluştu:', error);
-                    document.getElementById('servicesTableBody').innerHTML = `
+                    servicesTableBody.innerHTML = `
                         <tr>
-                            <td colspan="6" style="text-align: center;">Hizmetler yüklenirken bir hata oluştu.</td>
+                            <td colspan="6" class="error">
+                                <i class="fas fa-exclamation-triangle"></i> Hizmetler yüklenirken bir hata oluştu: ${error.message}
+                            </td>
                         </tr>
                     `;
+                    showAlert('danger', 'Hizmetler yüklenirken bir hata oluştu.');
+                    document.getElementById('connectionAlert').style.display = 'flex';
                 }
             }
             
             // Hizmet düzenle
             async function editService(serviceId) {
                 try {
-                    const serviceDoc = await servicesRef.doc(serviceId).get();
+                    if (!db) {
+                        throw new Error('Firestore bağlantısı kurulamadı');
+                    }
                     
-                    if (!serviceDoc.exists) {
-                        showAlert('Hizmet bulunamadı.', 'error');
+                    console.log('Hizmet verisi alınıyor:', serviceId);
+                    
+                    // Hizmet verisini al
+                    const doc = await db.collection('services').doc(serviceId).get();
+                    
+                    if (!doc.exists) {
+                        showAlert('danger', 'Hizmet bulunamadı.');
                         return;
                     }
                     
-                    const service = serviceDoc.data();
+                    const service = doc.data();
                     
-                    // Form alanlarını doldur
+                    // Modal elementlerini al
+                    const modal = document.getElementById('serviceModal');
+                    const modalTitle = document.getElementById('modalTitle');
+                    
+                    // Modal başlığını ayarla
+                    modalTitle.textContent = 'Hizmeti Düzenle';
+                    
+                    // Formu doldur
                     document.getElementById('serviceId').value = serviceId;
                     document.getElementById('serviceTitle').value = service.title || '';
                     document.getElementById('serviceDescription').value = service.description || '';
@@ -407,144 +534,204 @@
                     document.getElementById('serviceOrder').value = service.order || 1;
                     document.getElementById('serviceActive').checked = service.active !== false;
                     
-                    // Modal başlığını değiştir ve göster
-                    document.getElementById('modalTitle').textContent = 'Hizmeti Düzenle';
-                    serviceModal.classList.add('show');
+                    // Modalı aç
+                    modal.classList.add('show');
+                    
+                    console.log('Hizmet verisi başarıyla yüklendi.');
                 } catch (error) {
-                    console.error('Hizmet düzenlenirken hata oluştu:', error);
-                    showAlert('Hizmet düzenlenirken bir hata oluştu.', 'error');
+                    console.error('Hizmet verisi alınırken hata oluştu:', error);
+                    showAlert('danger', 'Hizmet verisi alınırken bir hata oluştu.');
                 }
             }
-            
-            // Hizmet silme modalını göster
-            function deleteService(serviceId) {
+
+            // Hizmet silme modalını aç
+            function openDeleteModal(serviceId) {
+                const modal = document.getElementById('deleteModal');
                 document.getElementById('deleteServiceId').value = serviceId;
-                deleteModal.classList.add('show');
+                modal.classList.add('show');
             }
-            
-            // Hizmet silme onay
-            document.getElementById('confirmDeleteBtn').addEventListener('click', async function() {
-                const serviceId = document.getElementById('deleteServiceId').value;
-                
-                if (!serviceId) {
-                    deleteModal.classList.remove('show');
-                    return;
-                }
-                
+
+            // Hizmet sil
+            async function deleteServiceConfirm() {
                 try {
-                    // Butonu devre dışı bırak ve yükleniyor göster
-                    this.disabled = true;
-                    this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Siliniyor...';
+                    if (!db) {
+                        throw new Error('Firestore bağlantısı kurulamadı');
+                    }
+                    
+                    const serviceId = document.getElementById('deleteServiceId').value;
+                    if (!serviceId) {
+                        throw new Error('Hizmet ID bulunamadı.');
+                    }
+                    
+                    console.log('Hizmet siliniyor:', serviceId);
+                    
+                    // Delete butonunu devre dışı bırak
+                    const deleteBtn = document.getElementById('confirmDeleteBtn');
+                    const originalBtnText = deleteBtn.textContent;
+                    deleteBtn.disabled = true;
+                    deleteBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Siliniyor...';
                     
                     // Hizmeti sil
-                    await servicesRef.doc(serviceId).delete();
+                    await db.collection('services').doc(serviceId).delete();
                     
-                    // Modalı kapat
-                    deleteModal.classList.remove('show');
+                    showAlert('success', 'Hizmet başarıyla silindi.');
+                    closeDeleteModal();
                     
-                    // Hizmetleri yeniden yükle
+                    // Hizmetler listesini yenile
                     loadServices();
-                    
-                    // Başarı mesajı
-                    showAlert('Hizmet başarıyla silindi.', 'success');
                 } catch (error) {
                     console.error('Hizmet silinirken hata oluştu:', error);
-                    showAlert('Hizmet silinirken bir hata oluştu.', 'error');
+                    showAlert('danger', `Hizmet silinirken bir hata oluştu: ${error.message}`);
                 } finally {
-                    // Butonu eski haline getir
-                    this.disabled = false;
-                    this.innerHTML = 'Sil';
+                    // Delete butonunu eski haline getir
+                    const deleteBtn = document.getElementById('confirmDeleteBtn');
+                    deleteBtn.disabled = false;
+                    deleteBtn.textContent = 'Sil';
                 }
-            });
-            
+            }
+
             // Hizmet kaydet
-            document.getElementById('saveServiceBtn').addEventListener('click', async function() {
-                const form = document.getElementById('serviceForm');
-                
-                // Form doğrulama
-                if (!form.checkValidity()) {
-                    form.reportValidity();
-                    return;
-                }
-                
-                // Form verilerini al
-                const serviceId = document.getElementById('serviceId').value;
-                const title = document.getElementById('serviceTitle').value;
-                const description = document.getElementById('serviceDescription').value;
-                const icon = document.getElementById('serviceIcon').value;
-                const order = parseInt(document.getElementById('serviceOrder').value) || 1;
-                const active = document.getElementById('serviceActive').checked;
-                
-                const serviceData = {
-                    title,
-                    description,
-                    icon,
-                    order,
-                    active,
-                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                };
-                
+            async function saveService() {
                 try {
-                    // Butonu devre dışı bırak ve yükleniyor göster
-                    this.disabled = true;
-                    this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Kaydediliyor...';
+                    if (!db) {
+                        throw new Error('Firestore bağlantısı kurulamadı');
+                    }
                     
+                    // Form validasyonu
+                    const form = document.getElementById('serviceForm');
+                    if (!form.checkValidity()) {
+                        form.reportValidity();
+                        return;
+                    }
+                    
+                    // Formdaki verileri al
+                    const serviceId = document.getElementById('serviceId').value;
+                    const title = document.getElementById('serviceTitle').value;
+                    const description = document.getElementById('serviceDescription').value;
+                    const icon = document.getElementById('serviceIcon').value;
+                    const order = parseInt(document.getElementById('serviceOrder').value) || 1;
+                    const active = document.getElementById('serviceActive').checked;
+                    
+                    // Hizmet verilerini hazırla
+                    const serviceData = {
+                        title,
+                        description,
+                        icon,
+                        order,
+                        active,
+                        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    };
+                    
+                    console.log('Hizmet kaydediliyor...');
+                    
+                    // Save butonunu devre dışı bırak
+                    const saveBtn = document.getElementById('saveServiceBtn');
+                    const originalBtnText = saveBtn.textContent;
+                    saveBtn.disabled = true;
+                    saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Kaydediliyor...';
+                    
+                    // Yeni hizmet mi yoksa güncelleme mi?
                     if (serviceId) {
-                        // Hizmet güncelle
-                        await servicesRef.doc(serviceId).update(serviceData);
+                        // Hizmeti güncelle
+                        await db.collection('services').doc(serviceId).update(serviceData);
                     } else {
                         // Yeni hizmet ekle
                         serviceData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
-                        await servicesRef.add(serviceData);
+                        await db.collection('services').add(serviceData);
                     }
                     
-                    // Modalı kapat
-                    serviceModal.classList.remove('show');
+                    showAlert('success', serviceId ? 'Hizmet başarıyla güncellendi.' : 'Yeni hizmet başarıyla eklendi.');
+                    closeServiceModal();
                     
-                    // Hizmetleri yeniden yükle
+                    // Hizmetler listesini yenile
                     loadServices();
-                    
-                    // Başarı mesajı
-                    showAlert(`Hizmet başarıyla ${serviceId ? 'güncellendi' : 'eklendi'}.`, 'success');
                 } catch (error) {
                     console.error('Hizmet kaydedilirken hata oluştu:', error);
-                    showAlert(`Hizmet kaydedilirken bir hata oluştu: ${error.message}`, 'error');
+                    showAlert('danger', `Hizmet kaydedilirken bir hata oluştu: ${error.message}`);
                 } finally {
-                    // Butonu eski haline getir
-                    this.disabled = false;
-                    this.innerHTML = 'Kaydet';
+                    // Save butonunu eski haline getir
+                    const saveBtn = document.getElementById('saveServiceBtn');
+                    saveBtn.disabled = false;
+                    saveBtn.textContent = 'Kaydet';
                 }
-            });
-            
-            // Uyarı mesajı göster
-            function showAlert(message, type) {
-                const successAlert = document.getElementById('successAlert');
-                const errorAlert = document.getElementById('errorAlert');
+            }
+
+            // Hizmet modalını kapat
+            function closeServiceModal() {
+                const modal = document.getElementById('serviceModal');
+                modal.classList.remove('show');
+            }
+
+            // Silme modalını kapat
+            function closeDeleteModal() {
+                const modal = document.getElementById('deleteModal');
+                modal.classList.remove('show');
+            }
+
+            // Alert göster
+            function showAlert(type, message) {
+                const alertContainer = document.getElementById('alertContainer');
                 
-                if (type === 'success') {
-                    successAlert.textContent = message;
-                    successAlert.style.display = 'block';
-                    errorAlert.style.display = 'none';
-                    
-                    // 3 saniye sonra kapat
-                    setTimeout(() => {
-                        successAlert.style.display = 'none';
-                    }, 3000);
-                } else {
-                    errorAlert.textContent = message;
-                    errorAlert.style.display = 'block';
-                    successAlert.style.display = 'none';
-                    
-                    // 5 saniye sonra kapat
-                    setTimeout(() => {
-                        errorAlert.style.display = 'none';
-                    }, 5000);
-                }
+                const alert = document.createElement('div');
+                alert.className = `alert alert-${type}`;
+                alert.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span>${message}</span>
+                        <button type="button" class="close-alert" style="background: none; border: none; cursor: pointer;">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                `;
+                
+                alertContainer.appendChild(alert);
+                
+                // Alert'i 5 saniye sonra otomatik kapat
+                setTimeout(() => {
+                    if (alert.parentNode) {
+                        alert.remove();
+                    }
+                }, 5000);
+                
+                // Kapatma düğmesi
+                alert.querySelector('.close-alert').addEventListener('click', function() {
+                    alert.remove();
+                });
             }
         });
     </script>
 
     <style>
+        /* Ek stiller */
+        .connection-alert {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .ml-2 {
+            margin-left: 10px;
+        }
+        
+        /* Status badges */
+        .status-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .status-completed {
+            background-color: #e3fcef;
+            color: #00a650;
+        }
+        
+        .status-active {
+            background-color: #fff5e6;
+            color: #ff9800;
+        }
+        
         /* Sidebar ve içerik düzenlemeleri */
         .admin-header-content {
             display: flex;
