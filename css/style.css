@@ -34,10 +34,25 @@
     --box-shadow-btn: 0 4px 6px rgba(0, 0, 0, 0.1);
     --box-shadow-btn-hover: 0 6px 8px rgba(0, 0, 0, 0.15);
     
-    /* Geçiş Animasyonları */
-    --transition-slow: all 0.5s ease;
-    --transition: all 0.3s ease;
-    --transition-fast: all 0.15s ease;
+    /* Geçiş Animasyonları - İyileştirilmiş */
+    --transition-slow: all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+    --transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+    --transition-fast: all 0.15s cubic-bezier(0.25, 0.1, 0.25, 1);
+    
+    /* Özel Geçişler */
+    --transition-slide: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    --transition-scale: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    --transition-rotate: transform 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+    --transition-fade: opacity 0.3s ease-in-out;
+    --transition-color: color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    --transition-shadow: box-shadow 0.3s ease-in-out;
+    
+    /* Geçiş Gecikmeleri */
+    --delay-xs: 0.1s;
+    --delay-sm: 0.2s;
+    --delay-md: 0.3s;
+    --delay-lg: 0.4s;
+    --delay-xl: 0.5s;
     
     /* Kenarlık Yuvarlatma */
     --border-radius-sm: 4px;
@@ -101,7 +116,7 @@ body {
 a {
     text-decoration: none;
     color: var(--dark-color);
-    transition: var(--transition);
+    transition: var(--transition-color);
 }
 
 ul {
@@ -166,9 +181,44 @@ img {
     font-weight: 500;
     border-radius: var(--border-radius);
     cursor: pointer;
-    transition: var(--transition);
+    transition: var(--transition-color), transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
     text-align: center;
     box-shadow: var(--box-shadow-btn);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.3);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(1, 1) translate(-50%);
+    transform-origin: 50% 50%;
+}
+
+.btn:hover::after {
+    animation: ripple 1s ease-out;
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0, 0);
+        opacity: 0.5;
+    }
+    20% {
+        transform: scale(25, 25);
+        opacity: 0.3;
+    }
+    100% {
+        opacity: 0;
+        transform: scale(40, 40);
+    }
 }
 
 .btn-primary {
@@ -215,7 +265,13 @@ section {
     box-shadow: var(--box-shadow);
     z-index: var(--z-fixed);
     padding: var(--spacing-3) 0;
-    transition: var(--transition);
+    transition: transform 0.4s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.header.scrolled {
+    background-color: rgba(255, 255, 255, 0.98);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transform: translateY(-5px);
 }
 
 .header-content {
@@ -272,7 +328,7 @@ section {
     background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
     bottom: -3px;
     left: 0;
-    transition: width 0.3s ease;
+    transition: width 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
     border-radius: var(--border-radius-sm);
 }
 
@@ -370,7 +426,9 @@ section {
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
     text-align: center;
-    transition: var(--transition);
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                box-shadow 0.3s ease, 
+                border-bottom 0.3s ease;
     border-bottom: 3px solid transparent;
     position: relative;
     z-index: 1;
@@ -385,13 +443,14 @@ section {
     width: 100%;
     height: 0;
     background: linear-gradient(135deg, rgba(0, 123, 255, 0.05), rgba(255, 193, 7, 0.05));
-    transition: var(--transition);
+    transition: height 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
     z-index: -1;
 }
 
 .service-card:hover {
     transform: translateY(-15px);
     border-bottom: 3px solid var(--primary-color);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
 }
 
 .service-card:hover::before {
@@ -420,11 +479,12 @@ section {
 .service-icon i {
     font-size: var(--font-size-3xl);
     color: var(--primary-color);
-    transition: var(--transition);
+    transition: color 0.3s ease, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .service-card:hover .service-icon i {
     color: var(--accent-color);
+    transform: scale(1.15) rotateY(180deg);
 }
 
 .service-card h3 {
@@ -697,12 +757,13 @@ section {
     border-radius: var(--border-radius);
     overflow: hidden;
     box-shadow: var(--box-shadow);
-    transition: var(--transition);
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
     position: relative;
 }
 
 .project-card:hover {
-    transform: translateY(-15px);
+    transform: translateY(-15px) scale(1.02);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
 }
 
 .project-image {
@@ -720,7 +781,7 @@ section {
     bottom: 0;
     background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.8));
     opacity: 0;
-    transition: var(--transition);
+    transition: opacity 0.5s ease;
     z-index: 1;
 }
 
@@ -732,11 +793,11 @@ section {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: var(--transition);
+    transition: transform 0.7s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
 .project-card:hover .project-image img {
-    transform: scale(1.1);
+    transform: scale(1.15);
 }
 
 .project-content {
@@ -799,11 +860,12 @@ section {
     flex: 0 0 calc(33.333% - 20px);
     min-width: 300px;
     position: relative;
-    transition: var(--transition);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
 }
 
 .testimonial-card:hover {
-    transform: translateY(-10px);
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
 }
 
 .testimonial-card::before {
@@ -1677,4 +1739,58 @@ html {
     font-size: 16px;
     color: var(--text-muted);
     font-weight: 500;
+}
+
+/* Genel Geçiş Sınıfları */
+.transition-all {
+    transition: var(--transition);
+}
+
+.transition-transform {
+    transition: var(--transition-slide);
+}
+
+.transition-scale {
+    transition: var(--transition-scale);
+}
+
+.transition-opacity {
+    transition: var(--transition-fade);
+}
+
+/* Sayfa Yükleme Animasyonu */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.section-header, .services-grid, .about-content, .why-us-grid, 
+.projects-grid, .testimonials-slider, .contact-content {
+    animation: fadeInUp 1s ease-out forwards;
+}
+
+.services-grid .service-card:nth-child(1) { animation-delay: 0.1s; }
+.services-grid .service-card:nth-child(2) { animation-delay: 0.2s; }
+.services-grid .service-card:nth-child(3) { animation-delay: 0.3s; }
+.services-grid .service-card:nth-child(4) { animation-delay: 0.4s; }
+
+.why-us-grid .why-us-card:nth-child(1) { animation-delay: 0.1s; }
+.why-us-grid .why-us-card:nth-child(2) { animation-delay: 0.2s; }
+.services-grid .why-us-card:nth-child(3) { animation-delay: 0.3s; }
+.services-grid .why-us-card:nth-child(4) { animation-delay: 0.4s; }
+
+.projects-grid .project-card:nth-child(1) { animation-delay: 0.1s; }
+.projects-grid .project-card:nth-child(2) { animation-delay: 0.2s; }
+.projects-grid .project-card:nth-child(3) { animation-delay: 0.3s; }
+.projects-grid .project-card:nth-child(4) { animation-delay: 0.4s; }
+
+/* Smooth Scroll Davranışı */
+html {
+    scroll-behavior: smooth;
 } 
