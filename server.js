@@ -21,8 +21,18 @@ app.use(express.static(path.join(__dirname, './')));
 
 // API rotaları (gerekirse buraya eklenebilir)
 
-// Tüm diğer istekleri index.html'e yönlendir (React Router için)
-app.get('/admin/*', function(req, res) {
+// Admin sayfalarını koruma - login hariç tüm admin sayfalarını login.html'e yönlendir
+app.get('/admin', (req, res) => {
+  res.redirect('/admin/login.html');
+});
+
+// Admin sayfası rotası - login.html hariç
+app.get('/admin/*', (req, res, next) => {
+  // Eğer login sayfasıysa direkt göster
+  if (req.path.includes('login.html')) {
+    return next();
+  }
+  // Aksi takdirde dosyayı gönder (client-side auth kontrolü yapılacak)
   res.sendFile(path.join(__dirname, req.path));
 });
 

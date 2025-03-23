@@ -193,16 +193,23 @@
     
     <!-- Admin JS -->
     <script>
-        // Kullanıcı girişini kontrol et
-        firebase.auth().onAuthStateChanged(function(user) {
-            if (!user) {
-                // Kullanıcı giriş yapmamışsa login sayfasına yönlendir
-                window.location.href = 'login.html';
-                return;
-            }
+        // Sayfanın tam olarak yüklenmesini bekle
+        document.addEventListener('DOMContentLoaded', function() {
+            // Kullanıcı girişini kontrol et
+            firebase.auth().onAuthStateChanged(function(user) {
+                if (!user) {
+                    // Kullanıcı giriş yapmamışsa login sayfasına yönlendir
+                    console.log('Kullanıcı giriş yapmamış, login sayfasına yönlendiriliyor...');
+                    window.location.href = 'login.html';
+                    return;
+                }
 
-            // Kullanıcı giriş yapmışsa devam et
-            document.addEventListener('DOMContentLoaded', function() {
+                console.log('Kullanıcı giriş yapmış:', user.email);
+                initializeAdmin(user);
+            });
+
+            // Admin arayüzünü başlat
+            function initializeAdmin(user) {
                 // Sidebar Toggle
                 const sidebarToggle = document.getElementById('sidebarToggle');
                 const adminSidebar = document.getElementById('adminSidebar');
@@ -248,20 +255,34 @@
                     
                     // Baş harfleri göster
                     const nameParts = user.displayName.split(' ');
-                    let initials = '';
-                    
-                    if (nameParts.length === 1) {
-                        initials = nameParts[0].charAt(0);
-                    } else {
-                        initials = nameParts[0].charAt(0) + nameParts[nameParts.length - 1].charAt(0);
-                    }
+                    const initials = nameParts.length > 1 
+                        ? nameParts[0].charAt(0) + nameParts[1].charAt(0) 
+                        : nameParts[0].charAt(0);
                     
                     userInitials.textContent = initials.toUpperCase();
                 } else {
-                    // E-posta adresinin ilk harfini kullan
-                    userName.textContent = 'Admin';
-                    userInitials.textContent = user.email.charAt(0).toUpperCase();
+                    // E-posta adresinden başlangıç harflerini alıp göster
+                    const emailParts = user.email.split('@');
+                    const name = emailParts[0];
+                    
+                    userName.textContent = name.charAt(0).toUpperCase() + name.slice(1);
+                    userInitials.textContent = name.charAt(0).toUpperCase();
                 }
+                
+                // Verileri yükle
+                loadDashboardData();
+            }
+            
+            // Dashboard verilerini yükle
+            function loadDashboardData() {
+                // Firebase bağlantısını ve Firestore'u kontrol et
+                if (!firebase.firestore || !db) {
+                    console.error('Firestore bağlantısı kurulamadı!');
+                    showConnectionError();
+                    return;
+                }
+                
+                console.log('Firestore bağlantısı kuruldu, veriler getiriliyor...');
                 
                 // İstatistikleri yükle
                 loadStats();
@@ -271,129 +292,156 @@
                 
                 // Son projeleri yükle
                 loadRecentProjects();
-            });
-        });
-        
-        // İstatistikleri yükle
-        async function loadStats() {
-            try {
-                // Toplam proje sayısı
-                const projectCount = document.getElementById('projectCount');
-                const projectSnapshot = await projectsRef.get();
-                projectCount.textContent = projectSnapshot.size;
-                
-                // Toplam mesaj sayısı
-                const messageCount = document.getElementById('messageCount');
-                const messageSnapshot = await contactMessagesRef.get();
-                messageCount.textContent = messageSnapshot.size;
-                
-                // Toplam abone sayısı
-                const subscriberCount = document.getElementById('subscriberCount');
-                const subscriberSnapshot = await newsletterSubscribersRef.get();
-                subscriberCount.textContent = subscriberSnapshot.size;
-                
-                // Okunmamış mesaj sayısı
-                const unreadMessageCount = document.getElementById('unreadMessageCount');
-                const unreadSnapshot = await contactMessagesRef.where('read', '==', false).get();
-                unreadMessageCount.textContent = unreadSnapshot.size;
-            } catch (error) {
-                console.error('İstatistikler yüklenirken hata oluştu:', error);
             }
-        }
-        
-        // Son mesajları yükle
-        async function loadRecentMessages() {
-            try {
+            
+            // Bağlantı hatası göster
+            function showConnectionError() {
+                const elements = document.querySelectorAll('.loading');
+                elements.forEach(el => {
+                    el.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Firebase bağlantısı kurulamadı!';
+                    el.classList.add('error');
+                });
+                
+                // İstatistikleri sıfırla
+                document.getElementById('projectCount').textContent = '-';
+                document.getElementById('messageCount').textContent = '-';
+                document.getElementById('subscriberCount').textContent = '-';
+                document.getElementById('unreadMessageCount').textContent = '-';
+            }
+            
+            // İstatistikleri yükle
+            function loadStats() {
+                const projectCount = document.getElementById('projectCount');
+                const messageCount = document.getElementById('messageCount');
+                const subscriberCount = document.getElementById('subscriberCount');
+                const unreadMessageCount = document.getElementById('unreadMessageCount');
+                
+                // Proje sayısı
+                db.collection('projects').get()
+                    .then(snapshot => {
+                        projectCount.textContent = snapshot.size;
+                    })
+                    .catch(error => {
+                        console.error('Proje sayısı getirilirken hata oluştu:', error);
+                        projectCount.textContent = '-';
+                    });
+                
+                // Mesaj sayısı
+                db.collection('contactMessages').get()
+                    .then(snapshot => {
+                        messageCount.textContent = snapshot.size;
+                        
+                        // Okunmamış mesaj sayısı
+                        const unreadMessages = snapshot.docs.filter(doc => !doc.data().read);
+                        unreadMessageCount.textContent = unreadMessages.length;
+                    })
+                    .catch(error => {
+                        console.error('Mesaj sayısı getirilirken hata oluştu:', error);
+                        messageCount.textContent = '-';
+                        unreadMessageCount.textContent = '-';
+                    });
+                
+                // Abone sayısı
+                db.collection('newsletterSubscribers').get()
+                    .then(snapshot => {
+                        subscriberCount.textContent = snapshot.size;
+                    })
+                    .catch(error => {
+                        console.error('Abone sayısı getirilirken hata oluştu:', error);
+                        subscriberCount.textContent = '-';
+                    });
+            }
+            
+            // Son mesajları yükle
+            function loadRecentMessages() {
                 const recentMessagesTable = document.getElementById('recentMessagesTable');
                 
-                // Son 5 mesajı getir
-                const messagesSnapshot = await contactMessagesRef
+                db.collection('contactMessages')
                     .orderBy('createdAt', 'desc')
                     .limit(5)
-                    .get();
-                
-                if (messagesSnapshot.empty) {
-                    recentMessagesTable.innerHTML = `
-                        <tr>
-                            <td colspan="6" style="text-align: center;">Henüz mesaj bulunmuyor.</td>
-                        </tr>
-                    `;
-                    return;
-                }
-                
-                // Mesajları tabloya ekle
-                recentMessagesTable.innerHTML = '';
-                messagesSnapshot.forEach(doc => {
-                    const message = doc.data();
-                    const date = message.createdAt ? new Date(message.createdAt.toDate()) : new Date();
-                    
-                    recentMessagesTable.innerHTML += `
-                        <tr>
-                            <td>${message.name}</td>
-                            <td>${message.email}</td>
-                            <td>${message.phone}</td>
-                            <td>${message.service || '-'}</td>
-                            <td>${message.message.length > 30 ? message.message.substring(0, 30) + '...' : message.message}</td>
-                            <td>${date.toLocaleDateString('tr-TR')}</td>
-                        </tr>
-                    `;
-                });
-            } catch (error) {
-                console.error('Mesajlar yüklenirken hata oluştu:', error);
-                recentMessagesTable.innerHTML = `
-                    <tr>
-                        <td colspan="6" style="text-align: center;">Mesajlar yüklenirken bir hata oluştu.</td>
-                    </tr>
-                `;
+                    .get()
+                    .then(snapshot => {
+                        if (snapshot.empty) {
+                            recentMessagesTable.innerHTML = '<tr><td colspan="6" class="empty">Henüz mesaj yok</td></tr>';
+                            return;
+                        }
+                        
+                        recentMessagesTable.innerHTML = '';
+                        
+                        snapshot.forEach(doc => {
+                            const message = doc.data();
+                            const date = message.createdAt ? new Date(message.createdAt.toDate()) : new Date();
+                            const formattedDate = date.toLocaleDateString('tr-TR');
+                            
+                            const tr = document.createElement('tr');
+                            tr.innerHTML = `
+                                <td>${message.name || '-'}</td>
+                                <td>${message.email || '-'}</td>
+                                <td>${message.phone || '-'}</td>
+                                <td>${message.service || '-'}</td>
+                                <td>${message.message ? (message.message.length > 30 ? message.message.substring(0, 30) + '...' : message.message) : '-'}</td>
+                                <td>${formattedDate}</td>
+                            `;
+                            
+                            if (!message.read) {
+                                tr.classList.add('unread');
+                            }
+                            
+                            recentMessagesTable.appendChild(tr);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Son mesajlar getirilirken hata oluştu:', error);
+                        recentMessagesTable.innerHTML = '<tr><td colspan="6" class="error"><i class="fas fa-exclamation-triangle"></i> Mesajlar yüklenirken bir hata oluştu!</td></tr>';
+                    });
             }
-        }
-        
-        // Son projeleri yükle
-        async function loadRecentProjects() {
-            try {
+            
+            // Son projeleri yükle
+            function loadRecentProjects() {
                 const recentProjectsTable = document.getElementById('recentProjectsTable');
                 
-                // Son 5 projeyi getir
-                const projectsSnapshot = await projectsRef
+                db.collection('projects')
                     .orderBy('createdAt', 'desc')
                     .limit(5)
-                    .get();
-                
-                if (projectsSnapshot.empty) {
-                    recentProjectsTable.innerHTML = `
-                        <tr>
-                            <td colspan="6" style="text-align: center;">Henüz proje bulunmuyor.</td>
-                        </tr>
-                    `;
-                    return;
-                }
-                
-                // Projeleri tabloya ekle
-                recentProjectsTable.innerHTML = '';
-                projectsSnapshot.forEach(doc => {
-                    const project = doc.data();
-                    const date = project.createdAt ? new Date(project.createdAt.toDate()) : new Date();
-                    
-                    recentProjectsTable.innerHTML += `
-                        <tr>
-                            <td><img src="${project.imageUrl || 'https://via.placeholder.com/60x40'}" alt="${project.title}"></td>
-                            <td>${project.title}</td>
-                            <td>${project.description.length > 30 ? project.description.substring(0, 30) + '...' : project.description}</td>
-                            <td>${project.category || '-'}</td>
-                            <td>${project.completed ? '<span class="badge badge-success">Tamamlandı</span>' : '<span class="badge badge-warning">Devam Ediyor</span>'}</td>
-                            <td>${date.toLocaleDateString('tr-TR')}</td>
-                        </tr>
-                    `;
-                });
-            } catch (error) {
-                console.error('Projeler yüklenirken hata oluştu:', error);
-                recentProjectsTable.innerHTML = `
-                    <tr>
-                        <td colspan="6" style="text-align: center;">Projeler yüklenirken bir hata oluştu.</td>
-                    </tr>
-                `;
+                    .get()
+                    .then(snapshot => {
+                        if (snapshot.empty) {
+                            recentProjectsTable.innerHTML = '<tr><td colspan="6" class="empty">Henüz proje yok</td></tr>';
+                            return;
+                        }
+                        
+                        recentProjectsTable.innerHTML = '';
+                        
+                        snapshot.forEach(doc => {
+                            const project = doc.data();
+                            const date = project.createdAt ? new Date(project.createdAt.toDate()) : new Date();
+                            const formattedDate = date.toLocaleDateString('tr-TR');
+                            
+                            // Görsel varsa base64 görsel göster, yoksa placeholder göster
+                            let imageHtml = `<div class="admin-table-img placeholder"><i class="fas fa-image"></i></div>`;
+                            if (project.imageUrl) {
+                                imageHtml = `<div class="admin-table-img"><img src="${project.imageUrl}" alt="${project.title}"></div>`;
+                            }
+                            
+                            const tr = document.createElement('tr');
+                            tr.innerHTML = `
+                                <td>${imageHtml}</td>
+                                <td>${project.title || '-'}</td>
+                                <td>${project.description ? (project.description.length > 30 ? project.description.substring(0, 30) + '...' : project.description) : '-'}</td>
+                                <td>${project.category || '-'}</td>
+                                <td><span class="status-badge status-${project.status || 'active'}">${project.status || 'Aktif'}</span></td>
+                                <td>${formattedDate}</td>
+                            `;
+                            
+                            recentProjectsTable.appendChild(tr);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Son projeler getirilirken hata oluştu:', error);
+                        recentProjectsTable.innerHTML = '<tr><td colspan="6" class="error"><i class="fas fa-exclamation-triangle"></i> Projeler yüklenirken bir hata oluştu!</td></tr>';
+                    });
             }
-        }
+        });
     </script>
 
     <style>

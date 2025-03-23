@@ -199,13 +199,21 @@
     
     <!-- Admin JS -->
     <script>
-        // Tarayıcı önbelleğini kontrol et ve yeniden yüklemeyi öner
-        if (typeof firebase === 'undefined' || typeof firebase.auth !== 'function') {
-            alert('Firebase modülleri tam olarak yüklenemedi. Lütfen sayfayı yenileyin (Ctrl+F5).');
-            console.error('Firebase modülleri eksik. Tarayıcı önbelleğini temizleyip sayfayı yenileyin.');
-        }
-        
-        document.addEventListener('DOMContentLoaded', function() {
+        // Kullanıcı girişini kontrol et
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (!user) {
+                // Kullanıcı giriş yapmamışsa login sayfasına yönlendir
+                console.log('Kullanıcı giriş yapmamış, login sayfasına yönlendiriliyor...');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            console.log('Kullanıcı giriş yapmış:', user.email);
+            initializeAdmin(user);
+        });
+
+        // Admin arayüzünü başlat
+        function initializeAdmin(user) {
             // Sidebar Toggle
             const sidebarToggle = document.getElementById('sidebarToggle');
             const adminSidebar = document.getElementById('adminSidebar');
@@ -224,33 +232,6 @@
                 }
             });
             
-            // Firebase bağlantı durumunu izle
-            const connectionAlert = document.getElementById('connectionAlert');
-            const connectionStatus = document.getElementById('connectionStatus');
-            const connectionRetryBtn = document.getElementById('connectionRetryBtn');
-            
-            // Bağlantı durumu değiştiğinde tetiklenecek event listener
-            window.addEventListener('firebaseConnectionChange', function(e) {
-                if (e.detail.isConnected) {
-                    connectionAlert.style.display = 'none';
-                } else {
-                    connectionAlert.style.display = 'flex';
-                    connectionStatus.textContent = 'Bağlantı hatası. Veriler kaydedilmeyebilir.';
-                }
-            });
-            
-            // Bağlantıyı yeniden dene
-            connectionRetryBtn.addEventListener('click', function() {
-                connectionStatus.textContent = 'Bağlantı kontrol ediliyor...';
-                setTimeout(() => {
-                    if (navigator.onLine) {
-                        connectionAlert.style.display = 'none';
-                    } else {
-                        connectionStatus.textContent = 'İnternet bağlantısı yok. Lütfen bağlantınızı kontrol edin.';
-                    }
-                }, 1500);
-            });
-            
             // Çıkış yapma
             const logoutButton = document.getElementById('logoutButton');
             
@@ -258,270 +239,191 @@
                 e.preventDefault();
                 
                 try {
-                    if (typeof firebase === 'undefined') {
-                        throw new Error('Firebase kütüphanesi yüklenemedi!');
-                    }
-                    
-                    if (typeof firebase.auth !== 'function') {
-                        throw new Error('Firebase Authentication modülü bulunamadı!');
-                    }
-                    
                     await firebase.auth().signOut();
                     window.location.href = 'login.html';
                 } catch (error) {
                     console.error('Çıkış yapılırken hata oluştu:', error);
-                    showAlert('Çıkış yapılırken bir hata oluştu: ' + error.message, 'error');
+                    alert('Çıkış yapılırken bir hata oluştu.');
                 }
             });
             
-            // Kullanıcı girişini kontrol et
-            firebase.auth().onAuthStateChanged(function(user) {
-                if (!user) {
-                    // Kullanıcı giriş yapmamışsa login sayfasına yönlendir
-                    window.location.href = 'login.html';
-                    return;
-                }
+            // Kullanıcı bilgilerini göster
+            const userEmail = document.getElementById('userEmail');
+            const userName = document.getElementById('userName');
+            const userInitials = document.getElementById('userInitials');
+            
+            userEmail.textContent = user.email;
+            
+            if (user.displayName) {
+                userName.textContent = user.displayName;
                 
-                // Kullanıcı bilgilerini ayarla
-                const userEmail = document.getElementById('userEmail');
-                const userName = document.getElementById('userName');
-                const userInitials = document.getElementById('userInitials');
+                // Baş harfleri göster
+                const nameParts = user.displayName.split(' ');
+                const initials = nameParts.length > 1 
+                    ? nameParts[0].charAt(0) + nameParts[1].charAt(0) 
+                    : nameParts[0].charAt(0);
                 
-                userEmail.textContent = user.email;
+                userInitials.textContent = initials.toUpperCase();
+            } else {
+                // E-posta adresinden başlangıç harflerini alıp göster
+                const emailParts = user.email.split('@');
+                const name = emailParts[0];
                 
-                if (user.displayName) {
-                    userName.textContent = user.displayName;
-                    
-                    // Baş harfleri göster
-                    const nameParts = user.displayName.split(' ');
-                    let initials = '';
-                    
-                    if (nameParts.length === 1) {
-                        initials = nameParts[0].charAt(0);
-                    } else {
-                        initials = nameParts[0].charAt(0) + nameParts[nameParts.length - 1].charAt(0);
-                    }
-                    
-                    userInitials.textContent = initials.toUpperCase();
-                } else {
-                    // E-posta adresinin ilk harfini kullan
-                    userName.textContent = 'Admin';
-                    userInitials.textContent = user.email.charAt(0).toUpperCase();
-                }
-                
-                // Hakkımızda verilerini yükle
-                loadAboutData();
-            });
+                userName.textContent = name.charAt(0).toUpperCase() + name.slice(1);
+                userInitials.textContent = name.charAt(0).toUpperCase();
+            }
             
             // Hakkımızda verilerini yükle
-            function loadAboutData() {
-                if (!db) {
-                    showAlert('Veritabanı bağlantısı kurulamadı!', 'error');
-                    return;
+            loadAboutData();
+        }
+
+        // Mevcut About Us verilerini getir
+        async function loadAboutData() {
+            try {
+                showSpinner(true);
+                const aboutData = await dbHelper.getAboutData();
+                
+                // Formun inputlarını doldur
+                document.getElementById('aboutTitle').value = aboutData.title || '';
+                document.getElementById('aboutSubtitle').value = aboutData.subtitle || '';
+                document.getElementById('aboutContent1').value = aboutData.content1 || '';
+                document.getElementById('aboutContent2').value = aboutData.content2 || '';
+                
+                // Özellikleri doldur
+                if (aboutData.features && aboutData.features.length > 0) {
+                    document.getElementById('aboutFeature1').value = aboutData.features[0] || '';
+                    document.getElementById('aboutFeature2').value = aboutData.features[1] || '';
+                    document.getElementById('aboutFeature3').value = aboutData.features[2] || '';
+                    document.getElementById('aboutFeature4').value = aboutData.features[3] || '';
                 }
                 
-                // Yükleniyor... mesajı göster
-                showAlert('Veriler yükleniyor...', 'info');
+                // İstatistikleri doldur
+                document.getElementById('aboutExperience').value = aboutData.experience || '';
+                document.getElementById('aboutProjects').value = aboutData.completedProjects || '';
+                document.getElementById('aboutExperts').value = aboutData.expertStaff || '';
+                document.getElementById('aboutSatisfaction').value = aboutData.customerSatisfaction || '';
                 
-                // Veritabanından about verilerini çek
-                db.collection('about').doc('content')
-                    .get()
-                    .then(doc => {
-                        // Yükleme uyarısını kaldır
-                        clearAlert();
-                        
-                        if (doc.exists) {
-                            const data = doc.data();
-                            
-                            // Form elemanlarına verileri doldur
-                            document.getElementById('aboutTitle').value = data.title || '';
-                            document.getElementById('aboutSubtitle').value = data.subtitle || '';
-                            document.getElementById('aboutContent1').value = data.content1 || '';
-                            document.getElementById('aboutContent2').value = data.content2 || '';
-                            document.getElementById('aboutFeatures').value = data.features ? data.features.join(', ') : '';
-                            document.getElementById('aboutExperience').value = data.statistics?.experience || '';
-                            document.getElementById('aboutProjects').value = data.statistics?.projects || '';
-                            document.getElementById('aboutExperts').value = data.statistics?.experts || '';
-                            document.getElementById('aboutSatisfaction').value = data.statistics?.satisfaction || '';
-                            
-                            // Eğer resim varsa göster
-                            if (data.imageUrl) {
-                                document.getElementById('imagePreviewContainer').style.display = 'block';
-                                document.getElementById('imagePreview').src = data.imageUrl;
-                            }
-                            
-                            showAlert('Hakkımızda verileri başarıyla yüklendi.', 'success');
-                        } else {
-                            showAlert('Hakkımızda verileri bulunamadı. Lütfen yeni bilgileri doldurun.', 'warning');
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Hakkımızda verileri alınırken hata oluştu:", error);
-                        showAlert('Veriler yüklenirken bir hata oluştu: ' + error.message, 'error');
-                    });
+                // Görsel varsa göster
+                if (aboutData.imageUrl) {
+                    const previewContainer = document.getElementById('imagePreview');
+                    previewContainer.style.display = 'block';
+                    previewContainer.innerHTML = `<img src="${aboutData.imageUrl}" alt="Hakkımızda Görseli">`;
+                }
+                
+                showSpinner(false);
+            } catch (error) {
+                console.error('Hakkımızda verileri getirilirken hata oluştu:', error);
+                showAlert('danger', 'Veriler yüklenirken bir hata oluştu. Lütfen sayfayı yenileyip tekrar deneyin.');
+                showSpinner(false);
             }
+        }
+        
+        // Form submit işlemi
+        document.getElementById('aboutForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
             
-            // Hakkımızda verilerini kaydet
-            document.getElementById('saveAboutBtn').addEventListener('click', function() {
-                // Form validasyonu
-                const form = document.getElementById('aboutForm');
-                if (!form.checkValidity()) {
-                    form.reportValidity();
-                    return;
-                }
+            try {
+                showSpinner(true);
                 
-                if (!db) {
-                    showAlert('Veritabanı bağlantısı kurulamadı!', 'error');
-                    return;
-                }
+                // Form verilerini al
+                const aboutData = {
+                    title: document.getElementById('aboutTitle').value,
+                    subtitle: document.getElementById('aboutSubtitle').value,
+                    content1: document.getElementById('aboutContent1').value,
+                    content2: document.getElementById('aboutContent2').value,
+                    features: [
+                        document.getElementById('aboutFeature1').value,
+                        document.getElementById('aboutFeature2').value,
+                        document.getElementById('aboutFeature3').value,
+                        document.getElementById('aboutFeature4').value
+                    ],
+                    experience: document.getElementById('aboutExperience').value,
+                    completedProjects: document.getElementById('aboutProjects').value,
+                    expertStaff: document.getElementById('aboutExperts').value,
+                    customerSatisfaction: document.getElementById('aboutSatisfaction').value
+                };
                 
-                // Kaydetme işlemi başladı mesajı
-                showAlert('Veriler kaydediliyor...', 'info');
-                
-                // Formdaki verileri al
-                const title = document.getElementById('aboutTitle').value;
-                const subtitle = document.getElementById('aboutSubtitle').value;
-                const content1 = document.getElementById('aboutContent1').value;
-                const content2 = document.getElementById('aboutContent2').value;
-                const featuresString = document.getElementById('aboutFeatures').value;
-                const features = featuresString ? featuresString.split(',').map(item => item.trim()) : [];
-                
-                const experience = parseInt(document.getElementById('aboutExperience').value) || 0;
-                const projects = parseInt(document.getElementById('aboutProjects').value) || 0;
-                const experts = parseInt(document.getElementById('aboutExperts').value) || 0;
-                const satisfaction = parseInt(document.getElementById('aboutSatisfaction').value) || 0;
-                
-                // Resim işleme
+                // Görsel varsa ekle
                 const imageFile = document.getElementById('aboutImage').files[0];
                 
-                // Veritabanına kaydetme işlemi
-                saveAboutData({
-                    title,
-                    subtitle,
-                    content1,
-                    content2,
-                    features,
-                    statistics: {
-                        experience,
-                        projects,
-                        experts,
-                        satisfaction
-                    }
-                }, imageFile);
-            });
-            
-            // Hakkımızda verilerini veritabanına kaydet
-            async function saveAboutData(aboutData, imageFile) {
-                try {
-                    // Mevcut resim URL'ini koru (eğer yeni resim yüklenmediyse)
-                    if (!imageFile) {
-                        // Veritabanından mevcut resmi al
-                        const docSnapshot = await db.collection('about').doc('content').get();
-                        if (docSnapshot.exists && docSnapshot.data().imageUrl) {
-                            aboutData.imageUrl = docSnapshot.data().imageUrl;
-                        }
-                    } else {
-                        // Yeni resim varsa Base64'e çevir
-                        try {
-                            // Dosya boyutu kontrol
-                            if (imageFile.size > 2 * 1024 * 1024) {
-                                showAlert(`Dosya boyutu ${(imageFile.size / (1024 * 1024)).toFixed(2)}MB. 2MB'den küçük dosyalar tercih edilir.`, 'warning');
-                            }
-                            
-                            // FileReader ile dosyayı base64'e çevir
-                            const reader = new FileReader();
-                            const base64Promise = new Promise((resolve, reject) => {
-                                reader.onload = e => resolve(e.target.result);
-                                reader.onerror = e => reject(new Error("Görsel okunamadı: " + e.target.error));
-                                reader.readAsDataURL(imageFile);
-                            });
-                            
-                            aboutData.imageUrl = await base64Promise;
-                        } catch (error) {
-                            console.error("Görsel işlenirken hata oluştu:", error);
-                            throw new Error("Görsel işlenirken bir hata oluştu: " + error.message);
-                        }
-                    }
+                // Firebase'e kaydet
+                const result = await dbHelper.saveAboutData(aboutData, imageFile);
+                
+                if (result.success) {
+                    showAlert('success', 'Hakkımızda bilgileri başarıyla güncellendi.');
                     
-                    // Veritabanına kaydet
-                    await db.collection('about').doc('content').set(aboutData, { merge: true });
-                    
-                    showAlert('Hakkımızda bilgileri başarıyla kaydedildi!', 'success');
-                } catch (error) {
-                    console.error("Hakkımızda bilgileri kaydedilirken hata oluştu:", error);
-                    showAlert('Veriler kaydedilirken bir hata oluştu: ' + error.message, 'error');
+                    // Görsel yüklenmişse önizlemeyi güncelle
+                    if (imageFile && result.imageUrl) {
+                        const previewContainer = document.getElementById('imagePreview');
+                        previewContainer.style.display = 'block';
+                        previewContainer.innerHTML = `<img src="${result.imageUrl}" alt="Hakkımızda Görseli">`;
+                    }
+                } else {
+                    showAlert('danger', `Hata: ${result.error}`);
                 }
+                
+                showSpinner(false);
+            } catch (error) {
+                console.error('Hakkımızda bilgileri güncellenirken hata oluştu:', error);
+                showAlert('danger', 'Veriler kaydedilirken bir hata oluştu. Lütfen tekrar deneyin.');
+                showSpinner(false);
             }
+        });
+        
+        // Görsel önizleme
+        document.getElementById('aboutImage').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
             
-            // Resim önizleme
-            document.getElementById('aboutImage').addEventListener('change', function(e) {
-                const file = e.target.files[0];
-                if (!file) {
-                    document.getElementById('imagePreviewContainer').style.display = 'none';
-                    return;
-                }
-                
-                // Dosya boyutunu kontrol et ve uyarı göster
-                const fileSize = file.size / (1024 * 1024); // MB cinsinden
-                if (fileSize > 2) {
-                    showAlert(`Dosya boyutu ${fileSize.toFixed(2)}MB. 2MB'den küçük dosyalar kullanmanız önerilir.`, 'warning');
-                }
-                
-                // Resim önizleme
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('imagePreviewContainer').style.display = 'block';
-                    document.getElementById('imagePreview').src = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            });
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const previewContainer = document.getElementById('imagePreview');
+                previewContainer.style.display = 'block';
+                previewContainer.innerHTML = `<img src="${event.target.result}" alt="Hakkımızda Görseli">`;
+            };
+            reader.readAsDataURL(file);
+        });
+        
+        // Spinner göster/gizle
+        function showSpinner(show) {
+            const spinner = document.getElementById('formSpinner');
+            const submitBtn = document.getElementById('submitBtn');
             
-            // Alert gösterme fonksiyonu
-            function showAlert(message, type = 'info') {
-                const alertContainer = document.querySelector('.content-header');
-                let alertElement = document.querySelector('.content-header .alert-dynamic');
-                
-                if (!alertElement) {
-                    alertElement = document.createElement('div');
-                    alertElement.className = 'alert alert-dynamic';
-                    alertContainer.insertBefore(alertElement, alertContainer.querySelector('#connectionAlert'));
-                }
-                
-                // Alert tipine göre sınıf ekle
-                alertElement.className = 'alert alert-dynamic';
-                alertElement.classList.add(`alert-${type}`);
-                
-                // İkon belirle
-                let icon = 'info-circle';
-                if (type === 'success') icon = 'check-circle';
-                if (type === 'warning') icon = 'exclamation-triangle';
-                if (type === 'error') icon = 'times-circle';
-                
-                // İçeriği ayarla
-                alertElement.innerHTML = `
-                    <div>
-                        <i class="fas fa-${icon}"></i>
-                        <span>${message}</span>
-                    </div>
-                    <button onclick="this.parentElement.remove()" class="btn btn-sm"><i class="fas fa-times"></i></button>
-                `;
-                
-                // Otomatik kapanma (başarı mesajları için)
-                if (type === 'success') {
-                    setTimeout(() => {
-                        if (alertElement.parentElement) {
-                            alertElement.remove();
-                        }
-                    }, 5000);
-                }
+            if (show) {
+                spinner.style.display = 'inline-block';
+                submitBtn.disabled = true;
+            } else {
+                spinner.style.display = 'none';
+                submitBtn.disabled = false;
             }
+        }
+        
+        // Alert göster
+        function showAlert(type, message) {
+            const alertContainer = document.getElementById('alertContainer');
+            alertContainer.innerHTML = `
+                <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+                    ${message}
+                    <button type="button" class="close" data-dismiss="alert">
+                        <span>&times;</span>
+                    </button>
+                </div>
+            `;
             
-            // Alert temizleme
-            function clearAlert() {
-                const alertElement = document.querySelector('.content-header .alert-dynamic');
-                if (alertElement) {
-                    alertElement.remove();
+            // 5 saniye sonra otomatik kapat
+            setTimeout(() => {
+                const alert = alertContainer.querySelector('.alert');
+                if (alert) {
+                    alert.remove();
                 }
+            }, 5000);
+        }
+        
+        // Alert kapatma
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('[data-dismiss="alert"]')) {
+                e.preventDefault();
+                e.target.closest('.alert').remove();
             }
         });
     </script>
