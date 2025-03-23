@@ -580,6 +580,55 @@
                 return new bootstrap.Tooltip(tooltipTriggerEl);
             });
         });
+
+        // Header scroll efekti
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Sayfa içi animasyonlar için Intersection Observer
+        document.addEventListener('DOMContentLoaded', function() {
+            const animateElements = document.querySelectorAll('.section-header, .services-grid, .about-content, .why-us-grid, .projects-grid, .testimonials-slider, .contact-content');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = "1";
+                        entry.target.style.transform = "translateY(0)";
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            // Başlangıçta elementleri gizle
+            animateElements.forEach(element => {
+                element.style.opacity = "0";
+                element.style.transform = "translateY(20px)";
+                element.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+                observer.observe(element);
+            });
+            
+            // Kartlar için gecikme ekle
+            document.querySelectorAll('.service-card, .why-us-card, .project-card').forEach((card, index) => {
+                card.style.opacity = "0";
+                card.style.transform = "translateY(20px)";
+                card.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+                card.style.transitionDelay = `${index * 0.1}s`;
+            });
+            
+            // Sayfa yüklendiğinde animasyonu başlat
+            setTimeout(() => {
+                document.querySelectorAll('.service-card, .why-us-card, .project-card').forEach(card => {
+                    card.style.opacity = "1";
+                    card.style.transform = "translateY(0)";
+                });
+            }, 300);
+        });
     </script>
 
     <script src="js/script.js"></script>
