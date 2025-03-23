@@ -1,5 +1,6 @@
 /* Genel Stiller */
 :root {
+    /* Ana Renkler */
     --primary-color: #007bff; /* Elektrik mavisi */
     --secondary-color: #ffc107; /* Enerji sarısı */
     --accent-color: #ff5722; /* Vurgu turuncu */
@@ -8,11 +9,79 @@
     --success-color: #28a745;
     --warning-color: #ffc107;
     --danger-color: #dc3545;
-    --box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    --transition: all 0.3s ease;
-    --border-radius: 8px;
+    --white-color: #ffffff;
+    
+    /* Gri Tonları */
+    --gray-100: #f8f9fa;
+    --gray-200: #e9ecef;
+    --gray-300: #dee2e6;
+    --gray-400: #ced4da;
+    --gray-500: #adb5bd;
+    --gray-600: #6c757d;
+    --gray-700: #495057;
+    --gray-800: #343a40;
+    --gray-900: #212529;
+    
+    /* Arka Plan ve Kartlar */
+    --body-bg: #ffffff;
     --card-bg: #ffffff;
-    --text-muted: #6c757d;
+    --text-muted: var(--gray-600);
+    
+    /* Gölgeler */
+    --box-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.075);
+    --box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    --box-shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+    --box-shadow-btn: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --box-shadow-btn-hover: 0 6px 8px rgba(0, 0, 0, 0.15);
+    
+    /* Geçiş Animasyonları */
+    --transition-slow: all 0.5s ease;
+    --transition: all 0.3s ease;
+    --transition-fast: all 0.15s ease;
+    
+    /* Kenarlık Yuvarlatma */
+    --border-radius-sm: 4px;
+    --border-radius: 8px;
+    --border-radius-lg: 12px;
+    --border-radius-xl: 20px;
+    --border-radius-pill: 50rem;
+    
+    /* Font Boyutları */
+    --font-size-xs: 0.75rem;    /* 12px */
+    --font-size-sm: 0.875rem;   /* 14px */
+    --font-size-base: 1rem;     /* 16px */
+    --font-size-md: 1.125rem;   /* 18px */
+    --font-size-lg: 1.25rem;    /* 20px */
+    --font-size-xl: 1.5rem;     /* 24px */
+    --font-size-2xl: 1.75rem;   /* 28px */
+    --font-size-3xl: 2.25rem;   /* 36px */
+    
+    /* Başlık Boyutları */
+    --h1-size: 2.5rem;          /* 40px */
+    --h2-size: 2rem;            /* 32px */
+    --h3-size: 1.75rem;         /* 28px */
+    --h4-size: 1.5rem;          /* 24px */
+    --h5-size: 1.25rem;         /* 20px */
+    --h6-size: 1rem;            /* 16px */
+    
+    /* Boşluklar */
+    --spacing-1: 0.25rem;       /* 4px */
+    --spacing-2: 0.5rem;        /* 8px */
+    --spacing-3: 1rem;          /* 16px */
+    --spacing-4: 1.5rem;        /* 24px */
+    --spacing-5: 2rem;          /* 32px */
+    --spacing-6: 3rem;          /* 48px */
+    --spacing-7: 4rem;          /* 64px */
+    --spacing-8: 6rem;          /* 96px */
+    
+    /* Z-Index Değerleri */
+    --z-dropdown: 1000;
+    --z-sticky: 1020;
+    --z-fixed: 1030;
+    --z-modal-backdrop: 1040;
+    --z-modal: 1050;
+    --z-popover: 1060;
+    --z-tooltip: 1070;
 }
 
 * {
@@ -25,7 +94,7 @@ body {
     font-family: 'Poppins', sans-serif;
     line-height: 1.6;
     color: var(--dark-color);
-    background-color: #fff;
+    background-color: var(--body-bg);
     overflow-x: hidden;
 }
 
@@ -47,19 +116,19 @@ img {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 15px;
+    padding: 0 var(--spacing-3);
 }
 
 .section-header {
     text-align: center;
-    margin-bottom: 60px;
+    margin-bottom: var(--spacing-6);
 }
 
 .section-header h2 {
-    font-size: 36px;
+    font-size: var(--h2-size);
     font-weight: 700;
     color: var(--dark-color);
-    margin-bottom: 15px;
+    margin-bottom: var(--spacing-3);
     position: relative;
     display: inline-block;
 }
@@ -73,12 +142,12 @@ img {
     bottom: -10px;
     left: 50%;
     transform: translateX(-50%);
-    border-radius: 3px;
+    border-radius: var(--border-radius-sm);
 }
 
 .section-header p {
     color: var(--text-muted);
-    font-size: 18px;
+    font-size: var(--font-size-md);
 }
 
 .section-header.left-align {
@@ -92,39 +161,39 @@ img {
 
 .btn {
     display: inline-block;
-    padding: 12px 28px;
-    font-size: 16px;
+    padding: var(--spacing-3) var(--spacing-5);
+    font-size: var(--font-size-base);
     font-weight: 500;
     border-radius: var(--border-radius);
     cursor: pointer;
     transition: var(--transition);
     text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--box-shadow-btn);
 }
 
 .btn-primary {
     background: linear-gradient(135deg, var(--primary-color), #0056b3);
-    color: #fff;
+    color: var(--white-color);
     border: none;
 }
 
 .btn-primary:hover {
     background: linear-gradient(135deg, #0056b3, var(--primary-color));
     transform: translateY(-3px);
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    box-shadow: var(--box-shadow-btn-hover);
 }
 
 .btn-secondary {
-    background: #fff;
+    background: var(--white-color);
     color: var(--primary-color);
     border: 2px solid var(--primary-color);
 }
 
 .btn-secondary:hover {
     background-color: var(--primary-color);
-    color: #fff;
+    color: var(--white-color);
     transform: translateY(-3px);
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    box-shadow: var(--box-shadow-btn-hover);
 }
 
 .highlight {
@@ -133,7 +202,7 @@ img {
 }
 
 section {
-    padding: 100px 0;
+    padding: var(--spacing-8) 0;
 }
 
 /* Header Stiller */
@@ -144,8 +213,8 @@ section {
     width: 100%;
     background-color: rgba(255, 255, 255, 0.95);
     box-shadow: var(--box-shadow);
-    z-index: 1000;
-    padding: 15px 0;
+    z-index: var(--z-fixed);
+    padding: var(--spacing-3) 0;
     transition: var(--transition);
 }
 
@@ -162,8 +231,8 @@ section {
 
 .logo img {
     height: 50px;
-    margin-right: 10px;
-    border-radius: 5px;
+    margin-right: var(--spacing-2);
+    border-radius: var(--border-radius-sm);
 }
 
 .logo a {
@@ -172,7 +241,7 @@ section {
 }
 
 .logo h1 {
-    font-size: 28px;
+    font-size: var(--h3-size);
     font-weight: 700;
 }
 
@@ -181,17 +250,17 @@ section {
 }
 
 .nav-list li {
-    margin-left: 30px;
+    margin-left: var(--spacing-5);
     position: relative;
 }
 
 .nav-list a {
-    font-size: 16px;
+    font-size: var(--font-size-base);
     font-weight: 500;
-    padding: 5px 0;
+    padding: var(--spacing-1) 0;
     position: relative;
     transition: color 0.3s ease;
-    margin: 0 2px;
+    margin: 0 var(--spacing-1);
     display: inline-block;
 }
 
@@ -204,7 +273,7 @@ section {
     bottom: -3px;
     left: 0;
     transition: width 0.3s ease;
-    border-radius: 3px;
+    border-radius: var(--border-radius-sm);
 }
 
 .nav-list a:hover, .nav-list a.active {
@@ -218,7 +287,7 @@ section {
 .mobile-menu-btn {
     display: none;
     cursor: pointer;
-    font-size: 24px;
+    font-size: var(--font-size-xl);
 }
 
 /* Hero Bölümü */
@@ -228,7 +297,7 @@ section {
     display: flex;
     align-items: center;
     text-align: center;
-    color: #fff;
+    color: var(--white-color);
     margin-top: 0;
     padding-top: 80px;
     position: relative;
@@ -254,22 +323,22 @@ section {
 }
 
 .hero-content h1 {
-    font-size: 48px;
+    font-size: var(--h1-size);
     font-weight: 700;
-    margin-bottom: 20px;
+    margin-bottom: var(--spacing-4);
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .hero-content p {
-    font-size: 20px;
-    margin-bottom: 30px;
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-5);
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .hero-buttons {
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: var(--spacing-4);
 }
 
 /* Hizmetler Bölümü */
@@ -292,14 +361,14 @@ section {
 .services-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
+    gap: var(--spacing-5);
 }
 
 .service-card {
     background-color: var(--card-bg);
-    padding: 40px 30px;
+    padding: var(--spacing-6) var(--spacing-5);
     border-radius: var(--border-radius);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    box-shadow: var(--box-shadow);
     text-align: center;
     transition: var(--transition);
     border-bottom: 3px solid transparent;
@@ -330,7 +399,7 @@ section {
 }
 
 .service-icon {
-    margin-bottom: 25px;
+    margin-bottom: var(--spacing-4);
     position: relative;
     display: inline-block;
 }
@@ -341,7 +410,7 @@ section {
     width: 60px;
     height: 60px;
     background-color: rgba(0, 123, 255, 0.1);
-    border-radius: 50%;
+    border-radius: var(--border-radius-pill);
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -349,7 +418,7 @@ section {
 }
 
 .service-icon i {
-    font-size: 50px;
+    font-size: var(--font-size-3xl);
     color: var(--primary-color);
     transition: var(--transition);
 }
@@ -359,9 +428,9 @@ section {
 }
 
 .service-card h3 {
-    font-size: 22px;
+    font-size: var(--h4-size);
     font-weight: 600;
-    margin-bottom: 15px;
+    margin-bottom: var(--spacing-3);
     transition: var(--transition);
 }
 
@@ -377,9 +446,9 @@ section {
 /* Hakkımızda Bölümü */
 .about {
     position: relative;
-    background-color: #fff;
+    background-color: var(--white-color);
     overflow: hidden;
-    padding: 120px 0;
+    padding: var(--spacing-8) 0;
 }
 
 .about::before {
@@ -409,14 +478,14 @@ section {
 .about-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 50px;
+    gap: var(--spacing-6);
     align-items: center;
 }
 
 #aboutTitle {
-    font-size: 36px;
+    font-size: var(--h2-size);
     font-weight: 700;
-    margin-bottom: 15px;
+    margin-bottom: var(--spacing-3);
     position: relative;
     display: inline-block;
 }
@@ -429,51 +498,51 @@ section {
     background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
     bottom: -10px;
     left: 0;
-    border-radius: 3px;
+    border-radius: var(--border-radius-sm);
 }
 
 #aboutSubtitle {
     color: var(--text-muted);
-    font-size: 18px;
-    margin-bottom: 25px;
+    font-size: var(--font-size-md);
+    margin-bottom: var(--spacing-4);
     font-weight: 500;
 }
 
 #aboutContent1, #aboutContent2 {
-    margin-bottom: 20px;
+    margin-bottom: var(--spacing-4);
     color: var(--text-muted);
-    font-size: 16px;
+    font-size: var(--font-size-base);
     line-height: 1.8;
 }
 
 #aboutFeaturesList {
-    margin-top: 30px;
+    margin-top: var(--spacing-5);
 }
 
 #aboutFeaturesList li {
-    margin-bottom: 15px;
+    margin-bottom: var(--spacing-3);
     display: flex;
     align-items: center;
     background-color: rgba(0, 123, 255, 0.05);
-    padding: 12px 18px;
+    padding: var(--spacing-3) var(--spacing-3);
     border-radius: var(--border-radius);
-    transition: all 0.3s ease;
+    transition: var(--transition);
 }
 
 #aboutFeaturesList li:hover {
     background-color: rgba(0, 123, 255, 0.1);
     transform: translateX(5px);
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--box-shadow-sm);
 }
 
 #aboutFeaturesList li i {
     color: var(--success-color);
-    margin-right: 15px;
-    font-size: 18px;
+    margin-right: var(--spacing-3);
+    font-size: var(--font-size-md);
     background-color: rgba(40, 167, 69, 0.1);
     width: 36px;
     height: 36px;
-    border-radius: 50%;
+    border-radius: var(--border-radius-pill);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -481,7 +550,7 @@ section {
 
 .about-image {
     position: relative;
-    margin-left: 20px;
+    margin-left: var(--spacing-4);
 }
 
 .about-image::before {
@@ -491,26 +560,26 @@ section {
     height: 100%;
     border: 5px solid var(--primary-color);
     border-radius: var(--border-radius);
-    top: 20px;
-    left: 20px;
+    top: var(--spacing-4);
+    left: var(--spacing-4);
     z-index: -1;
-    transition: all 0.3s ease;
+    transition: var(--transition);
 }
 
 .about-image:hover::before {
-    top: 15px;
-    left: 15px;
+    top: var(--spacing-3);
+    left: var(--spacing-3);
 }
 
 .about-image img {
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
-    transition: all 0.3s ease;
+    transition: var(--transition);
 }
 
 .about-image:hover img {
     transform: scale(1.02);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    box-shadow: var(--box-shadow-lg);
 }
 
 /* Neden Biz Bölümü */
@@ -534,14 +603,14 @@ section {
 .why-us-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 30px;
+    gap: var(--spacing-5);
 }
 
 .why-us-card {
     background-color: var(--card-bg);
-    padding: 40px 30px;
+    padding: var(--spacing-6) var(--spacing-5);
     border-radius: var(--border-radius);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    box-shadow: var(--box-shadow);
     text-align: center;
     transition: var(--transition);
     position: relative;
@@ -569,7 +638,7 @@ section {
 }
 
 .why-us-icon {
-    margin-bottom: 25px;
+    margin-bottom: var(--spacing-4);
     position: relative;
     display: inline-block;
 }
@@ -580,7 +649,7 @@ section {
     width: 70px;
     height: 70px;
     background-color: rgba(255, 193, 7, 0.1);
-    border-radius: 50%;
+    border-radius: var(--border-radius-pill);
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -588,7 +657,7 @@ section {
 }
 
 .why-us-icon i {
-    font-size: 40px;
+    font-size: var(--font-size-2xl);
     color: var(--secondary-color);
     transition: var(--transition);
 }
@@ -598,9 +667,9 @@ section {
 }
 
 .why-us-card h3 {
-    font-size: 20px;
+    font-size: var(--h5-size);
     font-weight: 600;
-    margin-bottom: 15px;
+    margin-bottom: var(--spacing-3);
     transition: var(--transition);
 }
 
@@ -614,20 +683,20 @@ section {
 
 /* Projeler Bölümü */
 .projects {
-    background-color: #fff;
+    background-color: var(--white-color);
 }
 
 .projects-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
+    gap: var(--spacing-5);
 }
 
 .project-card {
     background-color: var(--card-bg);
     border-radius: var(--border-radius);
     overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    box-shadow: var(--box-shadow);
     transition: var(--transition);
     position: relative;
 }
@@ -671,7 +740,7 @@ section {
 }
 
 .project-content {
-    padding: 25px;
+    padding: var(--spacing-4);
     background-color: var(--card-bg);
     position: relative;
 }
@@ -683,15 +752,15 @@ section {
     height: 3px;
     background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
     top: 0;
-    left: 25px;
+    left: var(--spacing-4);
     transform: translateY(-50%);
-    border-radius: 3px;
+    border-radius: var(--border-radius-sm);
 }
 
 .project-content h3 {
-    font-size: 20px;
+    font-size: var(--h5-size);
     font-weight: 600;
-    margin-bottom: 10px;
+    margin-bottom: var(--spacing-2);
     transition: var(--transition);
 }
 
@@ -711,9 +780,9 @@ section {
 
 .testimonials-slider {
     display: flex;
-    gap: 30px;
+    gap: var(--spacing-5);
     overflow-x: auto;
-    padding: 30px 10px;
+    padding: var(--spacing-5) var(--spacing-2);
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
 }
@@ -725,8 +794,8 @@ section {
 .testimonial-card {
     background-color: var(--card-bg);
     border-radius: var(--border-radius);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-    padding: 30px;
+    box-shadow: var(--box-shadow);
+    padding: var(--spacing-5);
     flex: 0 0 calc(33.333% - 20px);
     min-width: 300px;
     position: relative;
@@ -742,15 +811,15 @@ section {
     font-family: 'Font Awesome 5 Free';
     font-weight: 900;
     position: absolute;
-    top: 20px;
-    right: 20px;
-    font-size: 40px;
+    top: var(--spacing-4);
+    right: var(--spacing-4);
+    font-size: var(--font-size-2xl);
     color: rgba(0, 123, 255, 0.1);
     z-index: 0;
 }
 
 .testimonial-content {
-    margin-bottom: 20px;
+    margin-bottom: var(--spacing-4);
     position: relative;
     z-index: 1;
 }
@@ -765,17 +834,17 @@ section {
     display: flex;
     align-items: center;
     border-top: 1px solid rgba(0, 0, 0, 0.05);
-    padding-top: 15px;
+    padding-top: var(--spacing-3);
 }
 
 .author-image {
     width: 60px;
     height: 60px;
-    border-radius: 50%;
+    border-radius: var(--border-radius-pill);
     overflow: hidden;
-    margin-right: 15px;
+    margin-right: var(--spacing-3);
     border: 3px solid var(--primary-color);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--box-shadow-sm);
 }
 
 .author-image img {
@@ -785,57 +854,57 @@ section {
 }
 
 .author-info h4 {
-    font-size: 18px;
+    font-size: var(--font-size-md);
     font-weight: 600;
     color: var(--dark-color);
 }
 
 .author-info p {
     color: var(--text-muted);
-    font-size: 14px;
+    font-size: var(--font-size-sm);
 }
 
 /* İletişim Bölümü */
 .contact {
-    background-color: #fff;
+    background-color: var(--white-color);
     position: relative;
 }
 
 .contact-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 50px;
+    gap: var(--spacing-6);
     align-items: start;
 }
 
 .contact-info {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
+    gap: var(--spacing-4);
 }
 
 .contact-card {
     display: flex;
-    background-color: #fff;
-    padding: 25px;
+    background-color: var(--white-color);
+    padding: var(--spacing-4);
     border-radius: var(--border-radius);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--box-shadow-sm);
     transition: var(--transition);
     border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .contact-card:hover {
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--box-shadow);
     transform: translateY(-5px);
     border-color: var(--primary-color);
 }
 
 .contact-icon {
-    margin-right: 20px;
+    margin-right: var(--spacing-4);
     width: 50px;
     height: 50px;
     background-color: rgba(0, 123, 255, 0.1);
-    border-radius: 50%;
+    border-radius: var(--border-radius-pill);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -847,19 +916,19 @@ section {
 }
 
 .contact-icon i {
-    font-size: 20px;
+    font-size: var(--font-size-lg);
     color: var(--primary-color);
     transition: var(--transition);
 }
 
 .contact-card:hover .contact-icon i {
-    color: #fff;
+    color: var(--white-color);
 }
 
 .contact-details h3 {
-    font-size: 18px;
+    font-size: var(--font-size-md);
     font-weight: 600;
-    margin-bottom: 8px;
+    margin-bottom: var(--spacing-2);
     color: var(--dark-color);
 }
 
@@ -869,28 +938,28 @@ section {
 }
 
 .contact-form {
-    background-color: #fff;
-    padding: 40px;
+    background-color: var(--white-color);
+    padding: var(--spacing-6);
     border-radius: var(--border-radius);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--box-shadow-sm);
     border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .form-group {
-    margin-bottom: 25px;
+    margin-bottom: var(--spacing-4);
 }
 
 .form-group input,
 .form-group select,
 .form-group textarea {
     width: 100%;
-    padding: 15px;
-    border: 1px solid #ddd;
+    padding: var(--spacing-3);
+    border: 1px solid var(--gray-300);
     border-radius: var(--border-radius);
     font-family: 'Poppins', sans-serif;
-    font-size: 16px;
+    font-size: var(--font-size-base);
     transition: var(--transition);
-    background-color: #f9f9f9;
+    background-color: var(--gray-100);
 }
 
 .form-group input:focus,
@@ -899,7 +968,7 @@ section {
     border-color: var(--primary-color);
     outline: none;
     box-shadow: 0 0 10px rgba(0, 123, 255, 0.1);
-    background-color: #fff;
+    background-color: var(--white-color);
 }
 
 .contact-form .btn-primary {
@@ -908,9 +977,9 @@ section {
 
 /* Footer Bölümü */
 .footer {
-    background-color: #212529;
-    color: #fff;
-    padding-top: 80px;
+    background-color: var(--gray-900);
+    color: var(--white-color);
+    padding-top: var(--spacing-7);
     position: relative;
 }
 
@@ -921,14 +990,14 @@ section {
     left: 0;
     width: 100%;
     height: 100px;
-    background: linear-gradient(to top left, #212529 49%, transparent 50%);
+    background: linear-gradient(to top left, var(--gray-900) 49%, transparent 50%);
 }
 
 .footer-content {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 40px;
-    margin-bottom: 40px;
+    gap: var(--spacing-6);
+    margin-bottom: var(--spacing-6);
 }
 
 .footer-logo h2 {
