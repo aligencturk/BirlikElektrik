@@ -22,7 +22,7 @@
             <div class="header-content">
                 <div class="logo">
                     <a href="index.html">
-                        <img src="../img/birlik-logo.jpg" alt="Birlik Elektrik Logo">
+                        <img src="../img/elektrik-bg1.jpg" alt="Birlik Elektrik Logo">
                         <h1><span class="highlight">Birlik</span> Elektrik</h1>
                     </a>
                 </div>
@@ -43,21 +43,27 @@
     </header>
 
     <!-- Sayfa Başlık -->
-    <section class="hero inner-page-hero">
-        <div class="hero-static">
-            <img src="../img/projelerimiz.jpg" alt="Projelerimiz">
-            <div class="overlay"></div>
-            <div class="container">
-                <div class="hero-content">
-                    <h1>Projelerimiz</h1>
-                    <p>Başarıyla Tamamlanan İşlerimiz</p>
-                    <div class="hero-buttons">
-                        <a href="contact.html" class="btn btn-primary"><i class="fas fa-phone-alt me-2"></i> Teklif Alın</a>
-                        <a href="#recent-projects" class="btn btn-secondary"><i class="fas fa-project-diagram me-2"></i> Son Projelerimiz</a>
-                    </div>
+    <section id="projects" class="hero inner-page-hero" style="position: relative; height: 450px; overflow: hidden;">
+        <!-- Arka Plan Görsel -->
+        <img src="../img/projelerimiz.jpg" alt="Projelerimiz" style="position: absolute; width: 100%; height: 100%; object-fit: cover; object-position: center;">
+        
+        <!-- Karartma Katmanı -->
+        <div style="position: absolute; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); top: 0; left: 0;"></div>
+        
+        <!-- Hero İçeriği -->
+        <div style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; z-index: 5;">
+            <div style="padding: 20px; border-radius: 10px; text-align: center; max-width: 800px; width: 90%;">
+                <h1 style="color: white; font-size: 2.2rem; margin-bottom: 15px; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);">Projelerimiz</h1>
+                <p style="color: white; font-size: 1rem; margin-bottom: 25px; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);">Yıllar içinde tamamladığımız başarılı elektrik projelerimizi keşfedin. Konut, ticari ve endüstriyel alanlar için sunduğumuz çözümlerle müşterilerimizin memnuniyetini kazandık.</p>
+                <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+                    <a href="contact.html" class="btn btn-primary" style="z-index: 10; position: relative;"><i class="fas fa-phone-alt me-2"></i> Projeleriniz İçin Teklif Alın</a>
+                    <a href="#featured-projects" class="btn btn-secondary" style="z-index: 10; position: relative;"><i class="fas fa-project-diagram me-2"></i> Öne Çıkan Projeler</a>
                 </div>
             </div>
         </div>
+        
+        <!-- Dalgalı Alt Şekil -->
+        <div style="position: absolute; bottom: 0; left: 0; width: 100%; height: 30px; background-color: #fff; border-top-left-radius: 50% 80%; border-top-right-radius: 50% 80%; z-index: 4;"></div>
     </section>
 
     <!-- Projelerimiz Başlığı -->
@@ -254,12 +260,15 @@
 
     <script>
         // CSS yüklenmesi için sayfa yenileme (debug amaçlı)
+        // Bu kodu kaldırıyoruz, sayfa yenileme sorunlara neden olabilir
+        /*
         window.onload = function() {
             if (!window.location.hash) {
                 window.location = window.location + '#loaded';
                 window.location.reload();
             }
         }
+        */
 
         // Sayfa yüklendiğinde
         document.addEventListener('DOMContentLoaded', function() {
@@ -316,6 +325,7 @@
                         }, 300);
                     });
                 });
+
             });
             
             // Başlangıçta tüm projelere veri kategorilerini tanımla

@@ -2,20 +2,19 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     // Sayfa başlık animasyonu
-    setTimeout(() => {
-        const heroContent = document.querySelector('.hero-content');
-        if (heroContent) {
-            heroContent.style.opacity = "1";
+    const heroContents = document.querySelectorAll('.hero-content');
+    heroContents.forEach(heroContent => {
+        // Başlangıçta görünür yap
+        heroContent.style.opacity = "1";
             
-            // İç sayfa hero veya normal hero kontrolü
-            if (heroContent.closest('.inner-page-hero')) {
-                // İç sayfa hero için transform X değerini koruyarak sadece Y animasyonu uygula
-                heroContent.style.transform = "translateX(-50%) translateY(0)";
-            } else {
-                heroContent.style.transform = "translateY(0)";
-            }
+        // İç sayfa hero veya normal hero kontrolü
+        if (heroContent.closest('.inner-page-hero')) {
+            // İç sayfa hero için transform X değerini koruyarak sadece Y animasyonu uygula
+            heroContent.style.transform = "translateX(-50%) translateY(0)";
+        } else {
+            heroContent.style.transform = "translateY(0)";
         }
-    }, 300);
+    });
     
     // Hero Slider Fonksiyonları
     const initHeroSlider = () => {

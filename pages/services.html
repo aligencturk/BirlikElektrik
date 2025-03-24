@@ -22,7 +22,7 @@
             <div class="header-content">
                 <div class="logo">
                     <a href="index.html">
-                        <img src="../img/birlik-logo.jpg" alt="Birlik Elektrik Logo">
+                        <img src="../img/elektrik-bg1.jpg" alt="Birlik Elektrik Logo">
                         <h1><span class="highlight">Birlik</span> Elektrik</h1>
                     </a>
                 </div>
@@ -43,21 +43,27 @@
     </header>
 
     <!-- Sayfa Başlık -->
-    <section class="hero inner-page-hero">
-        <div class="hero-static">
-            <img src="../img/hizmetlerimiz.jpg" alt="Hizmetlerimiz">
-            <div class="overlay"></div>
-            <div class="container">
-                <div class="hero-content">
-                    <h1>Hizmetlerimiz</h1>
-                    <p>Profesyonel Elektrik Çözümleri</p>
-                    <div class="hero-buttons">
-                        <a href="contact.html" class="btn btn-primary"><i class="fas fa-phone-alt me-2"></i> Hizmet Alın</a>
-                        <a href="#all-services" class="btn btn-secondary"><i class="fas fa-list me-2"></i> Tüm Hizmetlerimiz</a>
-                    </div>
+    <section id="services" class="hero inner-page-hero" style="position: relative; height: 450px; overflow: hidden;">
+        <!-- Arka Plan Görsel -->
+        <img src="../img/hizmetlerimiz.jpg" alt="Hizmetlerimiz" style="position: absolute; width: 100%; height: 100%; object-fit: cover; object-position: center;">
+        
+        <!-- Karartma Katmanı -->
+        <div style="position: absolute; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); top: 0; left: 0;"></div>
+        
+        <!-- Hero İçeriği -->
+        <div style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; z-index: 5;">
+            <div style="padding: 20px; border-radius: 10px; text-align: center; max-width: 800px; width: 90%;">
+                <h1 style="color: white; font-size: 2.2rem; margin-bottom: 15px; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);">Elektrik Hizmetlerimiz</h1>
+                <p style="color: white; font-size: 1rem; margin-bottom: 25px; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);">Profesyonel ekibimiz ve modern teknolojiler ile ihtiyacınız olan tüm elektrik çözümlerini sunuyoruz. Ev, işyeri ve endüstriyel tesisler için güvenilir, kaliteli ve uygun fiyatlı hizmetlerimiz ile 7/24 yanınızdayız.</p>
+                <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+                    <a href="contact.html" class="btn btn-primary" style="z-index: 10; position: relative;"><i class="fas fa-phone-alt me-2"></i> Hizmet Alın</a>
+                    <a href="#all-services" class="btn btn-secondary" style="z-index: 10; position: relative;"><i class="fas fa-list me-2"></i> Tüm Hizmetlerimiz</a>
                 </div>
             </div>
         </div>
+        
+        <!-- Dalgalı Alt Şekil -->
+        <div style="position: absolute; bottom: 0; left: 0; width: 100%; height: 30px; background-color: #fff; border-top-left-radius: 50% 80%; border-top-right-radius: 50% 80%; z-index: 4;"></div>
     </section>
 
     <!-- Elektrik Hizmetlerimiz Başlığı -->
@@ -76,51 +82,51 @@
             <div class="services-grid">
                 <div class="service-card animated-element">
                     <div class="service-icon">
-                        <i class="fas fa-plug"></i>
+                        <i class="fas fa-wand-magic-sparkles"></i>
                     </div>
                     <h3>Elektrik Tesisatı</h3>
                     <p>Ev ve işyerleriniz için profesyonel elektrik tesisatı kurulumu ve bakımı yapıyoruz.</p>
-                    <a href="#elektrik-tesisati" class="service-link">Daha Fazla <i class="fas fa-arrow-right"></i></a>
+                    <a href="#elektrik-tesisati"></a>
                 </div>
                 <div class="service-card animated-element">
                     <div class="service-icon">
-                        <i class="fas fa-lightbulb"></i>
+                        <i class="fas fa-sun"></i>
                     </div>
                     <h3>Aydınlatma Sistemleri</h3>
                     <p>Modern ve enerji tasarruflu aydınlatma çözümleri ile ortamlarınıza değer katıyoruz.</p>
-                    <a href="#aydinlatma-sistemleri" class="service-link">Daha Fazla <i class="fas fa-arrow-right"></i></a>
+                    <a href="#aydinlatma-sistemleri"></a>
                 </div>
                 <div class="service-card animated-element">
                     <div class="service-icon">
-                        <i class="fas fa-tools"></i>
+                        <i class="fas fa-toolbox"></i>
                     </div>
                     <h3>Arıza Giderme</h3>
                     <p>7/24 acil elektrik arıza giderme hizmetimizle yanınızdayız.</p>
-                    <a href="#ariza-giderme" class="service-link">Daha Fazla <i class="fas fa-arrow-right"></i></a>
+                    <a href="#ariza-giderme"></a>
                 </div>
                 <div class="service-card animated-element">
                     <div class="service-icon">
-                        <i class="fas fa-bolt"></i>
+                        <i class="fas fa-plug"></i>
                     </div>
                     <h3>Güç Sistemleri</h3>
                     <p>UPS, jeneratör ve kesintisiz güç kaynağı kurulumu ve bakımı yapıyoruz.</p>
-                    <a href="#guc-sistemleri" class="service-link">Daha Fazla <i class="fas fa-arrow-right"></i></a>
+                    <a href="#guc-sistemleri"></a>
                 </div>
                 <div class="service-card animated-element">
                     <div class="service-icon">
-                        <i class="fas fa-shield-alt"></i>
+                        <i class="fas fa-video"></i>
                     </div>
                     <h3>Güvenlik Sistemleri</h3>
                     <p>Alarm, kamera ve güvenlik sistemleri kurulumu ve bakımı hizmetleri veriyoruz.</p>
-                    <a href="#guvenlik-sistemleri" class="service-link">Daha Fazla <i class="fas fa-arrow-right"></i></a>
+                    <a href="#guvenlik-sistemleri"></a>
                 </div>
                 <div class="service-card animated-element">
                     <div class="service-icon">
-                        <i class="fas fa-industry"></i>
+                        <i class="fas fa-building"></i>
                     </div>
                     <h3>Endüstriyel Elektrik</h3>
                     <p>Fabrika ve sanayi tesisleri için özel elektrik çözümleri sunuyoruz.</p>
-                    <a href="#endustriyel-elektrik" class="service-link">Daha Fazla <i class="fas fa-arrow-right"></i></a>
+                    <a href="#endustriyel-elektrik"></a>
                 </div>
             </div>
         </div>
@@ -129,27 +135,32 @@
     <!-- Hizmet Detayları -->
     <section id="elektrik-tesisati" class="service-detail">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-6 animated-element">
-                    <img src="../img/elektrik-bg1.jpg" alt="Elektrik Tesisatı">
-                </div>
-                <div class="col-lg-6 animated-element">
-                    <h2>Elektrik Tesisatı</h2>
-                    <p>Birlik Elektrik olarak, ev ve işyerleriniz için profesyonel elektrik tesisatı kurulumu ve bakımı hizmetleri sunuyoruz. Uzman ekibimiz, her türlü elektrik tesisatı işlemini güvenli ve kaliteli bir şekilde gerçekleştirirken, modern teknolojileri kullanarak enerji verimliliğini maksimuma çıkarmayı hedefliyor.</p>
-                    
-                    <p>Elektrik tesisatı hizmetlerimiz arasında:</p>
-                    <ul>
-                        <li>Yeni bina elektrik tesisatı</li>
-                        <li>Mevcut tesisatın yenilenmesi</li>
-                        <li>Elektrik panosu kurulumu ve bakımı</li>
-                        <li>Topraklama sistemleri</li>
-                        <li>Kablo döşeme ve yenileme</li>
-                        <li>Priz ve anahtar montajı</li>
-                    </ul>
-                    
-                    <p>Tüm elektrik tesisatı işlemlerimizde, güvenlik standartlarına uygun malzemeler kullanıyor, işlemleri yönetmeliklere uygun şekilde gerçekleştiriyoruz. Bu sayede hem güvenliğinizi sağlıyor hem de uzun ömürlü tesisatlar kuruyoruz.</p>
-                    
-                    <a href="contact.html" class="btn btn-primary">Hizmet Almak İçin İletişime Geçin</a>
+            <div class="service-detail-card">
+                <div class="service-detail-content">
+                    <div class="service-detail-image animated-element">
+                        <img src="../img/tesisat.jpg" alt="Elektrik Tesisatı" width="100%" height="auto">
+                    </div>
+                    <div class="service-detail-text animated-element">
+                        <h2>Elektrik Tesisatı</h2>
+                        <p>Birlik Elektrik olarak, ev ve işyerleriniz için profesyonel elektrik tesisatı kurulumu ve bakımı hizmetleri sunuyoruz. Uzman ekibimiz, her türlü elektrik tesisatı işlemini güvenli ve kaliteli bir şekilde gerçekleştirirken, modern teknolojileri kullanarak enerji verimliliğini maksimuma çıkarmayı hedefliyor.</p>
+                        
+                        <div class="service-features">
+                            <h3>Elektrik tesisatı hizmetlerimiz:</h3>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check-circle"></i> Yeni bina elektrik tesisatı</li>
+                                <li><i class="fas fa-check-circle"></i> Mevcut tesisatın yenilenmesi</li>
+                                <li><i class="fas fa-check-circle"></i> Elektrik panosu kurulumu</li>
+                                <li><i class="fas fa-check-circle"></i> Topraklama sistemleri</li>
+                                <li><i class="fas fa-check-circle"></i> Kablo döşeme ve yenileme</li>
+                                <li><i class="fas fa-check-circle"></i> Priz ve anahtar montajı</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="action-buttons">
+                            <a href="contact.html" class="btn btn-primary">Hizmet Alın</a>
+                            <a href="#all-services" class="btn btn-secondary">Diğer Hizmetler</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -158,27 +169,32 @@
     <!-- Diğer Hizmet Detayları benzer şekilde eklenebilir -->
     <section id="aydinlatma-sistemleri" class="service-detail">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-6 animated-element">
-                    <h2>Aydınlatma Sistemleri</h2>
-                    <p>Birlik Elektrik olarak, modern ve enerji tasarruflu aydınlatma çözümleri sunarak yaşam ve çalışma alanlarınıza değer katıyoruz. Uzman ekibimiz, estetik ve fonksiyonelliği bir araya getirerek ortamınıza uygun aydınlatma tasarımları oluşturuyor.</p>
-                    
-                    <p>Aydınlatma sistemleri hizmetlerimiz arasında:</p>
-                    <ul>
-                        <li>İç mekan aydınlatma tasarımı ve uygulaması</li>
-                        <li>Dış mekan ve peyzaj aydınlatması</li>
-                        <li>LED aydınlatma sistemleri</li>
-                        <li>Akıllı aydınlatma çözümleri</li>
-                        <li>Dekoratif aydınlatma</li>
-                        <li>Endüstriyel aydınlatma</li>
-                    </ul>
-                    
-                    <p>Aydınlatma çözümlerimizde enerji tasarrufu sağlayan LED teknolojilerini kullanıyor, uzun ömürlü ve verimli sistemler kuruyoruz. Akıllı kontrol sistemleri ile aydınlatma düzeyini ihtiyacınıza göre ayarlayabilir, mobil uygulamalar üzerinden kontrol edebilirsiniz.</p>
-                    
-                    <a href="contact.html" class="btn btn-primary">Hizmet Almak İçin İletişime Geçin</a>
-                </div>
-                <div class="col-lg-6 animated-element">
-                    <img src="../img/elektrik-bg2.jpg" alt="Aydınlatma Sistemleri">
+            <div class="service-detail-card">
+                <div class="service-detail-content">
+                    <div class="service-detail-text animated-element">
+                        <h2>Aydınlatma Sistemleri</h2>
+                        <p>Birlik Elektrik olarak, modern ve enerji tasarruflu aydınlatma çözümleri sunarak yaşam ve çalışma alanlarınıza değer katıyoruz. Uzman ekibimiz, estetik ve fonksiyonelliği bir araya getirerek ortamınıza uygun aydınlatma tasarımları oluşturuyor.</p>
+                        
+                        <div class="service-features">
+                            <h3>Aydınlatma sistemleri hizmetlerimiz:</h3>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check-circle"></i> İç mekan aydınlatma</li>
+                                <li><i class="fas fa-check-circle"></i> Dış mekan aydınlatması</li>
+                                <li><i class="fas fa-check-circle"></i> LED aydınlatma sistemleri</li>
+                                <li><i class="fas fa-check-circle"></i> Akıllı aydınlatma çözümleri</li>
+                                <li><i class="fas fa-check-circle"></i> Dekoratif aydınlatma</li>
+                                <li><i class="fas fa-check-circle"></i> Endüstriyel aydınlatma</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="action-buttons">
+                            <a href="contact.html" class="btn btn-primary">Hizmet Alın</a>
+                            <a href="#all-services" class="btn btn-secondary">Diğer Hizmetler</a>
+                        </div>
+                    </div>
+                    <div class="service-detail-image animated-element">
+                        <img src="../img/aydınlatsistemleri.jpg" alt="Aydınlatma Sistemleri" width="100%" height="auto">
+                    </div>
                 </div>
             </div>
         </div>
@@ -187,55 +203,50 @@
     <!-- Neden Bizi Seçmelisiniz -->
     <section class="features">
         <div class="container">
-            <div class="features-content">
-                <div class="features-text">
-                    <div class="section-header left-align animated-element">
-                        <h2>Neden Bizi Seçmelisiniz?</h2>
-                        <p>Birlik Elektrik farkıyla ayrıcalıklı hizmet</p>
+            <div class="section-header animated-element">
+                <h2>Neden Bizi Seçmelisiniz?</h2>
+                <p>Birlik Elektrik farkıyla ayrıcalıklı hizmet</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card animated-element">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-tie"></i>
                     </div>
-                    <div class="features-list">
-                        <div class="feature-item animated-element">
-                            <div class="feature-icon">
-                                <i class="fas fa-check-circle"></i>
-                            </div>
-                            <div class="feature-info">
-                                <h3>Uzman Kadro</h3>
-                                <p>Deneyimli ve sertifikalı elektrik uzmanlarından oluşan profesyonel ekibimiz</p>
-                            </div>
-                        </div>
-                        <div class="feature-item animated-element">
-                            <div class="feature-icon">
-                                <i class="fas fa-check-circle"></i>
-                            </div>
-                            <div class="feature-info">
-                                <h3>Kaliteli Malzeme</h3>
-                                <p>Tüm projelerimizde TSE ve CE sertifikalı kaliteli ekipman ve malzeme kullanımı</p>
-                            </div>
-                        </div>
-                        <div class="feature-item animated-element">
-                            <div class="feature-icon">
-                                <i class="fas fa-check-circle"></i>
-                            </div>
-                            <div class="feature-info">
-                                <h3>Garantili Hizmet</h3>
-                                <p>Tüm hizmetlerimizde 2 yıl hizmet ve malzeme garantisi</p>
-                            </div>
-                        </div>
-                        <div class="feature-item animated-element">
-                            <div class="feature-icon">
-                                <i class="fas fa-check-circle"></i>
-                            </div>
-                            <div class="feature-info">
-                                <h3>7/24 Destek</h3>
-                                <p>Acil durumlarda 30 dakika içinde müdahale garantisi</p>
-                            </div>
-                        </div>
+                    <div class="feature-info">
+                        <h3>Uzman Kadro</h3>
+                        <p>Deneyimli ve sertifikalı elektrik uzmanlarından oluşan profesyonel ekibimiz</p>
                     </div>
-                    <a href="contact.html" class="btn btn-primary mt-30 animated-element">Detaylı Bilgi Alın</a>
                 </div>
-                <div class="features-image animated-element">
-                    <img src="../img/elektrik-banner.jpg" alt="Birlik Elektrik Hizmetleri">
+                <div class="feature-card animated-element">
+                    <div class="feature-icon">
+                        <i class="fas fa-medal"></i>
+                    </div>
+                    <div class="feature-info">
+                        <h3>Kaliteli Malzeme</h3>
+                        <p>Tüm projelerimizde TSE ve CE sertifikalı kaliteli ekipman ve malzeme kullanımı</p>
+                    </div>
                 </div>
+                <div class="feature-card animated-element">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="feature-info">
+                        <h3>Garantili Hizmet</h3>
+                        <p>Tüm hizmetlerimizde 2 yıl hizmet ve malzeme garantisi</p>
+                    </div>
+                </div>
+                <div class="feature-card animated-element">
+                    <div class="feature-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <div class="feature-info">
+                        <h3>7/24 Destek</h3>
+                        <p>Acil durumlarda 30 dakika içinde müdahale garantisi</p>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-30">
+                <a href="contact.html" class="btn btn-primary animated-element">Detaylı Bilgi Alın</a>
             </div>
         </div>
     </section>
@@ -327,12 +338,15 @@
 
     <script>
         // CSS yüklenmesi için sayfa yenileme (debug amaçlı)
+        // Bu kodu kaldırıyoruz, sayfa yenileme sorunlara neden olabilir
+        /*
         window.onload = function() {
             if (!window.location.hash) {
                 window.location = window.location + '#loaded';
                 window.location.reload();
             }
         }
+        */
 
         // Sayfa yüklendiğinde
         document.addEventListener('DOMContentLoaded', function() {
