@@ -17,6 +17,157 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }, 300);
     
+    // Hero Slider Fonksiyonları
+    const initHeroSlider = () => {
+        const slides = document.querySelectorAll('.hero-slide');
+        const prevBtn = document.querySelector('.prev-slide');
+        const nextBtn = document.querySelector('.next-slide');
+        const indicators = document.querySelectorAll('.indicator');
+        let currentSlide = 0;
+        let slideInterval;
+        
+        // Otomatik slider için interval
+        const startSlideInterval = () => {
+            slideInterval = setInterval(() => {
+                goToNextSlide();
+            }, 5000); // 5 saniyede bir
+        };
+        
+        // Interval'ı durdur
+        const stopSlideInterval = () => {
+            clearInterval(slideInterval);
+        };
+        
+        // Gösterge noktalarını güncelle
+        const updateIndicators = () => {
+            indicators.forEach((indicator, index) => {
+                indicator.classList.toggle('active', index === currentSlide);
+            });
+        };
+        
+        // Slaytları güncelle
+        const updateSlides = () => {
+            slides.forEach((slide, index) => {
+                // Önce tüm slaytları inaktif yap
+                slide.classList.remove('active');
+                
+                // Animasyonu sıfırlamak için önce stil özelliklerini resetle
+                const content = slide.querySelector('.hero-content');
+                if (content) {
+                    const heading = content.querySelector('h1');
+                    const paragraph = content.querySelector('p');
+                    const buttons = content.querySelector('.hero-buttons');
+                    
+                    if (heading) {
+                        heading.style.opacity = "0";
+                        heading.style.transform = "translateY(30px)";
+                    }
+                    
+                    if (paragraph) {
+                        paragraph.style.opacity = "0";
+                        paragraph.style.transform = "translateY(30px)";
+                    }
+                    
+                    if (buttons) {
+                        buttons.style.opacity = "0";
+                        buttons.style.transform = "translateY(30px)";
+                    }
+                }
+            });
+            
+            // Sonra aktif slaytı ayarla
+            slides[currentSlide].classList.add('active');
+            
+            // Eğer ilk slayta geçildi ve içinde video varsa, videoyu yeniden başlat
+            if (currentSlide === 0) {
+                const videoElement = slides[0].querySelector('video');
+                if (videoElement) {
+                    videoElement.currentTime = 0;
+                    videoElement.play();
+                }
+            }
+            
+            // Animasyonları tetikle (küçük bir gecikme ile)
+            setTimeout(() => {
+                const activeSlide = slides[currentSlide];
+                const content = activeSlide.querySelector('.hero-content');
+                if (content) {
+                    const heading = content.querySelector('h1');
+                    const paragraph = content.querySelector('p');
+                    const buttons = content.querySelector('.hero-buttons');
+                    
+                    if (heading) {
+                        heading.style.opacity = "";
+                        heading.style.transform = "";
+                    }
+                    
+                    if (paragraph) {
+                        paragraph.style.opacity = "";
+                        paragraph.style.transform = "";
+                    }
+                    
+                    if (buttons) {
+                        buttons.style.opacity = "";
+                        buttons.style.transform = "";
+                    }
+                }
+            }, 50);
+            
+            updateIndicators();
+        };
+        
+        // Önceki slayta git
+        const goToPrevSlide = () => {
+            currentSlide = (currentSlide === 0) ? slides.length - 1 : currentSlide - 1;
+            updateSlides();
+        };
+        
+        // Sonraki slayta git
+        const goToNextSlide = () => {
+            currentSlide = (currentSlide === slides.length - 1) ? 0 : currentSlide + 1;
+            updateSlides();
+        };
+        
+        // Belirli bir slayta git
+        const goToSlide = (slideIndex) => {
+            currentSlide = slideIndex;
+            updateSlides();
+        };
+        
+        // Event Listeners ekle
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                goToPrevSlide();
+                stopSlideInterval();
+                startSlideInterval(); // Yeniden başlat
+            });
+        }
+        
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                goToNextSlide();
+                stopSlideInterval();
+                startSlideInterval(); // Yeniden başlat
+            });
+        }
+        
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => {
+                goToSlide(index);
+                stopSlideInterval();
+                startSlideInterval(); // Yeniden başlat
+            });
+        });
+        
+        // Otomatik slider'ı başlat
+        startSlideInterval();
+    };
+    
+    // Hero Slider varsa başlat
+    if (document.querySelector('.hero-slider')) {
+        initHeroSlider();
+    }
+    
     // Animasyonlu elementler için Intersection Observer
     const animatedElements = document.querySelectorAll('.animated-element');
     

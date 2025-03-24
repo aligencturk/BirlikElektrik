@@ -42,167 +42,92 @@
         </div>
     </header>
 
-    <!-- Sayfa Başlık -->
-    <section class="hero inner-page-hero">
-        <div class="hero-static">
-            <img src="../img/hakkımızda.jpg" alt="Hakkımızda">
+    <!-- Hakkımızda sayfası -->
+    <main>
+        <!-- Sayfa Başlığı Hero -->
+        <section class="inner-page-hero">
+            <div class="hero-static">
+                <img src="../img/hakkımızda.jpg" alt="Hakkımızda">
+            </div>
             <div class="overlay"></div>
             <div class="container">
                 <div class="hero-content">
                     <h1>Hakkımızda</h1>
-                    <p>20 yıllık tecrübemizle elektrik sektöründe güvenilir çözüm ortağınız</p>
-                    <div class="hero-buttons">
-                        <a href="contact.html" class="btn btn-primary"><i class="fas fa-phone-alt me-2"></i> Bize Ulaşın</a>
-                        <a href="#misyon-vizyon" class="btn btn-secondary"><i class="fas fa-info-circle me-2"></i> Daha Fazla Bilgi</a>
-                    </div>
+                    <p>Birlik Elektrik'i yakından tanıyın</p>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Hakkımızda</li>
+                        </ol>
+                    </nav>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Hakkımızda Başlığı -->
-    <section id="about-us" class="elektrik-hizmetlerimiz-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Birlik Elektrik Hikayemiz</h2>
-                <p>20 yıllık tecrübemizle elektrik sektöründe güvenilir çözüm ortağınız</p>
-            </div>
-        </div>
-    </section>
+        <!-- Hakkımızda Bölümü -->
+        <section id="about-us">
+            <div class="about">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>Birlik Elektrik Hikayemiz</h2>
+                        <p>2005 yılından beri kaliteli elektrik çözümleri sunuyoruz</p>
+                    </div>
 
-    <!-- Hakkımızda -->
-    <section class="about">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6 col-md-12 animated-element">
-                    <div>
-                        <h3 id="aboutSubtitle">Birlik Elektrik olarak 20 yıllık tecrübemizle hizmetinizdeyiz</h3>
-                        <p id="aboutContent1">Birlik Elektrik, 20 yıllı aşkın tecrübesiyle elektrik taahhüt ve proje alanında faaliyet gösteren bir firmadır. Kurulduğumuz günden bu yana müşteri memnuniyetini en ön planda tutarak, kaliteli hizmet anlayışımız ile sektörde güvenilir bir isim olmanın gururunu yaşıyoruz.</p>
+                    <div class="row">
+                        <div class="about-content">
+                            <h3 id="aboutSubtitle">20 Yılı Aşkın Deneyim ve Uzmanlık</h3>
+                            <p id="aboutContent1">Birlik Elektrik olarak, 2005 yılından beri İstanbul ve çevre illerde konut, işyeri ve endüstriyel tesisler için kaliteli elektrik taahhüt, bakım ve onarım hizmetleri sunuyoruz. Alanında uzman ekibimiz, en güncel teknoloji ve yöntemleri kullanarak müşterilerimize güvenilir ve uzun ömürlü çözümler sağlıyor.</p>
+                            <p id="aboutContent2">Birlik Elektrik'in temel hedefi, müşteri memnuniyetini en üst seviyede tutmak ve her projede en yüksek kalite standartlarını yakalamaktır. İşimizi yaparken güvenlik, sürdürülebilirlik ve inovasyon prensiplerini ön planda tutuyoruz.</p>
+                            
+                            <ul id="aboutFeaturesList">
+                                <li><i class="fas fa-check"></i> Uzman ve Sertifikalı Ekip</li>
+                                <li><i class="fas fa-check"></i> Kaliteli Malzeme ve Ekipman</li>
+                                <li><i class="fas fa-check"></i> Zamanında Teslim</li>
+                                <li><i class="fas fa-check"></i> Rekabetçi Fiyatlar</li>
+                                <li><i class="fas fa-check"></i> Garanti ve Bakım Desteği</li>
+                                <li><i class="fas fa-check"></i> 7/24 Acil Servis</li>
+                            </ul>
+                        </div>
                         
-                        <p id="aboutContent2">Profesyonel ekibimiz ve modern teknik donanımımız ile konut, işyeri, fabrika ve endüstriyel tesislerin elektrik projelerini tasarlıyor ve uygulamasını gerçekleştiriyoruz. Alanında uzman kadromuz, güncel teknolojileri takip ederek en iyi çözümleri sunmaktadır.</p>
-                        
-                        <ul id="aboutFeaturesList">
-                            <li><i class="fas fa-check"></i> Uzman Kadro</li>
-                            <li><i class="fas fa-check"></i> Kaliteli Malzeme</li>
-                            <li><i class="fas fa-check"></i> Uygun Fiyat</li>
-                            <li><i class="fas fa-check"></i> Garantili İşçilik</li>
-                            <li><i class="fas fa-check"></i> 7/24 Hizmet</li>
-                        </ul>
+                        <div class="about-image">
+                            <img src="../img/elektrik-bg1.jpg" alt="Birlik Elektrik Ekibi">
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-6 col-md-12 animated-element">
-                    <div class="about-image">
-                        <img id="aboutImage" src="../img/elektrik-bg1.jpg" alt="Hakkımızda Görseli">
+                    
+                    <!-- İstatistik Kartları -->
+                    <div class="stats-container">
+                        <div class="stat-item">
+                            <span>18+</span>
+                            <p>Yıllık Deneyim</p>
+                        </div>
+                        <div class="stat-item">
+                            <span>850+</span>
+                            <p>Tamamlanan Proje</p>
+                        </div>
+                        <div class="stat-item">
+                            <span>20+</span>
+                            <p>Uzman Personel</p>
+                        </div>
+                        <div class="stat-item">
+                            <span>97%</span>
+                            <p>Müşteri Memnuniyeti</p>
+                        </div>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <!-- İstatistikler -->
-            <div class="row stats-container animated-element">
-                <div class="col-md-3 col-6">
-                    <div class="stat-item">
-                        <span id="aboutExperienceCount">20</span>
-                        <p>Yıllık Tecrübe</p>
-                    </div>
-                </div>
-                <div class="col-md-3 col-6">
-                    <div class="stat-item">
-                        <span id="aboutProjectsCount">500</span>
-                        <p>Tamamlanan Proje</p>
-                    </div>
-                </div>
-                <div class="col-md-3 col-6">
-                    <div class="stat-item">
-                        <span id="aboutExpertsCount">25</span>
-                        <p>Uzman Personel</p>
-                    </div>
-                </div>
-                <div class="col-md-3 col-6">
-                    <div class="stat-item">
-                        <span id="aboutSatisfactionCount">98</span>
-                        <p>Müşteri Memnuniyeti</p>
-                    </div>
+        <!-- CTA -->
+        <section class="cta">
+            <div class="container">
+                <div class="cta-content animated-element">
+                    <h2>Birlik Elektrik ile Çalışmak İster Misiniz?</h2>
+                    <p>Elektrik sistemleriniz için profesyonel destek almak için hemen iletişime geçin.</p>
+                    <a href="contact.html" class="btn btn-light">Hemen İletişime Geçin</a>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- Tarihçe -->
-    <section class="timeline-section">
-        <div class="container">
-            <div class="section-header animated-element">
-                <h2>Şirket Tarihçemiz</h2>
-                <p>Birlik Elektrik'in kuruluşundan bugüne gelişim serüveni</p>
-            </div>
-            
-            <div class="timeline">
-                <div class="timeline-item clearfix animated-element">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-date">2003</div>
-                        <h3>Şirketin Kuruluşu</h3>
-                        <p>Birlik Elektrik, küçük bir ofiste elektrik tamir hizmetleri ile faaliyetlerine başladı. İlk ekibimiz sadece 3 kişiden oluşuyordu.</p>
-                    </div>
-                </div>
-                
-                <div class="timeline-item clearfix animated-element">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-date">2008</div>
-                        <h3>İlk Büyük Projemiz</h3>
-                        <p>İlk büyük ölçekli projemizi, 100 daireli bir sitenin elektrik altyapısını kurarak gerçekleştirdik. Bu proje bizi sektörde tanınan bir firma haline getirdi.</p>
-                    </div>
-                </div>
-                
-                <div class="timeline-item clearfix animated-element">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-date">2012</div>
-                        <h3>Yeni Ofise Taşınma</h3>
-                        <p>Artan iş hacmimize paralel olarak, daha geniş ve modern bir ofise taşındık. Ekibimiz 15 kişiye ulaştı ve hizmet yelpazesini genişlettik.</p>
-                    </div>
-                </div>
-                
-                <div class="timeline-item clearfix animated-element">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-date">2016</div>
-                        <h3>Endüstriyel Projelere Başlangıç</h3>
-                        <p>Endüstriyel elektrik sistemleri alanında uzmanlaşarak, büyük fabrika ve üretim tesislerinin elektrik altyapı projelerini üstlenmeye başladık.</p>
-                    </div>
-                </div>
-                
-                <div class="timeline-item clearfix animated-element">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-date">2020</div>
-                        <h3>Dijital Dönüşüm</h3>
-                        <p>Akıllı ev sistemleri ve enerji verimliliği çözümlerine odaklanarak, dijital çağın gerekliliklerine uyum sağladık. Online hizmet platformumuzu kurduk.</p>
-                    </div>
-                </div>
-                
-                <div class="timeline-item clearfix animated-element">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-date">2023</div>
-                        <h3>20. Yıl Dönümü</h3>
-                        <p>Bugün 25 kişilik uzman ekibimiz, 500'den fazla başarılı proje ve sektördeki sağlam itibarımızla 20. yılımızı kutluyoruz.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA -->
-    <section class="cta">
-        <div class="container">
-            <div class="cta-content animated-element">
-                <h2>Birlik Elektrik ile Çalışmak İster Misiniz?</h2>
-                <p>Elektrik sistemleriniz için profesyonel destek almak için hemen iletişime geçin.</p>
-                <a href="contact.html" class="btn btn-light">Hemen İletişime Geçin</a>
-            </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
     <!-- Footer -->
     <footer class="footer">
@@ -281,39 +206,85 @@
     <script>
         // Sayfa yüklendiğinde
         document.addEventListener('DOMContentLoaded', function() {
-            // Hero content animasyonu
-            setTimeout(function() {
-                document.querySelector('.hero-content').style.opacity = "1";
-                document.querySelector('.hero-content').style.transform = "translateX(-50%) translateY(0)";
-            }, 300);
-            
             // Animasyonlu elementler için Intersection Observer
-            const animatedElements = document.querySelectorAll('.animated-element');
-            
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        entry.target.style.opacity = "1";
-                        entry.target.style.transform = "translateY(0)";
+                        entry.target.classList.add('show');
                         observer.unobserve(entry.target);
                     }
                 });
-            }, { threshold: 0.1 });
+            }, { threshold: 0.2 });
             
-            // Başlangıçta elementleri gizle
-            animatedElements.forEach((element, index) => {
-                element.style.opacity = "0";
-                element.style.transform = "translateY(20px)";
-                element.style.transitionDelay = `${index * 0.1}s`;
-                observer.observe(element);
+            // Animasyonlu elementler
+            const sectionTitles = document.querySelectorAll('.section-title');
+            const aboutContent = document.querySelector('.about-content');
+            const aboutImage = document.querySelector('.about-image');
+            
+            // Animasyonlu elementleri izle
+            [].concat(
+                Array.from(sectionTitles),
+                aboutContent,
+                aboutImage
+            ).forEach(el => {
+                if (el) {
+                    el.classList.add('animate');
+                    observer.observe(el);
+                }
             });
+            
+            // Sayaç animasyonu
+            function animateCounter(element, targetValue) {
+                const targetNum = parseInt(targetValue.replace(/[^\d]/g, ''));
+                const plus = targetValue.includes('+') ? '+' : '';
+                const percent = targetValue.includes('%') ? '%' : '';
+                
+                let startNum = 0;
+                const duration = 2000;
+                const step = Math.ceil(targetNum / (duration / 16));
+                const timer = setInterval(() => {
+                    startNum += step;
+                    if (startNum >= targetNum) {
+                        startNum = targetNum;
+                        clearInterval(timer);
+                    }
+                    element.textContent = `${startNum}${plus}${percent}`;
+                }, 16);
+            }
+            
+            // Sayaçları görüntüleme fonksiyonu
+            const statsObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const counters = entry.target.querySelectorAll('.stat-item span');
+                        counters.forEach(counter => {
+                            animateCounter(counter, counter.textContent);
+                        });
+                        statsObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            const statsContainer = document.querySelector('.stats-container');
+            if (statsContainer) {
+                statsObserver.observe(statsContainer);
+            }
             
             // Firebase'den hakkımızda verilerini yükleme
             if (typeof getAboutData === 'function') {
                 getAboutData()
                     .then(aboutData => {
                         // Verileri sayfaya yerleştir
-                        displayAboutData(aboutData);
+                        if (aboutData) {
+                            // Verileri sayfaya yerleştirme
+                            const statItems = document.querySelectorAll('.stat-item span');
+                            if (aboutData.stats && statItems.length === 4) {
+                                statItems[0].textContent = aboutData.stats.experience || "18+";
+                                statItems[1].textContent = aboutData.stats.projects || "850+";
+                                statItems[2].textContent = aboutData.stats.experts || "20+";
+                                statItems[3].textContent = aboutData.stats.satisfaction || "97%";
+                            }
+                        }
                     })
                     .catch(error => {
                         console.error("Hakkımızda verileri yüklenirken hata:", error);
@@ -339,67 +310,7 @@
                 mobileMenuBtn.querySelector('i').classList.toggle('fa-bars');
                 mobileMenuBtn.querySelector('i').classList.toggle('fa-times');
             });
-            
-            // Sayaç animasyonu
-            function startCounter() {
-                const statCounts = document.querySelectorAll('.stat-item span');
-                
-                statCounts.forEach(counter => {
-                    const target = parseInt(counter.textContent);
-                    let count = 0;
-                    const duration = 2000; // ms
-                    const step = Math.ceil(target / (duration / 20)); // 20ms aralıklarla güncelleme
-                    
-                    const updateCount = () => {
-                        if (count < target) {
-                            count += step;
-                            if (count > target) count = target;
-                            counter.textContent = count;
-                            setTimeout(updateCount, 20);
-                        }
-                    };
-                    
-                    updateCount();
-                });
-            }
-            
-            // Sayaçlar görüntüye girdiğinde animasyonu başlat
-            const statsObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        startCounter();
-                        statsObserver.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.5 });
-            
-            const statsContainer = document.querySelector('.stats-container');
-            if (statsContainer) {
-                statsObserver.observe(statsContainer);
-            }
         });
-        
-        // Hakkımızda verilerini görüntüleme fonksiyonu
-        function displayAboutData(data) {
-            if (data.title) document.getElementById('aboutTitle').innerText = data.title;
-            if (data.subtitle) document.getElementById('aboutSubtitle').innerText = data.subtitle;
-            if (data.content1) document.getElementById('aboutContent1').innerText = data.content1;
-            if (data.content2) document.getElementById('aboutContent2').innerText = data.content2;
-            
-            if (data.image) {
-                const imgElement = document.getElementById('aboutImage');
-                imgElement.src = data.image;
-                imgElement.alt = data.title || 'Hakkımızda Görseli';
-            }
-            
-            // İstatistikler varsa güncelle
-            if (data.stats) {
-                if (data.stats.experience) document.getElementById('aboutExperienceCount').innerText = data.stats.experience;
-                if (data.stats.projects) document.getElementById('aboutProjectsCount').innerText = data.stats.projects;
-                if (data.stats.experts) document.getElementById('aboutExpertsCount').innerText = data.stats.experts;
-                if (data.stats.satisfaction) document.getElementById('aboutSatisfactionCount').innerText = data.stats.satisfaction;
-            }
-        }
     </script>
 </body>
 </html> 

@@ -63,29 +63,43 @@
                 </div>
             </div>
             <div class="hero-slide">
-                <img src="../img/elektrik-bg1.jpg" alt="Birlik Elektrik Hizmetleri">
+                <img src="../img/güvenlik kamerası.jpg" alt="Güvenlik Sistemleri">
                 <div class="overlay"></div>
                 <div class="container">
                     <div class="hero-content">
-                        <h1>Kaliteli ve Güvenilir Hizmet</h1>
-                        <p>Uzman ekibimiz ile elektrik ihtiyaçlarınıza profesyonel çözümler sunuyoruz.</p>
+                        <h1>Güvenlik Sistemleri</h1>
+                        <p>Profesyonel kamera sistemleri, alarm sistemleri ve güvenlik çözümleriyle işyerinizi ve evinizi güvende tutuyoruz.</p>
                         <div class="hero-buttons">
                             <a href="contact.html" class="btn btn-primary"><i class="fas fa-phone-alt me-2"></i> Hemen Bize Ulaşın</a>
-                            <a href="#what-we-do" class="btn btn-secondary"><i class="fas fa-info-circle me-2"></i> Detaylı Bilgi</a>
+                            <a href="#hizmetler" class="btn btn-secondary"><i class="fas fa-info-circle me-2"></i> Detaylı Bilgi</a>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="hero-slide">
-                <img src="../img/elektrik-bg2.jpg" alt="Birlik Elektrik Hizmetleri">
+                <img src="../img/tesisat.jpg" alt="Elektrik Tesisatı">
                 <div class="overlay"></div>
                 <div class="container">
                     <div class="hero-content">
-                        <h1>20 Yıllık Deneyim</h1>
-                        <p>Sektörde 20 yıllık tecrübemizle yanınızdayız.</p>
+                        <h1>Elektrik Tesisatı</h1>
+                        <p>Ev, işyeri ve endüstriyel tesisler için kaliteli malzemeler kullanarak en uygun elektrik tesisatı çözümleri sunuyoruz.</p>
                         <div class="hero-buttons">
                             <a href="contact.html" class="btn btn-primary"><i class="fas fa-phone-alt me-2"></i> Hemen Bize Ulaşın</a>
-                            <a href="#what-we-do" class="btn btn-secondary"><i class="fas fa-info-circle me-2"></i> Detaylı Bilgi</a>
+                            <a href="#hizmetler" class="btn btn-secondary"><i class="fas fa-info-circle me-2"></i> Detaylı Bilgi</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-slide">
+                <img src="../img/bakım.jpg" alt="Elektrik Bakım">
+                <div class="overlay"></div>
+                <div class="container">
+                    <div class="hero-content">
+                        <h1>Elektrik Bakım Hizmetleri</h1>
+                        <p>Düzenli bakım ve kontrol hizmetlerimizle elektrik sistemlerinizin sorunsuz çalışmasını sağlıyoruz.</p>
+                        <div class="hero-buttons">
+                            <a href="contact.html" class="btn btn-primary"><i class="fas fa-phone-alt me-2"></i> Hemen Bize Ulaşın</a>
+                            <a href="#hizmetler" class="btn btn-secondary"><i class="fas fa-info-circle me-2"></i> Detaylı Bilgi</a>
                         </div>
                     </div>
                 </div>
@@ -98,6 +112,7 @@
                 <button class="indicator active" data-slide="0"></button>
                 <button class="indicator" data-slide="1"></button>
                 <button class="indicator" data-slide="2"></button>
+                <button class="indicator" data-slide="3"></button>
             </div>
         </div>
     </section>
@@ -554,18 +569,9 @@
                 console.warn("getAboutData fonksiyonu bulunamadı. Varsayılan veriler kullanılacak.");
             }
             
-            // AOS Animasyon kütüphanesini aktifleştir
-            AOS.init({
-                duration: 1000,
-                easing: 'ease-in-out',
-                once: true
-            });
+            // AOS Animasyon kütüphanesini aktifleştir kodu kaldırıldı
             
-            // Bootstrap tooltip'leri etkinleştir
-            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-                return new bootstrap.Tooltip(tooltipTriggerEl);
-            });
+            // Bootstrap tooltip'leri etkinleştir kodu kaldırıldı - Bootstrap dahil edilmediği için bu kod da hata verebilir
         });
 
         // Header scroll efekti
@@ -576,45 +582,6 @@
             } else {
                 header.classList.remove('scrolled');
             }
-        });
-
-        // Sayfa içi animasyonlar için Intersection Observer
-        document.addEventListener('DOMContentLoaded', function() {
-            const animateElements = document.querySelectorAll('.section-header, .services-grid, .about-content, .why-us-grid, .projects-grid, .contact-content');
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = "1";
-                        entry.target.style.transform = "translateY(0)";
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.1 });
-            
-            // Başlangıçta elementleri gizle
-            animateElements.forEach(element => {
-                element.style.opacity = "0";
-                element.style.transform = "translateY(20px)";
-                element.style.transition = "opacity 0.5s ease, transform 0.5s ease";
-                observer.observe(element);
-            });
-            
-            // Kartlar için gecikme ekle
-            document.querySelectorAll('.service-card, .why-us-card, .project-card').forEach((card, index) => {
-                card.style.opacity = "0";
-                card.style.transform = "translateY(20px)";
-                card.style.transition = "opacity 0.5s ease, transform 0.5s ease";
-                card.style.transitionDelay = `${index * 0.1}s`;
-            });
-            
-            // Sayfa yüklendiğinde animasyonu başlat
-            setTimeout(() => {
-                document.querySelectorAll('.service-card, .why-us-card, .project-card').forEach(card => {
-                    card.style.opacity = "1";
-                    card.style.transform = "translateY(0)";
-                });
-            }, 300);
         });
     </script>
 

@@ -61,7 +61,7 @@
     </section>
 
     <!-- Projelerimiz Başlığı -->
-    <section id="our-projects" class="elektrik-hizmetlerimiz-section">
+    <section id="our-projects">
         <div class="container">
             <div class="section-header">
                 <h2>Başarılı Projelerimiz</h2>
@@ -82,7 +82,7 @@
                 <div class="project-category">Güç Sistemleri</div>
             </div>
             
-            <div class="project-gallery" style="margin-top: 20px;">
+            <div class="project-gallery">
                 <div class="project-item animated-element">
                     <img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80" alt="Site Elektrik Altyapısı">
                     <div class="project-overlay">
@@ -261,23 +261,26 @@
                 document.querySelector('.hero-content').style.transform = "translateX(-50%) translateY(0)";
             }, 300);
 
-            // Scroll olayını dinle
-            window.addEventListener('scroll', function() {
-                // Animasyonlu elementler için Intersection Observer
-                const animatedElements = document.querySelectorAll('.animated-element');
-                
-                animatedElements.forEach((element, index) => {
-                    const rect = element.getBoundingClientRect();
-                    if (rect.top <= window.innerHeight && rect.bottom >= 0) {
-                        element.style.opacity = "1";
-                        element.style.transform = "translateY(0)";
-                        element.style.transitionDelay = `${index * 0.1}s`;
+            // Animasyonlu elementler için Intersection Observer
+            const animatedElements = document.querySelectorAll('.animated-element');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate');
+                        observer.unobserve(entry.target);
                     }
                 });
+            }, { threshold: 0.1 });
+            
+            // Başlangıçta elementleri gizle ve observer'a ekle
+            animatedElements.forEach(element => {
+                observer.observe(element);
             });
 
             // Kategori filtreleme
             const categories = document.querySelectorAll('.project-category');
+            const projectItems = document.querySelectorAll('.project-item');
             
             categories.forEach(category => {
                 category.addEventListener('click', function() {
@@ -289,22 +292,47 @@
                     // Tıklanan kategoriye aktif sınıfı ekle
                     this.classList.add('active');
                     
-                    // Burada gerçek projeler için filtre mantığı eklenebilir
-                    const categoryName = this.textContent.toLowerCase();
-                    console.log(`Kategori seçildi: ${categoryName}`);
+                    const categoryName = this.textContent.trim().toLowerCase();
                     
-                    // Animasyon efekti ekle
-                    const projectItems = document.querySelectorAll('.project-item');
+                    // Filtreleme işlemlerinde animasyon efekti ekle
                     projectItems.forEach(item => {
+                        // Animasyon için önce gizle
                         item.style.opacity = '0';
                         item.style.transform = 'translateY(20px)';
                         
                         setTimeout(() => {
-                            item.style.opacity = '1';
-                            item.style.transform = 'translateY(0)';
+                            // "Tümü" kategorisi seçilmişse veya uygun kategorideyse göster
+                            if (categoryName === 'tümü' || item.dataset.category === categoryName) {
+                                item.style.display = 'block';
+                                setTimeout(() => {
+                                    item.style.opacity = '1';
+                                    item.style.transform = 'translateY(0)';
+                                }, 50);
+                            } else {
+                                item.style.display = 'none';
+                            }
                         }, 300);
                     });
                 });
+            });
+            
+            // Başlangıçta tüm projelere veri kategorilerini tanımla
+            // Gerçek bir uygulamada bu veriler sunucudan gelir
+            const categories_map = {
+                'Site Elektrik Altyapısı': 'konut',
+                'Fabrika Elektrik Sistemleri': 'endüstriyel',
+                'AVM Aydınlatma': 'aydınlatma',
+                'Otel Güç Sistemleri': 'güç sistemleri',
+                'Akıllı Ev Sistemleri': 'konut',
+                'Solar Enerji Projesi': 'güç sistemleri',
+                'Rezidans Elektrik Sistemleri': 'konut',
+                'Ofis Kompleksi Aydınlatması': 'aydınlatma',
+                'Fabrika Otomasyon Sistemi': 'endüstriyel'
+            };
+            
+            projectItems.forEach(item => {
+                const title = item.querySelector('h3').textContent.trim();
+                item.dataset.category = categories_map[title] || 'diğer';
             });
         });
     </script>

@@ -250,4 +250,61 @@ document.addEventListener('DOMContentLoaded', function() {
     if (document.querySelector('.projects-grid')) {
         loadProjects();
     }
-}); 
+});
+
+// Hakkımızda verileri için fonksiyon
+function getAboutData() {
+  return new Promise((resolve, reject) => {
+    db.collection("about").doc("main")
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          resolve(doc.data());
+        } else {
+          // Belge yoksa varsayılan değerler döndür
+          resolve({
+            title: "Birlik Elektrik Hikayemiz",
+            subtitle: "20 Yılı Aşkın Deneyim ve Uzmanlık",
+            content1: "Birlik Elektrik olarak, 2005 yılından beri İstanbul ve çevre illerde konut, işyeri ve endüstriyel tesisler için kaliteli elektrik taahhüt, bakım ve onarım hizmetleri sunuyoruz. Alanında uzman ekibimiz, en güncel teknoloji ve yöntemleri kullanarak müşterilerimize güvenilir ve uzun ömürlü çözümler sağlıyor.",
+            content2: "Birlik Elektrik'in temel hedefi, müşteri memnuniyetini en üst seviyede tutmak ve her projede en yüksek kalite standartlarını yakalamaktır. İşimizi yaparken güvenlik, sürdürülebilirlik ve inovasyon prensiplerini ön planda tutuyoruz.",
+            image: "../img/elektrik-bg1.jpg",
+            stats: {
+              experience: "18+",
+              projects: "850+",
+              experts: "20+",
+              satisfaction: "97%"
+            }
+          });
+        }
+      })
+      .catch((error) => {
+        console.error("Hakkımızda verileri alınırken hata oluştu:", error);
+        reject(error);
+      });
+  });
+}
+
+// İletişim formu verilerini Firebase'e kaydetmek için fonksiyon
+function saveContactForm(name, email, phone, subject, message) {
+  return new Promise((resolve, reject) => {
+    const timestamp = new Date();
+    
+    db.collection("messages").add({
+      name: name,
+      email: email,
+      phone: phone || "",
+      subject: subject,
+      message: message,
+      read: false,
+      createdAt: timestamp
+    })
+    .then((docRef) => {
+      console.log("Mesaj başarıyla kaydedildi, ID:", docRef.id);
+      resolve(docRef.id);
+    })
+    .catch((error) => {
+      console.error("Mesaj kaydedilirken hata oluştu:", error);
+      reject(error);
+    });
+  });
+} 
