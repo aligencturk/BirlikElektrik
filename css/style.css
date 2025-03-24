@@ -182,16 +182,21 @@ img {
 
 .btn {
     display: inline-block;
-    padding: var(--spacing-3) var(--spacing-5);
-    font-size: var(--font-size-base);
-    font-weight: 500;
-    border-radius: var(--border-radius);
+    padding: 12px 25px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 50px;
     cursor: pointer;
-    transition: var(--transition-color), transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+    transition: all 0.3s ease;
     text-align: center;
-    box-shadow: var(--box-shadow-btn);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     position: relative;
     overflow: hidden;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 .btn::after {
@@ -458,14 +463,9 @@ section {
 /* İç sayfa hero stili */
 .inner-page-hero {
     position: relative;
-    height: 450px;
+    height: 400px;
+    width: 100%;
     overflow: hidden;
-    margin-bottom: 0;
-    border-bottom: 0;
-    padding-bottom: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .inner-page-hero::after {
@@ -521,7 +521,7 @@ section {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.4);
     z-index: 1;
 }
 
@@ -548,40 +548,59 @@ section {
     justify-content: center;
     text-align: center;
     z-index: 10;
-    position: relative;
-    top: 0;
+    position: absolute;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, -50%);
+    opacity: 1;
 }
 
 .inner-page-hero .hero-content h1 {
-    font-size: 3.2rem;
+    font-size: 3.5rem;
     margin-bottom: 15px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
     width: 100%;
     text-align: center;
     padding: 0;
+    color: #fff;
+    font-weight: 700;
 }
 
 .inner-page-hero .hero-content p {
-    font-size: 1.3rem;
+    font-size: 1.5rem;
     margin-bottom: 25px;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     width: 100%;
     text-align: center;
     max-width: 90%;
     margin-left: auto;
     margin-right: auto;
     padding: 0;
+    color: #fff;
+    font-weight: 500;
 }
 
 .inner-page-hero .hero-buttons {
     display: flex;
+    justify-content: center;
     gap: 15px;
     margin-top: 10px;
-    justify-content: center;
     flex-wrap: wrap;
     width: 100%;
+}
+
+.inner-page-hero .hero-buttons .btn {
+    padding: 12px 25px;
+    font-weight: 600;
+    font-size: 1rem;
+    border-radius: 50px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.inner-page-hero .hero-buttons .btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 .inner-page-hero .breadcrumb {
@@ -704,7 +723,9 @@ section {
     display: flex;
     justify-content: center;
     gap: 15px;
+    margin-top: 10px;
     flex-wrap: wrap;
+    width: 100%;
 }
 
 .hero-controls {
@@ -2278,6 +2299,20 @@ section + section:not(.cta) {
     justify-content: center;
     flex-wrap: wrap;
     width: 100%;
+}
+
+.inner-page-hero .hero-buttons .btn {
+    padding: 12px 25px;
+    font-weight: 600;
+    font-size: 1rem;
+    border-radius: 50px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.inner-page-hero .hero-buttons .btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 .project-gallery {

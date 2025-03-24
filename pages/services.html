@@ -50,7 +50,7 @@
             <div class="container">
                 <div class="hero-content">
                     <h1>Hizmetlerimiz</h1>
-                    <p>Profesyonel elektrik çözümleri için tüm hizmetlerimiz</p>
+                    <p>Profesyonel Elektrik Çözümleri</p>
                     <div class="hero-buttons">
                         <a href="contact.html" class="btn btn-primary"><i class="fas fa-phone-alt me-2"></i> Hizmet Alın</a>
                         <a href="#all-services" class="btn btn-secondary"><i class="fas fa-list me-2"></i> Tüm Hizmetlerimiz</a>
@@ -326,14 +326,16 @@
     <script src="../js/firebase/frontend.js"></script>
 
     <script>
+        // CSS yüklenmesi için sayfa yenileme (debug amaçlı)
+        window.onload = function() {
+            if (!window.location.hash) {
+                window.location = window.location + '#loaded';
+                window.location.reload();
+            }
+        }
+
         // Sayfa yüklendiğinde
         document.addEventListener('DOMContentLoaded', function() {
-            // Hero content animasyonu
-            setTimeout(function() {
-                document.querySelector('.hero-content').style.opacity = "1";
-                document.querySelector('.hero-content').style.transform = "translateX(-50%) translateY(0)";
-            }, 300);
-            
             // Animasyonlu elementler için Intersection Observer
             const animatedElements = document.querySelectorAll('.animated-element');
             

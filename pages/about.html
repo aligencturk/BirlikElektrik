@@ -53,7 +53,7 @@
             <div class="container">
                 <div class="hero-content">
                     <h1>Hakkımızda</h1>
-                    <p>Birlik Elektrik'i yakından tanıyın</p>
+                    <p>Birlik Elektrik Hikayemiz</p>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
@@ -204,6 +204,14 @@
     <script src="../js/firebase/frontend.js"></script>
 
     <script>
+        // CSS yüklenmesi için sayfa yenileme (debug amaçlı)
+        window.onload = function() {
+            if (!window.location.hash) {
+                window.location = window.location + '#loaded';
+                window.location.reload();
+            }
+        }
+
         // Sayfa yüklendiğinde
         document.addEventListener('DOMContentLoaded', function() {
             // Animasyonlu elementler için Intersection Observer
