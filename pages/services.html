@@ -14,99 +14,6 @@
     <!-- SEO Meta Etiketleri -->
     <meta name="description" content="Birlik Elektrik - Profesyonel elektrik tesisatı, aydınlatma sistemleri, arıza giderme ve endüstriyel elektrik çözümleri">
     <meta name="keywords" content="elektrik, tesisatı, arıza, aydınlatma, elektrikçi, tamirat, güç sistemleri, elektrik hizmeti">
-    <style>
-        .page-header {
-            height: 40vh;
-            min-height: 300px;
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../img/elektrik-banner.jpg') no-repeat center center/cover;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: var(--white-color);
-            margin-top: 0;
-            padding-top: 80px;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .page-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(0, 123, 255, 0.3), rgba(255, 193, 7, 0.3));
-            z-index: 1;
-        }
-        
-        .page-header-content {
-            max-width: 800px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 2;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
-        }
-        
-        .page-header-content h1 {
-            font-size: var(--h1-size);
-            font-weight: 700;
-            margin-bottom: var(--spacing-4);
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-        
-        .page-header-content p {
-            font-size: var(--font-size-lg);
-            margin-bottom: var(--spacing-5);
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-        }
-        
-        .breadcrumb {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            font-size: var(--font-size-sm);
-        }
-        
-        .breadcrumb a {
-            color: var(--light-color);
-            transition: var(--transition);
-        }
-        
-        .breadcrumb a:hover {
-            color: var(--secondary-color);
-        }
-        
-        .breadcrumb i {
-            font-size: 10px;
-            margin: 0 5px;
-        }
-        
-        .service-detail {
-            margin-top: var(--spacing-6);
-            margin-bottom: var(--spacing-6);
-        }
-        
-        .service-detail img {
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            transition: var(--transition);
-        }
-        
-        .service-detail:hover img {
-            transform: scale(1.02);
-            box-shadow: var(--box-shadow-lg);
-        }
-        
-        .animated-element {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
-        }
-    </style>
 </head>
 <body>
     <!-- Üst Menü -->
@@ -125,7 +32,7 @@
                         <li><a href="services.html" class="active">Hizmetlerimiz</a></li>
                         <li><a href="about.html">Hakkımızda</a></li>
                         <li><a href="projects.html">Projelerimiz</a></li>
-                        <li><a href="index.html#iletisim">İletişim</a></li>
+                        <li><a href="contact.html">İletişim</a></li>
                     </ul>
                 </nav>
                 <div class="mobile-menu-btn">
@@ -136,14 +43,29 @@
     </header>
 
     <!-- Sayfa Başlık -->
-    <section class="page-header">
-        <div class="container">
-            <div class="page-header-content">
-                <div class="breadcrumb">
-                    <a href="index.html">Ana Sayfa</a> <i class="fas fa-chevron-right"></i> <span>Hizmetlerimiz</span>
+    <section class="hero inner-page-hero">
+        <div class="hero-static">
+            <img src="../img/hizmetlerimiz.jpg" alt="Hizmetlerimiz">
+            <div class="overlay"></div>
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Hizmetlerimiz</h1>
+                    <p>Profesyonel elektrik çözümleri için tüm hizmetlerimiz</p>
+                    <div class="hero-buttons">
+                        <a href="contact.html" class="btn btn-primary"><i class="fas fa-phone-alt me-2"></i> Hizmet Alın</a>
+                        <a href="#all-services" class="btn btn-secondary"><i class="fas fa-list me-2"></i> Tüm Hizmetlerimiz</a>
+                    </div>
                 </div>
-                <h1>Hizmetlerimiz</h1>
-                <p>Size sunduğumuz profesyonel elektrik çözümleri</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Elektrik Hizmetlerimiz Başlığı -->
+    <section id="all-services" class="elektrik-hizmetlerimiz-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Elektrik Hizmetlerimiz</h2>
+                <p>Birlik Elektrik olarak sunduğumuz profesyonel elektrik hizmetleri</p>
             </div>
         </div>
     </section>
@@ -151,10 +73,6 @@
     <!-- Hizmetler -->
     <section class="services">
         <div class="container">
-            <div class="section-header animated-element">
-                <h2>Elektrik Hizmetlerimiz</h2>
-                <p>Birlik Elektrik olarak sunduğumuz profesyonel elektrik hizmetleri</p>
-            </div>
             <div class="services-grid">
                 <div class="service-card animated-element">
                     <div class="service-icon">
@@ -213,7 +131,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 animated-element">
-                    <img src="img/elektrik-bg1.jpg" alt="Elektrik Tesisatı">
+                    <img src="../img/elektrik-bg1.jpg" alt="Elektrik Tesisatı">
                 </div>
                 <div class="col-lg-6 animated-element">
                     <h2>Elektrik Tesisatı</h2>
@@ -260,7 +178,7 @@
                     <a href="contact.html" class="btn btn-primary">Hizmet Almak İçin İletişime Geçin</a>
                 </div>
                 <div class="col-lg-6 animated-element">
-                    <img src="img/elektrik-bg2.jpg" alt="Aydınlatma Sistemleri">
+                    <img src="../img/elektrik-bg2.jpg" alt="Aydınlatma Sistemleri">
                 </div>
             </div>
         </div>
@@ -316,7 +234,7 @@
                     <a href="contact.html" class="btn btn-primary mt-30 animated-element">Detaylı Bilgi Alın</a>
                 </div>
                 <div class="features-image animated-element">
-                    <img src="img/elektrik-banner.jpg" alt="Birlik Elektrik Hizmetleri">
+                    <img src="../img/elektrik-banner.jpg" alt="Birlik Elektrik Hizmetleri">
                 </div>
             </div>
         </div>
@@ -392,23 +310,28 @@
         <i class="fab fa-whatsapp"></i>
     </a>
 
-    <!-- Firebase JS -->
+    <!-- JavaScript Integration -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="../js/script.js"></script>
+
+    <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
-    
-    <!-- Firebase Config -->
-    <script src="js/firebase/config.js"></script>
-    <script src="js/firebase/frontend.js"></script>
-    
+    <script src="../js/firebase/config.js"></script>
+    <script src="../js/firebase/frontend.js"></script>
+
     <script>
         // Sayfa yüklendiğinde
         document.addEventListener('DOMContentLoaded', function() {
-            // Sayfa başlık animasyonu
-            setTimeout(() => {
-                document.querySelector('.page-header-content').style.opacity = "1";
-                document.querySelector('.page-header-content').style.transform = "translateY(0)";
+            // Hero content animasyonu
+            setTimeout(function() {
+                document.querySelector('.hero-content').style.opacity = "1";
+                document.querySelector('.hero-content').style.transform = "translateX(-50%) translateY(0)";
             }, 300);
             
             // Animasyonlu elementler için Intersection Observer

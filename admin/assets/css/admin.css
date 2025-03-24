@@ -6,11 +6,13 @@
     --header-height: 60px;
     --footer-height: 40px;
     
-    /* Ana Renkler - Daha açık ve soft bir paleti kullanıyorum */
-    --primary: #2d63ed;
-    --primary-light: #5a89f7;
-    --primary-dark: #1e3fac;
-    --secondary: #fd7e14;
+    /* Ana Renkler - Birlik Elektrik logo renkleri */
+    --primary: #0054a6; /* Koyu mavi - logodaki ana renk */
+    --primary-light: #2673c0; /* Daha açık mavi */
+    --primary-dark: #003b75; /* Daha koyu mavi */
+    --secondary: #ffc107; /* Altın sarısı - logodaki şimşek dolgu rengi */
+    --secondary-light: #ffcd38; /* Daha açık altın sarısı */
+    --secondary-dark: #e5ad06; /* Daha koyu altın sarısı */
     --success: #20c997;
     --info: #0dcaf0;
     --warning: #ffc107;
@@ -38,13 +40,13 @@
     --card-bg: var(--white);
     --card-border: var(--gray-200);
     
-    /* Sidebar Renkleri - daha açık renkler */
+    /* Sidebar Renkleri - kurumsal renkler */
     --sidebar-bg: #f0f2f5;
     --sidebar-color: var(--gray-700);
     --sidebar-heading-color: var(--gray-900);
     --sidebar-active-bg: var(--primary);
     --sidebar-active-color: var(--white);
-    --sidebar-hover-bg: var(--gray-200);
+    --sidebar-hover-bg: rgba(0, 84, 166, 0.1); /* Ana renk hover efekti */
     --sidebar-border: var(--gray-300);
     
     /* Header Renkleri */
@@ -281,7 +283,7 @@ button {
 }
 
 .admin-sidebar-logo h1 span {
-    color: var(--primary);
+    color: var(--secondary);
 }
 
 .admin-sidebar-toggle {
@@ -401,16 +403,24 @@ button {
     opacity: 0.85;
 }
 
+.admin-menu-link.active .admin-menu-icon {
+    opacity: 1;
+}
+
+.admin-menu-link:hover .admin-menu-icon {
+    color: var(--primary);
+}
+
 .admin-menu-title {
     flex: 1;
 }
 
 .admin-menu-badge {
-    background-color: var(--danger);
-    color: var(--white);
+    padding: var(--spacing-1) var(--spacing-2);
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-medium);
-    padding: var(--spacing-0-5) var(--spacing-2);
+    background-color: var(--secondary);
+    color: var(--gray-800);
     border-radius: var(--border-radius-full);
 }
 
@@ -598,7 +608,7 @@ button {
     background-color: var(--gray-50);
 }
 
-/* Stats Cards - daha basit ve net */
+/* Stats Cards - logo renklerini kullanan kartlar */
 .admin-stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -633,6 +643,22 @@ button {
     font-size: var(--font-size-xl);
     margin-right: var(--spacing-3);
     color: var(--white);
+}
+
+.admin-stat-icon.primary {
+    background-color: var(--primary);
+}
+
+.admin-stat-icon.secondary {
+    background-color: var(--secondary);
+}
+
+.admin-stat-icon.success {
+    background-color: var(--success);
+}
+
+.admin-stat-icon.info {
+    background-color: var(--info);
 }
 
 .admin-stat-content {
@@ -690,22 +716,27 @@ button {
     border-bottom: none;
 }
 
-/* Badges - daha yumuşak badges */
+/* Badges - logodaki renkleri kullanan rozetler */
 .badge {
     display: inline-block;
-    padding: var(--spacing-1) var(--spacing-2);
-    font-size: var(--font-size-xs);
-    font-weight: var(--font-weight-medium);
+    padding: 0.35em 0.65em;
+    font-size: 0.75em;
+    font-weight: 700;
     line-height: 1;
     text-align: center;
     white-space: nowrap;
     vertical-align: baseline;
-    border-radius: var(--border-radius-full);
+    border-radius: var(--border-radius);
 }
 
 .badge-primary {
-    background-color: rgba(45, 99, 237, 0.15);
+    background-color: rgba(0, 84, 166, 0.15);
     color: var(--primary);
+}
+
+.badge-secondary {
+    background-color: rgba(255, 193, 7, 0.15);
+    color: #e5ad06;
 }
 
 .badge-success {
@@ -713,9 +744,14 @@ button {
     color: var(--success);
 }
 
+.badge-info {
+    background-color: rgba(13, 202, 240, 0.15);
+    color: var(--info);
+}
+
 .badge-warning {
     background-color: rgba(255, 193, 7, 0.15);
-    color: #b88200;
+    color: var(--warning);
 }
 
 .badge-danger {
@@ -723,57 +759,22 @@ button {
     color: var(--danger);
 }
 
-.badge-info {
-    background-color: rgba(13, 202, 240, 0.15);
-    color: var(--info);
-}
-
-/* Buttons - daha net butonlar */
+/* Buttons - logonun renklerini kullanan butonlar */
 .btn {
     display: inline-block;
     font-weight: var(--font-weight-medium);
+    color: var(--gray-700);
     text-align: center;
     vertical-align: middle;
-    cursor: pointer;
     user-select: none;
+    background-color: transparent;
     border: 1px solid transparent;
     padding: var(--spacing-2) var(--spacing-4);
-    font-size: var(--font-size-base);
+    font-size: var(--font-size-sm);
     line-height: 1.5;
     border-radius: var(--border-radius);
     transition: var(--transition-base);
-}
-
-.btn-sm {
-    padding: var(--spacing-1) var(--spacing-3);
-    font-size: var(--font-size-sm);
-    border-radius: var(--border-radius-sm);
-}
-
-.btn-lg {
-    padding: var(--spacing-3) var(--spacing-5);
-    font-size: var(--font-size-lg);
-    border-radius: var(--border-radius-md);
-}
-
-.btn-icon {
-    width: 32px;
-    height: 32px;
-    padding: 0;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: var(--border-radius);
-}
-
-.btn-icon.btn-sm {
-    width: 28px;
-    height: 28px;
-}
-
-.btn-icon.btn-lg {
-    width: 42px;
-    height: 42px;
+    cursor: pointer;
 }
 
 .btn-primary {
@@ -785,60 +786,21 @@ button {
 .btn-primary:hover {
     background-color: var(--primary-dark);
     border-color: var(--primary-dark);
-    color: var(--white);
 }
 
 .btn-secondary {
-    color: var(--white);
+    color: var(--gray-800);
     background-color: var(--secondary);
     border-color: var(--secondary);
 }
 
 .btn-secondary:hover {
-    background-color: #e16b00;
-    border-color: #e16b00;
-    color: var(--white);
-}
-
-.btn-success {
-    color: var(--white);
-    background-color: var(--success);
-    border-color: var(--success);
-}
-
-.btn-success:hover {
-    background-color: #0ca678;
-    border-color: #0ca678;
-    color: var(--white);
-}
-
-.btn-danger {
-    color: var(--white);
-    background-color: var(--danger);
-    border-color: var(--danger);
-}
-
-.btn-danger:hover {
-    background-color: #c82333;
-    border-color: #c82333;
-    color: var(--white);
-}
-
-.btn-light {
-    color: var(--gray-700);
-    background-color: var(--light);
-    border-color: var(--gray-300);
-}
-
-.btn-light:hover {
-    background-color: var(--gray-200);
-    border-color: var(--gray-400);
-    color: var(--gray-700);
+    background-color: var(--secondary-dark);
+    border-color: var(--secondary-dark);
 }
 
 .btn-outline-primary {
     color: var(--primary);
-    background-color: transparent;
     border-color: var(--primary);
 }
 
@@ -846,6 +808,17 @@ button {
     color: var(--white);
     background-color: var(--primary);
     border-color: var(--primary);
+}
+
+.btn-outline-secondary {
+    color: var(--secondary-dark);
+    border-color: var(--secondary);
+}
+
+.btn-outline-secondary:hover {
+    color: var(--gray-800);
+    background-color: var(--secondary);
+    border-color: var(--secondary);
 }
 
 /* Forms - daha kullanışlı formlar */
