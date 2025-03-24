@@ -3,858 +3,732 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Birlik Elektrik Admin - Projeler</title>
-    <link rel="stylesheet" href="../css/admin.css">
+    <title>Projeler | Birlik Elektrik</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/admin.css">
+    <link rel="icon" href="../img/birlik-logo.jpg" type="image/jpg">
 </head>
 <body>
-    <!-- Header -->
-    <header class="admin-header">
-        <div class="container">
-            <div class="admin-header-content">
-                <div class="admin-menu">
-                    <button id="sidebarToggle"><i class="fas fa-bars"></i></button>
+    <!-- Ana Container -->
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar" id="sidebar">
+            <div class="admin-sidebar-header">
+                <div class="admin-sidebar-logo">
+                    <img src="../img/birlik-logo.jpg" alt="Birlik Elektrik">
+                    <h1>Birlik <span>Elektrik</span></h1>
                 </div>
-                <div class="admin-logo">
-                    <img src="../img/elektrik-bg1.jpg" alt="Birlik Elektrik Logo">
-                    <h1><span>Birlik</span> Elektrik</h1>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- Sidebar -->
-    <aside class="admin-sidebar" id="adminSidebar">
-        <div class="admin-sidebar-content">
-            <div class="admin-sidebar-user">
-                <div class="admin-user-avatar" id="userInitials">
-                    A
-                </div>
-                <div class="admin-user-info">
-                    <h3 id="userName">Admin</h3>
-                    <p id="userEmail">admin@birlikelektrik.com</p>
-                </div>
-            </div>
-            <ul class="admin-nav">
-                <li class="admin-nav-item">
-                    <a href="index.html" class="admin-nav-link">
-                        <i class="fas fa-tachometer-alt"></i> Dashboard
-                    </a>
-                </li>
-                <li class="admin-nav-item">
-                    <a href="projects.html" class="admin-nav-link active">
-                        <i class="fas fa-project-diagram"></i> Projeler
-                    </a>
-                </li>
-                <li class="admin-nav-item">
-                    <a href="services.html" class="admin-nav-link">
-                        <i class="fas fa-tools"></i> Hizmetler
-                    </a>
-                </li>
-                <li class="admin-nav-item">
-                    <a href="messages.html" class="admin-nav-link">
-                        <i class="fas fa-envelope"></i> Mesajlar
-                    </a>
-                </li>
-                <li class="admin-nav-item">
-                    <a href="newsletter.html" class="admin-nav-link">
-                        <i class="fas fa-newspaper"></i> Bülten Aboneleri
-                    </a>
-                </li>
-                <li class="admin-nav-item">
-                    <a href="#" id="logoutButton" class="admin-nav-link">
-                        <i class="fas fa-sign-out-alt"></i> Çıkış Yap
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="admin-content">
-        <div class="container">
-            <div class="admin-table-header">
-                <h1>Projeler</h1>
-                <button class="btn btn-primary" id="newProjectBtn"><i class="fas fa-plus"></i> Yeni Proje Ekle</button>
-            </div>
-            
-            <!-- Connection Status -->
-            <div class="alert alert-warning connection-alert" id="connectionAlert" style="display: none;">
-                <i class="fas fa-wifi"></i> <span id="connectionStatus">Firebase bağlantısı kurulamadı.</span>
-                <button id="connectionRetryBtn" class="btn btn-sm btn-outline-primary ml-2">
-                    <i class="fas fa-sync-alt"></i> Yeniden Dene
+                <button class="admin-sidebar-toggle" id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
                 </button>
             </div>
             
-            <!-- Alert Messages -->
-            <div class="alert alert-success" id="successAlert" style="display: none;"></div>
-            <div class="alert alert-danger" id="errorAlert" style="display: none;"></div>
-            <div class="alert alert-info" id="infoAlert" style="display: none;"></div>
+            <div class="admin-sidebar-user">
+                <div class="admin-sidebar-avatar" id="userInitials">AY</div>
+                <div class="admin-sidebar-userinfo">
+                    <h4 class="admin-sidebar-username" id="userName">Admin Yönetici</h4>
+                    <p class="admin-sidebar-useremail" id="userEmail">admin@birlikelektrik.com</p>
+                </div>
+            </div>
             
-            <!-- Projects Table -->
-            <div class="admin-table-container">
-                <table class="admin-table">
-                    <thead>
-                        <tr>
-                            <th>Görsel</th>
-                            <th>Başlık</th>
-                            <th>Açıklama</th>
-                            <th>Kategori</th>
-                            <th>Durum</th>
-                            <th>Tarih</th>
-                            <th>İşlemler</th>
-                        </tr>
-                    </thead>
-                    <tbody id="projectsTableBody">
-                        <tr>
-                            <td colspan="7" class="loading">
-                                <i class="fas fa-spinner fa-spin"></i> Projeler yükleniyor...
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </main>
-
-    <!-- Project Modal -->
-    <div class="admin-modal" id="projectModal">
-        <div class="admin-modal-content">
-            <div class="admin-modal-header">
-                <h2 id="modalTitle">Yeni Proje Ekle</h2>
-                <button class="admin-modal-close" id="closeModal">&times;</button>
-            </div>
-            <div class="admin-modal-body">
-                <form id="projectForm">
-                    <input type="hidden" id="projectId">
-                    
-                    <div class="admin-form-group">
-                        <label for="projectTitle">Proje Başlığı</label>
-                        <input type="text" id="projectTitle" class="admin-form-control" required>
-                    </div>
-                    
-                    <div class="admin-form-group">
-                        <label for="projectDescription">Proje Açıklaması</label>
-                        <textarea id="projectDescription" class="admin-form-control" rows="4" required></textarea>
-                    </div>
-                    
-                    <div class="admin-form-group">
-                        <label for="projectCategory">Kategori</label>
-                        <select id="projectCategory" class="admin-form-select" required>
-                            <option value="" disabled selected>Kategori Seçin</option>
-                            <option value="konut">Konut</option>
-                            <option value="ticari">Ticari</option>
-                            <option value="endustriyel">Endüstriyel</option>
-                            <option value="altyapi">Altyapı</option>
-                            <option value="aydinlatma">Aydınlatma</option>
-                            <option value="guvenlik">Güvenlik Sistemleri</option>
-                            <option value="diger">Diğer</option>
-                        </select>
-                    </div>
-                    
-                    <div class="admin-form-group">
-                        <label for="projectStatus">Durum</label>
-                        <div class="admin-form-check">
-                            <input type="checkbox" id="projectCompleted" class="admin-form-check-input">
-                            <label for="projectCompleted">Tamamlandı</label>
+            <nav class="admin-menu">
+                <div class="admin-menu-section">Ana Menü</div>
+                <ul>
+                    <li class="admin-menu-item">
+                        <a href="index.html" class="admin-menu-link">
+                            <i class="fas fa-tachometer-alt admin-menu-icon"></i>
+                            <span class="admin-menu-title">Gösterge Paneli</span>
+                        </a>
+                    </li>
+                    <li class="admin-menu-item">
+                        <a href="projects.html" class="admin-menu-link active">
+                            <i class="fas fa-project-diagram admin-menu-icon"></i>
+                            <span class="admin-menu-title">Projeler</span>
+                        </a>
+                    </li>
+                    <li class="admin-menu-item">
+                        <a href="services.html" class="admin-menu-link">
+                            <i class="fas fa-tools admin-menu-icon"></i>
+                            <span class="admin-menu-title">Hizmetler</span>
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="admin-menu-section">İçerik Yönetimi</div>
+                <ul>
+                    <li class="admin-menu-item">
+                        <a href="pages.html" class="admin-menu-link">
+                            <i class="fas fa-file-alt admin-menu-icon"></i>
+                            <span class="admin-menu-title">Sayfalar</span>
+                        </a>
+                    </li>
+                    <li class="admin-menu-item">
+                        <a href="gallery.html" class="admin-menu-link">
+                            <i class="fas fa-images admin-menu-icon"></i>
+                            <span class="admin-menu-title">Galeri</span>
+                        </a>
+                    </li>
+                    <li class="admin-menu-item">
+                        <a href="team.html" class="admin-menu-link">
+                            <i class="fas fa-users admin-menu-icon"></i>
+                            <span class="admin-menu-title">Ekip</span>
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="admin-menu-section">İletişim</div>
+                <ul>
+                    <li class="admin-menu-item">
+                        <a href="messages.html" class="admin-menu-link">
+                            <i class="fas fa-envelope admin-menu-icon"></i>
+                            <span class="admin-menu-title">Mesajlar</span>
+                            <span class="admin-menu-badge">5</span>
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="admin-menu-section">Ayarlar</div>
+                <ul>
+                    <li class="admin-menu-item">
+                        <a href="settings.html" class="admin-menu-link">
+                            <i class="fas fa-cog admin-menu-icon"></i>
+                            <span class="admin-menu-title">Genel Ayarlar</span>
+                        </a>
+                    </li>
+                    <li class="admin-menu-item">
+                        <a href="users.html" class="admin-menu-link">
+                            <i class="fas fa-user-shield admin-menu-icon"></i>
+                            <span class="admin-menu-title">Kullanıcılar</span>
+                        </a>
+                    </li>
+                    <li class="admin-menu-item">
+                        <a href="#" id="logoutBtn" class="admin-menu-link">
+                            <i class="fas fa-sign-out-alt admin-menu-icon"></i>
+                            <span class="admin-menu-title">Çıkış Yap</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <!-- İçerik Sarmalayıcı -->
+        <div class="admin-content-wrapper">
+            <!-- Header -->
+            <header class="admin-header">
+                <div class="admin-header-search">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Aramak için yazın...">
+                </div>
+                
+                <div class="admin-header-actions">
+                    <button class="admin-header-action" id="darkModeToggle" title="Karanlık/Açık Mod">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <button class="admin-header-action" title="Bildirimler">
+                        <i class="fas fa-bell"></i>
+                        <span class="admin-header-action-badge">3</span>
+                    </button>
+                    <button class="admin-header-action" title="Mesajlar">
+                        <i class="fas fa-envelope"></i>
+                        <span class="admin-header-action-badge">5</span>
+                    </button>
+                    <button class="admin-header-action" id="mobileMenuToggle" title="Menü">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </header>
+            
+            <!-- Ana İçerik -->
+            <main class="admin-content">
+                <div class="admin-page-title">
+                    <div>
+                        <h1>Projeler</h1>
+                        <div class="admin-breadcrumb">
+                            <a href="index.html">Ana Sayfa</a>
+                            <span class="admin-breadcrumb-separator">/</span>
+                            <span>Projeler</span>
                         </div>
                     </div>
-                    
-                    <div class="admin-form-group">
-                        <label for="projectImage">Proje Görseli</label>
-                        <div class="image-upload-container">
-                            <input type="file" id="projectImage" class="admin-form-control" accept="image/*">
-                            <div class="image-upload-info">
-                                <p><i class="fas fa-info-circle"></i> Önerilen boyut: 600x400px, <strong>Maksimum boyut: 2MB</strong></p>
-                                <p><i class="fas fa-check-circle"></i> Desteklenen formatlar: JPG, PNG, GIF</p>
-                                <p><i class="fas fa-exclamation-triangle text-warning"></i> Not: Şu anda görsel yükleme işlemi Base64 formatında yapılmaktadır. Büyük görseller sayfayı yavaşlatabilir.</p>
+                    <button class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Yeni Proje Ekle
+                    </button>
+                </div>
+                
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <h2 class="admin-card-title">Proje Listesi</h2>
+                        <div class="admin-card-actions">
+                            <button class="btn btn-sm btn-light">
+                                <i class="fas fa-sync"></i> Yenile
+                            </button>
+                            <div class="admin-form-group mb-0 ml-2">
+                                <select class="admin-form-control form-select-sm">
+                                    <option value="all">Tümü</option>
+                                    <option value="active">Aktif</option>
+                                    <option value="completed">Tamamlanan</option>
+                                    <option value="pending">Bekleyen</option>
+                                </select>
                             </div>
                         </div>
-                        <div id="imagePreviewContainer" style="margin-top: 15px; display: none;">
-                            <p>Seçilen Görsel:</p>
-                            <img id="imagePreview" src="" alt="Seçilen Görsel" style="max-width: 100%; max-height: 200px; display: block; margin-bottom: 10px;">
+                    </div>
+                    <div class="admin-card-body">
+                        <div class="admin-table-wrapper">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 50px">#</th>
+                                        <th>Proje Adı</th>
+                                        <th>Müşteri</th>
+                                        <th>Başlangıç Tarihi</th>
+                                        <th>Bitiş Tarihi</th>
+                                        <th>Durum</th>
+                                        <th style="width: 120px">İşlemler</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Fabrika Elektrik Tesisatı</td>
+                                        <td>Beşler Metal A.Ş.</td>
+                                        <td>05.05.2023</td>
+                                        <td>25.07.2023</td>
+                                        <td><span class="badge badge-primary">Aktif</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-light btn-icon" title="Düzenle">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-light btn-icon" title="Görüntüle">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-light btn-icon" title="Sil">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Aydınlatma Projesi</td>
+                                        <td>Adana City AVM</td>
+                                        <td>10.04.2023</td>
+                                        <td>15.06.2023</td>
+                                        <td><span class="badge badge-success">Tamamlandı</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-light btn-icon" title="Düzenle">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-light btn-icon" title="Görüntüle">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-light btn-icon" title="Sil">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Site Altyapı Kablolaması</td>
+                                        <td>Bahçeşehir Konutları</td>
+                                        <td>01.06.2023</td>
+                                        <td>30.09.2023</td>
+                                        <td><span class="badge badge-primary">Aktif</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-light btn-icon" title="Düzenle">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-light btn-icon" title="Görüntüle">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-light btn-icon" title="Sil">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>Güneş Enerjisi Sistemi</td>
+                                        <td>Yeşilova Çiftliği</td>
+                                        <td>15.05.2023</td>
+                                        <td>20.08.2023</td>
+                                        <td><span class="badge badge-warning">Beklemede</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-light btn-icon" title="Düzenle">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-light btn-icon" title="Görüntüle">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-light btn-icon" title="Sil">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>5</td>
+                                        <td>Endüstriyel Otomasyon</td>
+                                        <td>Kardeşler Tekstil</td>
+                                        <td>20.03.2023</td>
+                                        <td>10.06.2023</td>
+                                        <td><span class="badge badge-success">Tamamlandı</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-light btn-icon" title="Düzenle">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-light btn-icon" title="Görüntüle">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-light btn-icon" title="Sil">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                        <div id="currentImageContainer" style="margin-top: 15px; display: none;">
-                            <p>Mevcut Görsel:</p>
-                            <img id="currentImage" src="" alt="Mevcut Proje Görseli" style="max-width: 100%; max-height: 200px; display: block;">
+                    </div>
+                    <div class="admin-card-footer">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>Toplam 5 proje</div>
+                            <div class="admin-pagination">
+                                <button class="btn btn-sm btn-light" disabled>
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <button class="btn btn-sm btn-primary">1</button>
+                                <button class="btn btn-sm btn-light">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="admin-row">
+                    <!-- Son Projeler -->
+                    <div class="admin-col admin-col-lg-8">
+                        <div class="admin-card">
+                            <div class="admin-card-header">
+                                <h2 class="admin-card-title">Son Projeler</h2>
+                                <div class="admin-card-actions">
+                                    <button class="btn btn-sm btn-primary">
+                                        <i class="fas fa-plus"></i> Yeni Proje
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="admin-card-body">
+                                <div class="admin-project-item">
+                                    <div class="admin-project-info">
+                                        <h3 class="admin-project-title">Fabrika Elektrik Tesisatı</h3>
+                                        <p class="admin-project-desc">Osmaniye OSB'deki fabrikanın elektrik tesisatı</p>
+                                    </div>
+                                    <div class="admin-project-meta">
+                                        <span><i class="fas fa-calendar"></i> 10.06.2023 - 15.08.2023</span>
+                                        <div class="admin-project-progress">
+                                            <div class="progress">
+                                                <div class="progress-bar" style="width: 65%"></div>
+                                            </div>
+                                            <span class="progress-text">65%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="admin-project-item">
+                                    <div class="admin-project-info">
+                                        <h3 class="admin-project-title">Aydınlatma Projesi</h3>
+                                        <p class="admin-project-desc">Adana Merkez AVM aydınlatma sisteminin yenilenmesi</p>
+                                    </div>
+                                    <div class="admin-project-meta">
+                                        <span><i class="fas fa-calendar"></i> 05.06.2023 - 20.07.2023</span>
+                                        <div class="admin-project-progress">
+                                            <div class="progress">
+                                                <div class="progress-bar" style="width: 35%"></div>
+                                            </div>
+                                            <span class="progress-text">35%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="admin-project-item">
+                                    <div class="admin-project-info">
+                                        <h3 class="admin-project-title">Site Altyapı Kablolaması</h3>
+                                        <p class="admin-project-desc">Bahçeşehir Konutları elektrik altyapı ve kablolama</p>
+                                    </div>
+                                    <div class="admin-project-meta">
+                                        <span><i class="fas fa-calendar"></i> 01.06.2023 - 30.09.2023</span>
+                                        <div class="admin-project-progress">
+                                            <div class="progress">
+                                                <div class="progress-bar" style="width: 20%"></div>
+                                            </div>
+                                            <span class="progress-text">20%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     
-                    <div class="admin-form-group">
-                        <label for="projectDate">Tarih</label>
-                        <input type="date" id="projectDate" class="admin-form-control" required>
+                    <!-- Hızlı Erişim -->
+                    <div class="admin-col admin-col-lg-4">
+                        <div class="admin-card">
+                            <div class="admin-card-header">
+                                <h2 class="admin-card-title">Hızlı Erişim</h2>
+                            </div>
+                            <div class="admin-card-body">
+                                <div class="admin-quick-links">
+                                    <a href="projects.html" class="admin-quick-link">
+                                        <i class="fas fa-plus-circle"></i>
+                                        <span>Yeni Proje Ekle</span>
+                                    </a>
+                                    <a href="services.html" class="admin-quick-link">
+                                        <i class="fas fa-tools"></i>
+                                        <span>Hizmet Ekle</span>
+                                    </a>
+                                    <a href="messages.html" class="admin-quick-link">
+                                        <i class="fas fa-envelope-open-text"></i>
+                                        <span>Mesajları Kontrol Et</span>
+                                    </a>
+                                    <a href="settings.html" class="admin-quick-link">
+                                        <i class="fas fa-cog"></i>
+                                        <span>Site Ayarları</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </form>
-            </div>
-            <div class="admin-modal-footer">
-                <button class="btn btn-secondary" id="cancelBtn">İptal</button>
-                <button class="btn btn-primary" id="saveProjectBtn">Kaydet</button>
-            </div>
+                </div>
+            </main>
         </div>
     </div>
-
-    <!-- Delete Confirmation Modal -->
-    <div class="admin-modal" id="deleteModal">
-        <div class="admin-modal-content" style="max-width: 400px;">
-            <div class="admin-modal-header">
-                <h2>Projeyi Sil</h2>
-                <button class="admin-modal-close" id="closeDeleteModal">&times;</button>
-            </div>
-            <div class="admin-modal-body">
-                <p>Bu projeyi silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.</p>
-                <input type="hidden" id="deleteProjectId">
-            </div>
-            <div class="admin-modal-footer">
-                <button class="btn btn-secondary" id="cancelDeleteBtn">İptal</button>
-                <button class="btn btn-danger" id="confirmDeleteBtn">Sil</button>
-            </div>
-        </div>
-    </div>
-
+    
     <!-- Firebase JS -->
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
     
     <!-- Firebase Config -->
     <script src="../js/firebase/config.js"></script>
     
-    <!-- Admin JS -->
     <script>
-        // DOM tamamen yüklendiğinde çalış
         document.addEventListener('DOMContentLoaded', function() {
-            // Kullanıcı girişini kontrol et
-            firebase.auth().onAuthStateChanged(function(user) {
-                if (!user) {
-                    // Kullanıcı giriş yapmamışsa login sayfasına yönlendir
-                    console.log('Kullanıcı giriş yapmamış, login sayfasına yönlendiriliyor...');
-                    window.location.href = 'login.html';
-                    return;
-                }
-
-                console.log('Kullanıcı giriş yapmış:', user.email);
-                initializeAdmin(user);
-            });
-
-            // Admin arayüzünü başlat
-            function initializeAdmin(user) {
-                // Kullanıcı bilgilerini ayarla
-                const userEmail = document.getElementById('userEmail');
-                const userName = document.getElementById('userName');
-                const userInitials = document.getElementById('userInitials');
-                
-                userEmail.textContent = user.email;
-                
-                if (user.displayName) {
-                    userName.textContent = user.displayName;
-                    
-                    // Baş harfleri göster
-                    const nameParts = user.displayName.split(' ');
-                    const initials = nameParts.length > 1 
-                        ? nameParts[0].charAt(0) + nameParts[1].charAt(0) 
-                        : nameParts[0].charAt(0);
-                    
-                    userInitials.textContent = initials.toUpperCase();
+            // Firebase Auth
+            const auth = firebase.auth();
+            const firestore = firebase.firestore();
+            
+            // DOM Elements
+            const sidebar = document.getElementById('sidebar');
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const userNameElement = document.getElementById('userName');
+            const userEmailElement = document.getElementById('userEmail');
+            const userInitialsElement = document.getElementById('userInitials');
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            
+            // Kullanıcı tercihi için karanlık/açık mod
+            function setDarkMode(isDark) {
+                if (isDark) {
+                    document.body.classList.add('dark-mode');
+                    darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                    localStorage.setItem('darkMode', 'true');
                 } else {
-                    // E-posta adresinden başlangıç harflerini alıp göster
-                    const emailParts = user.email.split('@');
-                    const name = emailParts[0];
-                    
-                    userName.textContent = name.charAt(0).toUpperCase() + name.slice(1);
-                    userInitials.textContent = name.charAt(0).toUpperCase();
+                    document.body.classList.remove('dark-mode');
+                    darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                    localStorage.setItem('darkMode', 'false');
                 }
-                
-                // Firebase modüllerinin yüklenip yüklenmediğini kontrol et
-                checkFirebaseModules();
-                
-                // Sidebar Toggle
-                const sidebarToggle = document.getElementById('sidebarToggle');
-                const adminSidebar = document.getElementById('adminSidebar');
-                
-                sidebarToggle.addEventListener('click', function() {
-                    adminSidebar.classList.toggle('show');
-                    
-                    // Icon değiştir
-                    const icon = this.querySelector('i');
-                    if (icon.classList.contains('fa-bars')) {
-                        icon.classList.remove('fa-bars');
-                        icon.classList.add('fa-times');
-                    } else {
-                        icon.classList.remove('fa-times');
-                        icon.classList.add('fa-bars');
-                    }
-                });
-                
-                // Çıkış yapma
-                const logoutButton = document.getElementById('logoutButton');
-                
-                logoutButton.addEventListener('click', async function(e) {
-                    e.preventDefault();
-                    
-                    try {
-                        await firebase.auth().signOut();
-                        window.location.href = 'login.html';
-                    } catch (error) {
-                        console.error('Çıkış yapılırken hata oluştu:', error);
-                        showAlert('danger', 'Çıkış yapılırken bir hata oluştu.');
-                    }
-                });
-                
-                // Bağlantı durumunu izleme
-                window.addEventListener('firebaseConnectionChange', function(e) {
-                    const connectionAlert = document.getElementById('connectionAlert');
-                    const connectionStatus = document.getElementById('connectionStatus');
-                    
-                    if (e.detail.isConnected) {
-                        connectionAlert.style.display = 'none';
-                        loadProjects(); // Bağlantı yeniden kurulduğunda projeleri yeniden yükle
-                    } else {
-                        connectionAlert.style.display = 'flex';
-                        connectionStatus.textContent = 'İnternet bağlantısı yok. Veriler kaydedilmeyebilir.';
-                    }
-                });
-                
-                // Bağlantıyı yeniden dene
-                document.getElementById('connectionRetryBtn').addEventListener('click', function() {
-                    const connectionStatus = document.getElementById('connectionStatus');
-                    connectionStatus.textContent = 'Bağlantı kontrol ediliyor...';
-                    
-                    // Firebase modüllerini tekrar kontrol et
-                    checkFirebaseModules();
-                    
-                    // Projeler listesini yeniden yükle
-                    setTimeout(() => {
-                        loadProjects();
-                    }, 1000);
-                });
-                
-                // Veritabanı referanslarını kontrol et
-                if (!db || !projectsRef) {
-                    showAlert('danger', 'Firestore bağlantısı kurulamadı! Veriler gösterilemiyor.');
-                    document.getElementById('connectionAlert').style.display = 'flex';
-                    return;
-                }
-                
-                // Projeleri yükle
-                loadProjects();
-                
-                // Yeni proje ekleme düğmesi
-                document.getElementById('newProjectBtn').addEventListener('click', function() {
-                    openNewProjectModal();
-                });
-                
-                // Modal kapatma düğmeleri
-                document.getElementById('closeModal').addEventListener('click', function() {
-                    closeProjectModal();
-                });
-                
-                document.getElementById('cancelBtn').addEventListener('click', function() {
-                    closeProjectModal();
-                });
-                
-                document.getElementById('closeDeleteModal').addEventListener('click', function() {
-                    closeDeleteModal();
-                });
-                
-                document.getElementById('cancelDeleteBtn').addEventListener('click', function() {
-                    closeDeleteModal();
-                });
-                
-                // Proje kaydetme
-                document.getElementById('saveProjectBtn').addEventListener('click', function() {
-                    saveProject();
-                });
-                
-                // Proje silme onayı
-                document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
-                    deleteProject();
-                });
-                
-                // Resim yükleme önizleme
-                document.getElementById('projectImage').addEventListener('change', function(e) {
-                    handleImagePreview(e);
-                });
-                
-                // Bugünün tarihini varsayılan olarak ayarla
-                const today = new Date().toISOString().split('T')[0];
-                document.getElementById('projectDate').value = today;
             }
             
-            // Firebase modüllerini kontrol et
-            function checkFirebaseModules() {
-                console.log('Firebase modül kontrolü yapılıyor...');
+            // Depolanan kullanıcı tercihini kontrol et
+            const savedDarkMode = localStorage.getItem('darkMode') === 'true';
+            setDarkMode(savedDarkMode);
+            
+            // Karanlık mod düğmesi
+            darkModeToggle.addEventListener('click', function() {
+                const isDarkMode = document.body.classList.contains('dark-mode');
+                setDarkMode(!isDarkMode);
+            });
+            
+            // Toggle Sidebar
+            sidebarToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('collapsed');
                 
-                // Firebase App kontrol
-                if (typeof firebase === 'undefined') {
-                    showAlert('danger', 'Firebase kütüphanesi yüklenemedi! Sayfayı yenileyin veya ağ bağlantınızı kontrol edin.');
-                    document.getElementById('connectionAlert').style.display = 'flex';
-                    return false;
+                // İkon değiştir
+                const icon = this.querySelector('i');
+                if (sidebar.classList.contains('collapsed')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-bars-staggered');
+                } else {
+                    icon.classList.remove('fa-bars-staggered');
+                    icon.classList.add('fa-bars');
                 }
-                
-                // Firestore kontrol
-                if (typeof firebase.firestore !== 'function' || !db) {
-                    showAlert('danger', 'Firebase Firestore modülü bulunamadı! Sayfayı yenileyin veya ağ bağlantınızı kontrol edin.');
-                    document.getElementById('connectionAlert').style.display = 'flex';
-                    return false;
-                }
-                
-                // Auth kontrol
-                if (typeof firebase.auth !== 'function') {
-                    showAlert('danger', 'Firebase Authentication modülü bulunamadı! Sayfayı yenileyin veya ağ bağlantınızı kontrol edin.');
-                    document.getElementById('connectionAlert').style.display = 'flex';
-                    return false;
-                }
-                
-                console.log('Firebase modülleri başarıyla kontrol edildi.');
-                return true;
-            }
-
-            // Projeleri yükle
-            async function loadProjects() {
-                const projectsTableBody = document.getElementById('projectsTableBody');
-                
-                try {
-                    if (!db || !projectsRef) {
-                        throw new Error('Firestore bağlantısı kurulamadı');
-                    }
+            });
+            
+            // Mobile Menu Toggle
+            mobileMenuToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('show');
+            });
+            
+            // Auth State Changed
+            auth.onAuthStateChanged(function(user) {
+                if (user) {
+                    // User is signed in
+                    userEmailElement.textContent = user.email;
                     
-                    console.log('Projeler yükleniyor...');
-                    
-                    // Loading göster
-                    projectsTableBody.innerHTML = `
-                        <tr>
-                            <td colspan="7" class="loading">
-                                <i class="fas fa-spinner fa-spin"></i> Projeler yükleniyor...
-                            </td>
-                        </tr>
-                    `;
-                    
-                    // Doğrudan db.collection kullanarak veri çekelim
-                    const snapshot = await db.collection('projects').orderBy('createdAt', 'desc').get();
-                    
-                    if (snapshot.empty) {
-                        projectsTableBody.innerHTML = `
-                            <tr>
-                                <td colspan="7" class="empty">Henüz proje bulunmuyor.</td>
-                            </tr>
-                        `;
-                        return;
-                    }
-                    
-                    projectsTableBody.innerHTML = '';
-                    
-                    snapshot.forEach(doc => {
-                        const project = doc.data();
-                        const projectId = doc.id;
-                        const date = project.date ? new Date(project.date) : new Date();
-                        const formattedDate = date.toLocaleDateString('tr-TR');
+                    // Set user name and initials
+                    if (user.displayName) {
+                        userNameElement.textContent = user.displayName;
                         
-                        // Base64 veya URL görsel gösterimini hazırla
-                        let imageHtml = '<div class="admin-table-img placeholder"><i class="fas fa-image"></i></div>';
-                        
-                        if (project.imageUrl) {
-                            imageHtml = `<div class="admin-table-img"><img src="${project.imageUrl}" alt="${project.title || 'Proje Görseli'}"></div>`;
+                        // Set initials
+                        const names = user.displayName.split(' ');
+                        if (names.length > 1) {
+                            userInitialsElement.textContent = names[0].charAt(0) + names[1].charAt(0);
+                        } else {
+                            userInitialsElement.textContent = names[0].charAt(0);
                         }
-                        
-                        // Kategori adını düzgün göster
-                        let categoryName = 'Diğer';
-                        switch (project.category) {
-                            case 'konut': categoryName = 'Konut'; break;
-                            case 'ticari': categoryName = 'Ticari'; break;
-                            case 'endustriyel': categoryName = 'Endüstriyel'; break;
-                            case 'altyapi': categoryName = 'Altyapı'; break;
-                            case 'aydinlatma': categoryName = 'Aydınlatma'; break;
-                            case 'guvenlik': categoryName = 'Güvenlik Sistemleri'; break;
-                        }
-                        
-                        // Durum badge'ını hazırla
-                        const status = project.completed ? 'completed' : 'active';
-                        const statusText = project.completed ? 'Tamamlandı' : 'Devam Ediyor';
-                        
-                        const tr = document.createElement('tr');
-                        tr.dataset.id = projectId;
-                        tr.innerHTML = `
-                            <td>${imageHtml}</td>
-                            <td>${project.title || '-'}</td>
-                            <td>${project.description ? (project.description.length > 50 ? project.description.substring(0, 50) + '...' : project.description) : '-'}</td>
-                            <td>${categoryName}</td>
-                            <td><span class="status-badge status-${status}">${statusText}</span></td>
-                            <td>${formattedDate}</td>
-                            <td class="action-buttons">
-                                <button class="btn btn-sm btn-outline-primary edit-btn" data-id="${projectId}">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="btn btn-sm btn-outline-danger delete-btn" data-id="${projectId}">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
-                            </td>
-                        `;
-                        
-                        projectsTableBody.appendChild(tr);
-                    });
-                    
-                    // Edit ve delete butonlarına olay dinleyicileri ekle
-                    document.querySelectorAll('.edit-btn').forEach(btn => {
-                        btn.addEventListener('click', function() {
-                            const projectId = this.getAttribute('data-id');
-                            openEditProjectModal(projectId);
-                        });
-                    });
-                    
-                    document.querySelectorAll('.delete-btn').forEach(btn => {
-                        btn.addEventListener('click', function() {
-                            const projectId = this.getAttribute('data-id');
-                            openDeleteModal(projectId);
-                        });
-                    });
-                    
-                    console.log('Projeler başarıyla yüklendi.');
-                } catch (error) {
-                    console.error('Projeler yüklenirken hata oluştu:', error);
-                    projectsTableBody.innerHTML = `
-                        <tr>
-                            <td colspan="7" class="error">
-                                <i class="fas fa-exclamation-triangle"></i> Projeler yüklenirken bir hata oluştu: ${error.message}
-                            </td>
-                        </tr>
-                    `;
-                    showAlert('danger', 'Projeler yüklenirken bir hata oluştu.');
-                    document.getElementById('connectionAlert').style.display = 'flex';
-                }
-            }
-
-            // Yeni proje modalını aç
-            function openNewProjectModal() {
-                const modal = document.getElementById('projectModal');
-                const modalTitle = document.getElementById('modalTitle');
-                const form = document.getElementById('projectForm');
-                const currentImageContainer = document.getElementById('currentImageContainer');
-                const imagePreviewContainer = document.getElementById('imagePreviewContainer');
-                
-                // Modal başlığını ayarla
-                modalTitle.textContent = 'Yeni Proje Ekle';
-                
-                // Formu sıfırla
-                form.reset();
-                
-                // Proje ID'sini temizle
-                document.getElementById('projectId').value = '';
-                
-                // Bugünün tarihini ayarla
-                const today = new Date().toISOString().split('T')[0];
-                document.getElementById('projectDate').value = today;
-                
-                // Görsel konteynerlarını gizle
-                currentImageContainer.style.display = 'none';
-                imagePreviewContainer.style.display = 'none';
-                
-                // Modalı aç
-                modal.classList.add('show');
-            }
-
-            // Proje düzenleme modalını aç
-            async function openEditProjectModal(projectId) {
-                try {
-                    if (!db || !projectsRef) {
-                        throw new Error('Firestore bağlantısı kurulamadı');
-                    }
-                    
-                    console.log('Proje verisi alınıyor:', projectId);
-                    
-                    // Proje verisini al
-                    const doc = await db.collection('projects').doc(projectId).get();
-                    
-                    if (!doc.exists) {
-                        showAlert('danger', 'Proje bulunamadı.');
-                        return;
-                    }
-                    
-                    const project = doc.data();
-                    
-                    // Modal elementlerini al
-                    const modal = document.getElementById('projectModal');
-                    const modalTitle = document.getElementById('modalTitle');
-                    const form = document.getElementById('projectForm');
-                    const currentImageContainer = document.getElementById('currentImageContainer');
-                    const imagePreviewContainer = document.getElementById('imagePreviewContainer');
-                    
-                    // Modal başlığını ayarla
-                    modalTitle.textContent = 'Projeyi Düzenle';
-                    
-                    // Formu doldur
-                    document.getElementById('projectId').value = projectId;
-                    document.getElementById('projectTitle').value = project.title || '';
-                    document.getElementById('projectDescription').value = project.description || '';
-                    document.getElementById('projectCategory').value = project.category || '';
-                    document.getElementById('projectCompleted').checked = project.completed || false;
-                    
-                    // Tarih formatını ayarla
-                    let projectDate = new Date();
-                    if (project.date) {
-                        projectDate = new Date(project.date);
-                    }
-                    document.getElementById('projectDate').value = projectDate.toISOString().split('T')[0];
-                    
-                    // Eğer görsel varsa göster
-                    if (project.imageUrl) {
-                        const currentImage = document.getElementById('currentImage');
-                        currentImage.src = project.imageUrl;
-                        currentImageContainer.style.display = 'block';
                     } else {
-                        currentImageContainer.style.display = 'none';
+                        userNameElement.textContent = 'Admin Kullanıcı';
+                        userInitialsElement.textContent = user.email.charAt(0).toUpperCase();
                     }
-                    
-                    // Yeni görsel önizleme konteynerını gizle
-                    imagePreviewContainer.style.display = 'none';
-                    
-                    // Modalı aç
-                    modal.classList.add('show');
-                    
-                    console.log('Proje verisi başarıyla yüklendi.');
-                } catch (error) {
-                    console.error('Proje verisi alınırken hata oluştu:', error);
-                    showAlert('danger', 'Proje verisi alınırken bir hata oluştu.');
+                } else {
+                    // User is signed out, redirect to login
+                    window.location.href = 'login.html';
                 }
-            }
-
-            // Görsel önizleme
-            function handleImagePreview(e) {
-                const file = e.target.files[0];
-                if (!file) return;
+            });
+            
+            // Logout
+            logoutBtn.addEventListener('click', function(e) {
+                e.preventDefault();
                 
-                // Dosya boyutunu kontrol et (2MB'dan büyükse uyar)
-                if (file.size > 2 * 1024 * 1024) {
-                    showAlert('warning', 'Görsel dosyası 2MB\'dan büyük! Bu, sayfanın yavaş yüklenmesine neden olabilir.');
-                }
-                
-                // FileReader ile dosyayı okuyup önizle
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const previewImage = document.getElementById('imagePreview');
-                    const previewContainer = document.getElementById('imagePreviewContainer');
-                    
-                    previewImage.src = e.target.result;
-                    previewContainer.style.display = 'block';
-                };
-                reader.readAsDataURL(file);
-            }
-
-            // Proje kaydet
-            async function saveProject() {
-                try {
-                    if (!db || !projectsRef) {
-                        throw new Error('Firestore bağlantısı kurulamadı');
-                    }
-                    
-                    // Form validasyonu
-                    const form = document.getElementById('projectForm');
-                    if (!form.checkValidity()) {
-                        form.reportValidity();
-                        return;
-                    }
-                    
-                    // Formdaki verileri al
-                    const projectId = document.getElementById('projectId').value;
-                    const title = document.getElementById('projectTitle').value;
-                    const description = document.getElementById('projectDescription').value;
-                    const category = document.getElementById('projectCategory').value;
-                    const completed = document.getElementById('projectCompleted').checked;
-                    const date = document.getElementById('projectDate').value;
-                    const imageFile = document.getElementById('projectImage').files[0];
-                    
-                    // Proje verilerini hazırla
-                    const projectData = {
-                        title,
-                        description,
-                        category,
-                        completed,
-                        date
-                    };
-                    
-                    console.log('Proje kaydediliyor...');
-                    
-                    // Save butonunu devre dışı bırak
-                    const saveBtn = document.getElementById('saveProjectBtn');
-                    const originalBtnText = saveBtn.textContent;
-                    saveBtn.disabled = true;
-                    saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Kaydediliyor...';
-                    
-                    let result;
-                    
-                    // Yeni proje mi yoksa güncelleme mi?
-                    if (projectId) {
-                        // Projeyi güncelle
-                        result = await dbHelper.updateProject(projectId, projectData, imageFile);
-                    } else {
-                        // Yeni proje ekle
-                        result = await dbHelper.addProject(projectData, imageFile);
-                    }
-                    
-                    if (result.success) {
-                        showAlert('success', projectId ? 'Proje başarıyla güncellendi.' : 'Yeni proje başarıyla eklendi.');
-                        closeProjectModal();
-                        
-                        // Proje listesini yenile
-                        loadProjects();
-                    } else {
-                        throw new Error(result.error || 'Bilinmeyen bir hata oluştu.');
-                    }
-                } catch (error) {
-                    console.error('Proje kaydedilirken hata oluştu:', error);
-                    showAlert('danger', `Proje kaydedilirken bir hata oluştu: ${error.message}`);
-                } finally {
-                    // Save butonunu eski haline getir
-                    const saveBtn = document.getElementById('saveProjectBtn');
-                    saveBtn.disabled = false;
-                    saveBtn.textContent = 'Kaydet';
-                }
-            }
-
-            // Proje silme modalını aç
-            function openDeleteModal(projectId) {
-                const modal = document.getElementById('deleteModal');
-                document.getElementById('deleteProjectId').value = projectId;
-                modal.classList.add('show');
-            }
-
-            // Proje sil
-            async function deleteProject() {
-                try {
-                    if (!db || !projectsRef) {
-                        throw new Error('Firestore bağlantısı kurulamadı');
-                    }
-                    
-                    const projectId = document.getElementById('deleteProjectId').value;
-                    if (!projectId) {
-                        throw new Error('Proje ID bulunamadı.');
-                    }
-                    
-                    console.log('Proje siliniyor:', projectId);
-                    
-                    // Delete butonunu devre dışı bırak
-                    const deleteBtn = document.getElementById('confirmDeleteBtn');
-                    const originalBtnText = deleteBtn.textContent;
-                    deleteBtn.disabled = true;
-                    deleteBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Siliniyor...';
-                    
-                    // Projeyi sil
-                    const result = await dbHelper.deleteProject(projectId);
-                    
-                    if (result.success) {
-                        showAlert('success', 'Proje başarıyla silindi.');
-                        closeDeleteModal();
-                        
-                        // Proje listesini yenile
-                        loadProjects();
-                    } else {
-                        throw new Error(result.error || 'Bilinmeyen bir hata oluştu.');
-                    }
-                } catch (error) {
-                    console.error('Proje silinirken hata oluştu:', error);
-                    showAlert('danger', `Proje silinirken bir hata oluştu: ${error.message}`);
-                } finally {
-                    // Delete butonunu eski haline getir
-                    const deleteBtn = document.getElementById('confirmDeleteBtn');
-                    deleteBtn.disabled = false;
-                    deleteBtn.textContent = 'Sil';
-                }
-            }
-
-            // Proje modalını kapat
-            function closeProjectModal() {
-                const modal = document.getElementById('projectModal');
-                modal.classList.remove('show');
-            }
-
-            // Silme modalını kapat
-            function closeDeleteModal() {
-                const modal = document.getElementById('deleteModal');
-                modal.classList.remove('show');
-            }
-
-            // Alert göster
-            function showAlert(type, message) {
-                const alertContainer = document.getElementById('alertContainer');
-                
-                const alert = document.createElement('div');
-                alert.className = `alert alert-${type}`;
-                alert.innerHTML = `
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span>${message}</span>
-                        <button type="button" class="close-alert" style="background: none; border: none; cursor: pointer;">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                `;
-                
-                alertContainer.appendChild(alert);
-                
-                // Alert'i 5 saniye sonra otomatik kapat
-                setTimeout(() => {
-                    if (alert.parentNode) {
-                        alert.remove();
-                    }
-                }, 5000);
-                
-                // Kapatma düğmesi
-                alert.querySelector('.close-alert').addEventListener('click', function() {
-                    alert.remove();
+                auth.signOut().then(function() {
+                    // Sign-out successful
+                    window.location.href = 'login.html';
+                }).catch(function(error) {
+                    // An error happened
+                    console.error('Çıkış sırasında hata oluştu:', error);
                 });
+            });
+            
+            // Aktif menü öğesini takip etme
+            function setActiveMenuItem() {
+                const currentPage = window.location.pathname.split('/').pop();
+                const menuLinks = document.querySelectorAll('.admin-menu-link');
+                
+                menuLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === currentPage) {
+                        link.classList.add('active');
+                    }
+                });
+                
+                // Anasayfa için özel durum
+                if (currentPage === '' || currentPage === 'index.html') {
+                    const homeLink = document.querySelector('a[href="index.html"]');
+                    if (homeLink) homeLink.classList.add('active');
+                }
             }
+            
+            // Sayfa yüklendiğinde aktif menüyü işaretle
+            setActiveMenuItem();
         });
     </script>
 
     <style>
-        /* Ek stiller */
-        .connection-alert {
+        /* Row ve Column Layout */
+        .admin-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-right: -15px;
+            margin-left: -15px;
+        }
+        
+        .admin-col {
+            position: relative;
+            width: 100%;
+            padding-right: 15px;
+            padding-left: 15px;
+        }
+        
+        @media (min-width: 992px) {
+            .admin-col-lg-8 {
+                flex: 0 0 66.666667%;
+                max-width: 66.666667%;
+            }
+            
+            .admin-col-lg-4 {
+                flex: 0 0 33.333333%;
+                max-width: 33.333333%;
+            }
+        }
+        
+        /* Projeler Listesi */
+        .admin-project-item {
+            background-color: var(--gray-50);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-4);
+            margin-bottom: var(--spacing-3);
+            border: 1px solid var(--gray-200);
+        }
+        
+        .admin-project-title {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-semibold);
+            color: var(--gray-800);
+            margin: 0 0 var(--spacing-1);
+        }
+        
+        .admin-project-desc {
+            font-size: var(--font-size-sm);
+            color: var(--gray-600);
+            margin: 0;
+        }
+        
+        .admin-project-meta {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-top: var(--spacing-3);
+            padding-top: var(--spacing-3);
+            border-top: 1px solid var(--gray-200);
+            font-size: var(--font-size-sm);
+            color: var(--gray-600);
         }
         
-        .ml-2 {
-            margin-left: 10px;
-        }
-        
-        /* Loading stili */
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(255, 255, 255, 0.8);
+        .admin-project-meta span {
             display: flex;
             align-items: center;
-            justify-content: center;
-            z-index: 9999;
+            gap: var(--spacing-1);
+        }
+        
+        .admin-project-progress {
+            flex: 0 0 150px;
+        }
+        
+        .progress {
+            height: 8px;
+            background-color: var(--gray-200);
+            border-radius: var(--border-radius-full);
+            overflow: hidden;
+            margin-bottom: var(--spacing-1);
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background-color: var(--primary);
+            border-radius: var(--border-radius-full);
+        }
+        
+        .progress-text {
+            font-size: var(--font-size-xs);
+            color: var(--gray-700);
+            font-weight: var(--font-weight-medium);
+            text-align: right;
+            display: block;
+        }
+        
+        /* Hızlı Erişim */
+        .admin-quick-links {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-3);
+        }
+        
+        .admin-quick-link {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-3);
+            padding: var(--spacing-3);
+            background-color: var(--gray-50);
+            border-radius: var(--border-radius);
+            color: var(--gray-700);
+            transition: var(--transition-base);
+            border: 1px solid var(--gray-200);
+        }
+        
+        .admin-quick-link:hover {
+            background-color: var(--primary);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+        
+        .admin-quick-link i {
+            font-size: var(--font-size-xl);
+            width: 24px;
+            text-align: center;
+        }
+        
+        /* Dark mode styles */
+        .dark-mode .admin-project-item,
+        .dark-mode .admin-quick-link {
+            background-color: var(--gray-700);
+            border-color: var(--gray-600);
+        }
+        
+        .dark-mode .admin-project-meta {
+            border-top-color: var(--gray-600);
+        }
+        
+        @media (max-width: 991.98px) {
+            .admin-project-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--spacing-2);
+            }
+            
+            .admin-project-progress {
+                width: 100%;
+                flex: none;
+            }
+        }
+        
+        /* Sidebarın taşmaması için stil düzenlemeleri */
+        .admin-sidebar {
+            overflow-y: hidden; /* scroll olmaması için */
+            display: flex;
             flex-direction: column;
         }
         
-        .loading-spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid #007bff;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 10px;
+        .admin-menu {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding-bottom: var(--spacing-5);
         }
         
-        .loading-message {
-            font-size: 16px;
-            font-weight: 500;
-            color: #333;
+        .admin-menu-section {
+            margin-top: var(--spacing-4);
         }
         
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        /* Pagination */
+        .admin-pagination {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-1);
+        }
+        
+        .form-select-sm {
+            height: 32px;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        
+        .ml-2 {
+            margin-left: var(--spacing-2);
+        }
+
+        .d-flex {
+            display: flex;
+        }
+        
+        .justify-content-between {
+            justify-content: space-between;
+        }
+        
+        .align-items-center {
+            align-items: center;
+        }
+        
+        .mb-0 {
+            margin-bottom: 0;
         }
     </style>
 </body>

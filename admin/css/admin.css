@@ -1,0 +1,736 @@
+/* Admin CSS */
+:root {
+    /* Panel Özellikleri */
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    
+    /* Ana Renkler */
+    --primary-color: #007bff; /* Elektrik mavisi */
+    --secondary-color: #ffc107; /* Enerji sarısı */
+    --accent-color: #ff5722; /* Vurgu turuncu */
+    --dark-color: #212529;
+    --light-color: #f8f9fa;
+    --success-color: #28a745;
+    --warning-color: #ffc107;
+    --danger-color: #dc3545;
+    --info-color: #17a2b8;
+    --white-color: #ffffff;
+    
+    /* Yan Menü Renkleri */
+    --sidebar-bg: #2c3e50;
+    --sidebar-header-bg: #1a2530;
+    --sidebar-item-hover: #3c546c;
+    --sidebar-item-active: var(--primary-color);
+    --sidebar-text: #cbd5e0;
+    --sidebar-title: #8799a8;
+    
+    /* Gri Tonları */
+    --gray-100: #f8f9fa;
+    --gray-200: #e9ecef;
+    --gray-300: #dee2e6;
+    --gray-400: #ced4da;
+    --gray-500: #adb5bd;
+    --gray-600: #6c757d;
+    --gray-700: #495057;
+    --gray-800: #343a40;
+    --gray-900: #212529;
+    
+    /* Arka Plan ve Kartlar */
+    --body-bg: #f5f7fb;
+    --card-bg: #ffffff;
+    --header-bg: #ffffff;
+    --text-muted: var(--gray-600);
+    
+    /* Gölgeler */
+    --box-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.075);
+    --box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    --box-shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+    --box-shadow-btn: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --box-shadow-btn-hover: 0 6px 8px rgba(0, 0, 0, 0.15);
+    
+    /* Geçiş Animasyonları */
+    --transition-slow: all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+    --transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+    --transition-fast: all 0.15s cubic-bezier(0.25, 0.1, 0.25, 1);
+    
+    /* Özel Geçişler */
+    --transition-slide: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    --transition-scale: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    --transition-rotate: transform 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+    --transition-fade: opacity 0.3s ease-in-out;
+    --transition-color: color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    --transition-shadow: box-shadow 0.3s ease-in-out;
+    
+    /* Geçiş Gecikmeleri */
+    --delay-xs: 0.1s;
+    --delay-sm: 0.2s;
+    --delay-md: 0.3s;
+    --delay-lg: 0.4s;
+    --delay-xl: 0.5s;
+    
+    /* Kenarlık Yuvarlatma */
+    --border-radius-sm: 4px;
+    --border-radius: 8px;
+    --border-radius-lg: 12px;
+    --border-radius-xl: 20px;
+    --border-radius-pill: 50rem;
+    
+    /* Font Boyutları */
+    --font-size-xs: 0.75rem;    /* 12px */
+    --font-size-sm: 0.875rem;   /* 14px */
+    --font-size-base: 1rem;     /* 16px */
+    --font-size-md: 1.125rem;   /* 18px */
+    --font-size-lg: 1.25rem;    /* 20px */
+    --font-size-xl: 1.5rem;     /* 24px */
+    --font-size-2xl: 1.75rem;   /* 28px */
+    --font-size-3xl: 2.25rem;   /* 36px */
+    
+    /* Başlık Boyutları */
+    --h1-size: 2rem;            /* 32px */
+    --h2-size: 1.75rem;         /* 28px */
+    --h3-size: 1.5rem;          /* 24px */
+    --h4-size: 1.25rem;         /* 20px */
+    --h5-size: 1.125rem;        /* 18px */
+    --h6-size: 1rem;            /* 16px */
+    
+    /* Boşluklar */
+    --spacing-1: 0.25rem;       /* 4px */
+    --spacing-2: 0.5rem;        /* 8px */
+    --spacing-3: 1rem;          /* 16px */
+    --spacing-4: 1.5rem;        /* 24px */
+    --spacing-5: 2rem;          /* 32px */
+    --spacing-6: 3rem;          /* 48px */
+    --spacing-7: 4rem;          /* 64px */
+    --spacing-8: 6rem;          /* 96px */
+    
+    /* Z-Index Değerleri */
+    --z-dropdown: 1000;
+    --z-sticky: 1020;
+    --z-fixed: 1030;
+    --z-modal-backdrop: 1040;
+    --z-modal: 1050;
+    --z-popover: 1060;
+    --z-tooltip: 1070;
+}
+
+/* Temel Stiller */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--body-bg);
+    color: var(--dark-color);
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary-color);
+    transition: var(--transition-color);
+}
+
+a:hover {
+    color: #0056b3;
+}
+
+/* Container */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-3);
+}
+
+/* Header */
+.admin-header {
+    background-color: var(--white-color);
+    box-shadow: var(--box-shadow-sm);
+    padding: var(--spacing-2) var(--spacing-4);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: var(--z-sticky);
+    height: var(--header-height);
+}
+
+.admin-header-content {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: var(--spacing-3);
+}
+
+.admin-menu {
+    margin-right: var(--spacing-2);
+}
+
+.admin-menu button {
+    background: none;
+    border: none;
+    color: var(--gray-600);
+    font-size: var(--font-size-lg);
+    cursor: pointer;
+    transition: var(--transition-color);
+}
+
+.admin-menu button:hover {
+    color: var(--primary-color);
+}
+
+.admin-logo {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+}
+
+.admin-logo img {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.admin-logo h1 {
+    font-size: var(--font-size-lg);
+    margin: 0;
+    color: var(--dark-color);
+}
+
+.admin-logo h1 span {
+    color: var(--primary-color);
+}
+
+/* Sidebar */
+.admin-sidebar {
+    position: fixed;
+    top: 0;
+    left: -280px;
+    width: var(--sidebar-width);
+    height: 100%;
+    background-color: var(--sidebar-bg);
+    box-shadow: var(--box-shadow);
+    z-index: var(--z-fixed);
+    transition: left var(--transition);
+    overflow-y: auto;
+}
+
+.admin-sidebar.show {
+    left: 0;
+}
+
+.admin-sidebar-content {
+    padding: var(--spacing-4) 0;
+}
+
+.admin-sidebar-user {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+    padding: 0 var(--spacing-4) var(--spacing-4);
+    border-bottom: 1px solid var(--sidebar-item-hover);
+    margin-bottom: var(--spacing-4);
+}
+
+.admin-user-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-lg);
+    font-weight: bold;
+}
+
+.admin-user-info {
+    color: var(--white-color);
+}
+
+.admin-user-info h3 {
+    margin: 0;
+    font-size: var(--font-size-md);
+}
+
+.admin-user-info p {
+    margin: var(--spacing-1) 0 0;
+    font-size: var(--font-size-xs);
+    color: var(--sidebar-text);
+}
+
+.admin-nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.admin-nav-item {
+    margin-bottom: var(--spacing-1);
+}
+
+.admin-nav-link {
+    display: flex;
+    align-items: center;
+    padding: var(--spacing-2) var(--spacing-4);
+    color: var(--sidebar-text);
+    transition: var(--transition);
+    text-decoration: none;
+}
+
+.admin-nav-link:hover {
+    background-color: var(--sidebar-item-hover);
+    color: var(--white-color);
+}
+
+.admin-nav-link.active {
+    background-color: var(--sidebar-item-active);
+    color: var(--white-color);
+}
+
+.admin-nav-link i {
+    margin-right: var(--spacing-3);
+    width: 20px;
+    text-align: center;
+}
+
+/* Ana İçerik */
+.admin-content {
+    padding-top: calc(var(--header-height) + var(--spacing-4));
+    transition: margin-left var(--transition);
+}
+
+.admin-sidebar.show + .admin-content {
+    margin-left: var(--sidebar-width);
+}
+
+/* Sayfa Başlığı */
+.admin-page-title {
+    margin-bottom: var(--spacing-4);
+}
+
+.admin-page-title h1 {
+    font-size: var(--h1-size);
+    margin: 0 0 var(--spacing-1);
+    color: var(--dark-color);
+    font-weight: 600;
+}
+
+.admin-breadcrumb {
+    font-size: var(--font-size-sm);
+    color: var(--gray-600);
+}
+
+.admin-breadcrumb a {
+    color: var(--primary-color);
+}
+
+.admin-breadcrumb span {
+    margin: 0 var(--spacing-1);
+}
+
+/* İstatistik Kartları */
+.admin-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: var(--spacing-4);
+    margin-bottom: var(--spacing-4);
+}
+
+.admin-stat-card {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow-sm);
+    padding: var(--spacing-3);
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+}
+
+.admin-stat-card:hover {
+    box-shadow: var(--box-shadow);
+    transform: translateY(-5px);
+}
+
+.admin-stat-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: var(--spacing-3);
+    font-size: var(--font-size-xl);
+    color: var(--white-color);
+}
+
+.bg-purple {
+    background-color: #5b6abf;
+}
+
+.bg-primary {
+    background-color: var(--primary-color);
+}
+
+.bg-success {
+    background-color: var(--success-color);
+}
+
+.bg-info {
+    background-color: var(--info-color);
+}
+
+.bg-warning {
+    background-color: var(--warning-color);
+}
+
+.bg-danger {
+    background-color: var(--danger-color);
+}
+
+.admin-stat-content h3 {
+    font-size: var(--h3-size);
+    margin: 0 0 var(--spacing-1);
+    font-weight: 600;
+}
+
+.admin-stat-content p {
+    margin: 0;
+    color: var(--gray-600);
+    font-size: var(--font-size-sm);
+}
+
+/* Satır Düzeni */
+.admin-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--spacing-4);
+    margin-bottom: var(--spacing-4);
+}
+
+/* Kartlar */
+.admin-card {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow-sm);
+    padding: var(--spacing-3);
+    transition: var(--transition);
+}
+
+.admin-card-lg {
+    grid-column: span 2;
+}
+
+.admin-card-sm {
+    grid-column: span 1;
+}
+
+.admin-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: var(--spacing-3);
+    border-bottom: 1px solid var(--gray-200);
+    margin-bottom: var(--spacing-3);
+}
+
+.admin-card-header h2 {
+    font-size: var(--h4-size);
+    margin: 0;
+    color: var(--dark-color);
+    font-weight: 600;
+}
+
+.admin-card-actions {
+    display: flex;
+    gap: var(--spacing-2);
+}
+
+/* Butonlar */
+.btn {
+    display: inline-block;
+    font-weight: 500;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: var(--spacing-2) var(--spacing-4);
+    font-size: var(--font-size-base);
+    line-height: 1.5;
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+    cursor: pointer;
+}
+
+.btn-sm {
+    padding: var(--spacing-1) var(--spacing-2);
+    font-size: var(--font-size-sm);
+}
+
+.btn-primary {
+    color: var(--white-color);
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: #0069d9;
+    border-color: #0062cc;
+}
+
+.btn-secondary {
+    color: var(--white-color);
+    background-color: var(--gray-600);
+    border-color: var(--gray-600);
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+}
+
+.btn-danger {
+    color: var(--white-color);
+    background-color: var(--danger-color);
+    border-color: var(--danger-color);
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+
+.btn-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gray-600);
+    background-color: var(--gray-100);
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-icon:hover {
+    background-color: var(--gray-200);
+    color: var(--dark-color);
+}
+
+/* Tablo */
+.admin-table-responsive {
+    overflow-x: auto;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-table th {
+    text-align: left;
+    padding: var(--spacing-2) var(--spacing-3);
+    border-bottom: 1px solid var(--gray-200);
+    color: var(--dark-color);
+    font-weight: 600;
+    font-size: var(--font-size-sm);
+}
+
+.admin-table td {
+    padding: var(--spacing-2) var(--spacing-3);
+    border-bottom: 1px solid var(--gray-200);
+    color: var(--dark-color);
+    font-size: var(--font-size-sm);
+    vertical-align: middle;
+}
+
+.admin-table tr:last-child td {
+    border-bottom: none;
+}
+
+.admin-table tr:hover {
+    background-color: var(--gray-100);
+}
+
+/* Rozet */
+.admin-badge {
+    display: inline-block;
+    padding: var(--spacing-1) var(--spacing-2);
+    border-radius: var(--border-radius-pill);
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+}
+
+.admin-badge-success {
+    background-color: #d1e7dd;
+    color: #0f5132;
+}
+
+.admin-badge-warning {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.admin-badge-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Hızlı Erişim */
+.admin-shortcuts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-3);
+}
+
+.admin-shortcut-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--spacing-3);
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+    text-decoration: none;
+}
+
+.admin-shortcut-item:hover {
+    background-color: var(--gray-100);
+    transform: translateY(-3px);
+}
+
+.admin-shortcut-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-xl);
+    color: var(--white-color);
+    margin-bottom: var(--spacing-2);
+}
+
+.admin-shortcut-content {
+    text-align: center;
+}
+
+.admin-shortcut-content h3 {
+    font-size: var(--font-size-md);
+    margin: 0 0 var(--spacing-1);
+    font-weight: 600;
+    color: var(--dark-color);
+}
+
+/* Form Elemanları */
+.admin-form-group {
+    margin-bottom: var(--spacing-3);
+}
+
+.admin-form-label {
+    display: block;
+    margin-bottom: var(--spacing-2);
+    font-weight: 500;
+    color: var(--dark-color);
+}
+
+.admin-form-control {
+    width: 100%;
+    padding: var(--spacing-2) var(--spacing-3);
+    border: 1px solid var(--gray-300);
+    border-radius: var(--border-radius);
+    font-family: 'Poppins', sans-serif;
+    font-size: var(--font-size-base);
+    transition: border-color 0.2s ease;
+}
+
+.admin-form-control:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+.admin-form-textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* Uyarı Mesajları */
+.alert {
+    padding: var(--spacing-2) var(--spacing-3);
+    border-radius: var(--border-radius);
+    margin-bottom: var(--spacing-3);
+}
+
+.alert-success {
+    background-color: #d1e7dd;
+    color: #0f5132;
+    border: 1px solid #badbcc;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.alert-info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+
+.alert-warning {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeeba;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .admin-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .admin-card-lg, 
+    .admin-card-sm {
+        grid-column: span 1;
+    }
+    
+    .admin-sidebar.show + .admin-content {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .admin-shortcuts {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 576px) {
+    .admin-header-content {
+        flex-wrap: wrap;
+    }
+    
+    .admin-logo h1 {
+        font-size: var(--font-size-base);
+    }
+    
+    .admin-page-title {
+        flex-direction: column;
+    }
+} 

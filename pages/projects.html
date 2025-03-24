@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projelerimiz - Birlik Elektrik</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="icon" href="../img/birlik-logo.jpg" type="image/jpg">
+    <!-- SEO Meta Etiketleri -->
+    <meta name="description" content="Birlik Elektrik - Tamamladığımız projeler ve başarılı elektrik çözümlerimiz">
+    <meta name="keywords" content="elektrik projeleri, endüstriyel elektrik, tesisat projeleri, aydınlatma projeleri, elektrik çözümleri">
+    <style>
+        .page-header {
+            height: 40vh;
+            min-height: 300px;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../img/elektrik-banner.jpg') no-repeat center center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white-color);
+            margin-top: 0;
+            padding-top: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 123, 255, 0.3), rgba(255, 193, 7, 0.3));
+            z-index: 1;
+        }
+        
+        .page-header-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        
+        .page-header-content h1 {
+            font-size: var(--h1-size);
+            font-weight: 700;
+            margin-bottom: var(--spacing-4);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .page-header-content p {
+            font-size: var(--font-size-lg);
+            margin-bottom: var(--spacing-5);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+        
+        .breadcrumb {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            font-size: var(--font-size-sm);
+        }
+        
+        .breadcrumb a {
+            color: var(--light-color);
+            transition: var(--transition);
+        }
+        
+        .breadcrumb a:hover {
+            color: var(--secondary-color);
+        }
+        
+        .breadcrumb i {
+            font-size: 10px;
+            margin: 0 5px;
+        }
+        
+        .project-detail {
+            padding: var(--spacing-6) 0;
+        }
+        
+        .project-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: var(--spacing-4);
+            margin-bottom: var(--spacing-6);
+        }
+        
+        .project-item {
+            position: relative;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            height: 300px;
+        }
+        
+        .project-item:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--box-shadow-lg);
+        }
+        
+        .project-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        
+        .project-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        .project-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 60%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: var(--spacing-3);
+            transition: var(--transition);
+            opacity: 0.9;
+        }
+        
+        .project-item:hover .project-overlay {
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.5) 100%);
+        }
+        
+        .project-overlay h3 {
+            color: var(--white-color);
+            font-size: var(--font-size-lg);
+            margin-bottom: var(--spacing-2);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: var(--transition);
+            transition-delay: 0.1s;
+        }
+        
+        .project-overlay p {
+            color: var(--gray-300);
+            font-size: var(--font-size-sm);
+            margin-bottom: var(--spacing-2);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: var(--transition);
+            transition-delay: 0.2s;
+        }
+        
+        .project-overlay .btn-sm {
+            display: inline-flex;
+            align-items: center;
+            padding: var(--spacing-1) var(--spacing-2);
+            background-color: var(--primary-color);
+            color: var(--white-color);
+            border-radius: var(--border-radius-sm);
+            font-size: var(--font-size-xs);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: var(--transition);
+            transition-delay: 0.3s;
+        }
+        
+        .project-overlay .btn-sm i {
+            margin-left: var(--spacing-1);
+        }
+        
+        .project-item:hover .project-overlay h3,
+        .project-item:hover .project-overlay p,
+        .project-item:hover .project-overlay .btn-sm {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .project-categories {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: var(--spacing-2);
+            margin-bottom: var(--spacing-5);
+        }
+        
+        .project-category {
+            padding: var(--spacing-2) var(--spacing-3);
+            background-color: var(--gray-200);
+            color: var(--gray-700);
+            border-radius: var(--border-radius-pill);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .project-category.active,
+        .project-category:hover {
+            background-color: var(--primary-color);
+            color: var(--white-color);
+        }
+        
+        .animated-element {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Üst Menü -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="../img/birlik-logo.jpg" alt="Birlik Elektrik Logo">
+                        <h1><span class="highlight">Birlik</span> Elektrik</h1>
+                    </a>
+                </div>
+                <nav class="nav">
+                    <ul class="nav-list">
+                        <li><a href="index.html">Ana Sayfa</a></li>
+                        <li><a href="services.html">Hizmetlerimiz</a></li>
+                        <li><a href="about.html">Hakkımızda</a></li>
+                        <li><a href="projects.html" class="active">Projelerimiz</a></li>
+                        <li><a href="index.html#iletisim">İletişim</a></li>
+                    </ul>
+                </nav>
+                <div class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sayfa Başlık -->
+    <section class="page-header">
+        <div class="container">
+            <div class="page-header-content">
+                <div class="breadcrumb">
+                    <a href="index.html">Ana Sayfa</a> <i class="fas fa-chevron-right"></i> <span>Projelerimiz</span>
+                </div>
+                <h1>Projelerimiz</h1>
+                <p>Tamamladığımız profesyonel elektrik projeleri</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projeler -->
+    <section class="project-detail">
+        <div class="container">
+            <div class="section-header animated-element">
+                <h2>Başarılı Projelerimiz</h2>
+                <p>Birlik Elektrik olarak gerçekleştirdiğimiz projeler</p>
+            </div>
+            
+            <div class="project-categories animated-element">
+                <div class="project-category active">Tümü</div>
+                <div class="project-category">Konut</div>
+                <div class="project-category">Ticari</div>
+                <div class="project-category">Endüstriyel</div>
+                <div class="project-category">Aydınlatma</div>
+                <div class="project-category">Güç Sistemleri</div>
+            </div>
+            
+            <div class="project-gallery">
+                <div class="project-item animated-element">
+                    <img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80" alt="Site Elektrik Altyapısı">
+                    <div class="project-overlay">
+                        <h3>Site Elektrik Altyapısı</h3>
+                        <p>100 dairelik konut sitesinin tüm elektrik altyapısının kurulumu</p>
+                        <a href="#" class="btn-sm">Detaylar <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                
+                <div class="project-item animated-element">
+                    <img src="https://images.unsplash.com/photo-1590756254933-2873d72a8c8c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80" alt="Fabrika Elektrik Sistemleri">
+                    <div class="project-overlay">
+                        <h3>Fabrika Elektrik Sistemleri</h3>
+                        <p>5000 m² üretim tesisinin elektrik sistemlerinin yenilenmesi</p>
+                        <a href="#" class="btn-sm">Detaylar <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                
+                <div class="project-item animated-element">
+                    <img src="https://images.unsplash.com/photo-1611242320536-f12d3541249b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt="AVM Aydınlatma">
+                    <div class="project-overlay">
+                        <h3>AVM Aydınlatma</h3>
+                        <p>Alışveriş merkezinin tüm aydınlatma sistemlerinin LED'e dönüştürülmesi</p>
+                        <a href="#" class="btn-sm">Detaylar <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                
+                <div class="project-item animated-element">
+                    <img src="https://images.unsplash.com/photo-1596176530529-78163a4b5ac2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt="Otel Güç Sistemleri">
+                    <div class="project-overlay">
+                        <h3>Otel Güç Sistemleri</h3>
+                        <p>5 yıldızlı otelin jeneratör ve UPS sistemlerinin kurulumu</p>
+                        <a href="#" class="btn-sm">Detaylar <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                
+                <div class="project-item animated-element">
+                    <img src="https://images.unsplash.com/photo-1581094794329-c8112a89f47e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt="Akıllı Ev Sistemleri">
+                    <div class="project-overlay">
+                        <h3>Akıllı Ev Sistemleri</h3>
+                        <p>Lüks villanın tam otomasyon ve akıllı elektrik sistemlerinin kurulumu</p>
+                        <a href="#" class="btn-sm">Detaylar <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                
+                <div class="project-item animated-element">
+                    <img src="https://images.unsplash.com/photo-1525617350256-2920864eea73?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1171&q=80" alt="Solar Enerji Projesi">
+                    <div class="project-overlay">
+                        <h3>Solar Enerji Projesi</h3>
+                        <p>20 kW güç üreten çatı tipi güneş enerji sisteminin kurulumu</p>
+                        <a href="#" class="btn-sm">Detaylar <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                
+                <div class="project-item animated-element">
+                    <img src="https://images.unsplash.com/photo-1600607686527-6fb886090705?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80" alt="Rezidans Elektrik Sistemleri">
+                    <div class="project-overlay">
+                        <h3>Rezidans Elektrik Sistemleri</h3>
+                        <p>250 daireli lüks rezidans projesinin elektrik tesisatı yapımı</p>
+                        <a href="#" class="btn-sm">Detaylar <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                
+                <div class="project-item animated-element">
+                    <img src="https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt="Ofis Kompleksi Aydınlatması">
+                    <div class="project-overlay">
+                        <h3>Ofis Kompleksi Aydınlatması</h3>
+                        <p>10 katlı ofis binasının verimli LED aydınlatma sistemleri</p>
+                        <a href="#" class="btn-sm">Detaylar <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                
+                <div class="project-item animated-element">
+                    <img src="https://images.unsplash.com/photo-1566041510639-8d95a2490bfb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1118&q=80" alt="Fabrika Otomasyon Sistemi">
+                    <div class="project-overlay">
+                        <h3>Fabrika Otomasyon Sistemi</h3>
+                        <p>Tekstil fabrikasının elektrik ve otomasyon sistemlerinin kurulumu</p>
+                        <a href="#" class="btn-sm">Detaylar <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Projeniz İçin Profesyonel Destek mi Arıyorsunuz?</h2>
+                <p>Birlik Elektrik olarak, her ölçekteki projeniz için yanınızdayız.</p>
+                <a href="contact.html" class="btn btn-light">Hemen İletişime Geçin</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2><span class="highlight">Birlik</span> Elektrik</h2>
+                    <p>Güvenilir elektrik çözümleri için yanınızdayız.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h3>Hızlı Bağlantılar</h3>
+                    <ul>
+                        <li><a href="index.html">Ana Sayfa</a></li>
+                        <li><a href="services.html">Hizmetlerimiz</a></li>
+                        <li><a href="about.html">Hakkımızda</a></li>
+                        <li><a href="projects.html">Projelerimiz</a></li>
+                        <li><a href="contact.html">İletişim</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Hizmetlerimiz</h3>
+                    <ul>
+                        <li><a href="services.html">Elektrik Tesisatı</a></li>
+                        <li><a href="services.html">Aydınlatma Sistemleri</a></li>
+                        <li><a href="services.html">Arıza Giderme</a></li>
+                        <li><a href="services.html">Güç Sistemleri</a></li>
+                        <li><a href="services.html">Endüstriyel Elektrik</a></li>
+                    </ul>
+                </div>
+                <div class="footer-newsletter">
+                    <h3>Bültenimize Abone Olun</h3>
+                    <p>En son hizmet ve kampanyalarımızdan haberdar olun.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="E-posta adresiniz" required>
+                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Birlik Elektrik. Tüm Hakları Saklıdır.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Butonu -->
+    <a href="https://wa.me/905555555555" class="whatsapp-button" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top" aria-label="Yukarı Çık">
+        <i class="fas fa-chevron-up"></i>
+    </a>
+
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animasyonlar için
+            setTimeout(function() {
+                document.querySelector('.page-header-content').style.opacity = '1';
+                document.querySelector('.page-header-content').style.transform = 'translateY(0)';
+            }, 300);
+
+            const animatedElements = document.querySelectorAll('.animated-element');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            animatedElements.forEach(element => {
+                observer.observe(element);
+            });
+
+            // Kategori filtreleme
+            const categories = document.querySelectorAll('.project-category');
+            
+            categories.forEach(category => {
+                category.addEventListener('click', function() {
+                    // Aktif sınıfı kaldır
+                    categories.forEach(cat => {
+                        cat.classList.remove('active');
+                    });
+                    
+                    // Tıklanan kategoriye aktif sınıfı ekle
+                    this.classList.add('active');
+                    
+                    // Burada gerçek projeler için filtre mantığı eklenebilir
+                    const categoryName = this.textContent.toLowerCase();
+                    console.log(`Kategori seçildi: ${categoryName}`);
+                    
+                    // Animasyon efekti ekle
+                    const projectItems = document.querySelectorAll('.project-item');
+                    projectItems.forEach(item => {
+                        item.style.opacity = '0';
+                        item.style.transform = 'translateY(20px)';
+                        
+                        setTimeout(() => {
+                            item.style.opacity = '1';
+                            item.style.transform = 'translateY(0)';
+                        }, 300);
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hakkımızda - Birlik Elektrik</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="icon" href="../img/birlik-logo.jpg" type="image/jpg">
+    <!-- SEO Meta Etiketleri -->
+    <meta name="description" content="Birlik Elektrik - Hakkımızda, vizyonumuz, misyonumuz ve değerlerimiz">
+    <meta name="keywords" content="elektrik şirketi, elektrik firması, deneyimli ekip, güvenilir hizmet, elektrik çözümleri">
+    <style>
+        .page-header {
+            height: 40vh;
+            min-height: 300px;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../img/elektrik-banner.jpg') no-repeat center center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white-color);
+            margin-top: 0;
+            padding-top: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 123, 255, 0.3), rgba(255, 193, 7, 0.3));
+            z-index: 1;
+        }
+        
+        .page-header-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        
+        .page-header-content h1 {
+            font-size: var(--h1-size);
+            font-weight: 700;
+            margin-bottom: var(--spacing-4);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .page-header-content p {
+            font-size: var(--font-size-lg);
+            margin-bottom: var(--spacing-5);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+        
+        .breadcrumb {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            font-size: var(--font-size-sm);
+        }
+        
+        .breadcrumb a {
+            color: var(--light-color);
+            transition: var(--transition);
+        }
+        
+        .breadcrumb a:hover {
+            color: var(--secondary-color);
+        }
+        
+        .breadcrumb i {
+            font-size: 10px;
+            margin: 0 5px;
+        }
+        
+        .timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 2rem 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 10px;
+        }
+        
+        .timeline-item {
+            margin-bottom: 4rem;
+            position: relative;
+            width: 100%;
+        }
+        
+        .timeline-content {
+            width: 45%;
+            padding: 2rem;
+            position: relative;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            background-color: var(--white-color);
+            transition: var(--transition);
+        }
+        
+        .timeline-content:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--box-shadow-lg);
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-content {
+            float: left;
+        }
+        
+        .timeline-item:nth-child(even) .timeline-content {
+            float: right;
+        }
+        
+        .timeline-date {
+            display: inline-block;
+            font-size: var(--font-size-sm);
+            padding: 0.5rem 1.5rem;
+            background-color: var(--primary-color);
+            color: var(--white-color);
+            border-radius: 30px;
+            position: absolute;
+            top: -15px;
+            box-shadow: var(--box-shadow-sm);
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-date {
+            right: -20px;
+        }
+        
+        .timeline-item:nth-child(even) .timeline-date {
+            left: -20px;
+        }
+        
+        .timeline-content h3 {
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .timeline-content p {
+            color: var(--text-muted);
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: var(--white-color);
+            border: 4px solid var(--primary-color);
+            border-radius: 50%;
+            top: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .team-card {
+            background-color: var(--white-color);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+        
+        .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--box-shadow-lg);
+        }
+        
+        .team-img {
+            height: 300px;
+            overflow: hidden;
+        }
+        
+        .team-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.7s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+        
+        .team-card:hover .team-img img {
+            transform: scale(1.1);
+        }
+        
+        .team-info {
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .team-info h3 {
+            font-size: var(--font-size-lg);
+            margin-bottom: 0.5rem;
+        }
+        
+        .team-position {
+            color: var(--primary-color);
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+        
+        .team-social {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        .team-social a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 35px;
+            height: 35px;
+            background-color: rgba(0, 123, 255, 0.1);
+            color: var(--primary-color);
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+        
+        .team-social a:hover {
+            background-color: var(--primary-color);
+            color: var(--white-color);
+            transform: translateY(-3px);
+        }
+        
+        .animated-element {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        
+        @media screen and (max-width: 991px) {
+            .timeline::before {
+                left: 31px;
+            }
+            
+            .timeline-content {
+                width: calc(100% - 90px);
+                float: right !important;
+            }
+            
+            .timeline-item:nth-child(odd) .timeline-content,
+            .timeline-item:nth-child(even) .timeline-content {
+                float: right;
+            }
+            
+            .timeline-item:nth-child(odd) .timeline-date,
+            .timeline-item:nth-child(even) .timeline-date {
+                left: -20px;
+                right: auto;
+            }
+            
+            .timeline-dot {
+                left: 31px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Üst Menü -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="../img/birlik-logo.jpg" alt="Birlik Elektrik Logo">
+                        <h1><span class="highlight">Birlik</span> Elektrik</h1>
+                    </a>
+                </div>
+                <nav class="nav">
+                    <ul class="nav-list">
+                        <li><a href="index.html">Ana Sayfa</a></li>
+                        <li><a href="services.html">Hizmetlerimiz</a></li>
+                        <li><a href="about.html" class="active">Hakkımızda</a></li>
+                        <li><a href="projects.html">Projelerimiz</a></li>
+                        <li><a href="index.html#iletisim">İletişim</a></li>
+                    </ul>
+                </nav>
+                <div class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sayfa Başlık -->
+    <section class="page-header">
+        <div class="container">
+            <div class="page-header-content">
+                <div class="breadcrumb">
+                    <a href="index.html">Ana Sayfa</a> <i class="fas fa-chevron-right"></i> <span>Hakkımızda</span>
+                </div>
+                <h1>Hakkımızda</h1>
+                <p>20 yıllık tecrübemizle elektrik sektöründe güvenilir çözüm ortağınız</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hakkımızda -->
+    <section class="about">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-12 animated-element">
+                    <div>
+                        <h2 id="aboutTitle">Birlik Elektrik Hikayemiz</h2>
+                        <h3 id="aboutSubtitle">Birlik Elektrik olarak 20 yıllık tecrübemizle hizmetinizdeyiz</h3>
+                        <p id="aboutContent1">Birlik Elektrik, 20 yıllı aşkın tecrübesiyle elektrik taahhüt ve proje alanında faaliyet gösteren bir firmadır. Kurulduğumuz günden bu yana müşteri memnuniyetini en ön planda tutarak, kaliteli hizmet anlayışımız ile sektörde güvenilir bir isim olmanın gururunu yaşıyoruz.</p>
+                        
+                        <p id="aboutContent2">Profesyonel ekibimiz ve modern teknik donanımımız ile konut, işyeri, fabrika ve endüstriyel tesislerin elektrik projelerini tasarlıyor ve uygulamasını gerçekleştiriyoruz. Alanında uzman kadromuz, güncel teknolojileri takip ederek en iyi çözümleri sunmaktadır.</p>
+                        
+                        <ul id="aboutFeaturesList">
+                            <li><i class="fas fa-check"></i> Uzman Kadro</li>
+                            <li><i class="fas fa-check"></i> Kaliteli Malzeme</li>
+                            <li><i class="fas fa-check"></i> Uygun Fiyat</li>
+                            <li><i class="fas fa-check"></i> Garantili İşçilik</li>
+                            <li><i class="fas fa-check"></i> 7/24 Hizmet</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-12 animated-element">
+                    <div class="about-image">
+                        <img id="aboutImage" src="img/elektrik-bg1.jpg" alt="Hakkımızda Görseli">
+                    </div>
+                </div>
+            </div>
+
+            <!-- İstatistikler -->
+            <div class="row stats-container animated-element">
+                <div class="col-md-3 col-6">
+                    <div class="stat-item">
+                        <span id="aboutExperienceCount">20</span>
+                        <p>Yıllık Tecrübe</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-item">
+                        <span id="aboutProjectsCount">500</span>
+                        <p>Tamamlanan Proje</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-item">
+                        <span id="aboutExpertsCount">25</span>
+                        <p>Uzman Personel</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-item">
+                        <span id="aboutSatisfactionCount">98</span>
+                        <p>Müşteri Memnuniyeti</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tarihçe -->
+    <section class="timeline-section">
+        <div class="container">
+            <div class="section-header animated-element">
+                <h2>Şirket Tarihçemiz</h2>
+                <p>Birlik Elektrik'in kuruluşundan bugüne gelişim serüveni</p>
+            </div>
+            
+            <div class="timeline">
+                <div class="timeline-item clearfix animated-element">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2003</div>
+                        <h3>Şirketin Kuruluşu</h3>
+                        <p>Birlik Elektrik, küçük bir ofiste elektrik tamir hizmetleri ile faaliyetlerine başladı. İlk ekibimiz sadece 3 kişiden oluşuyordu.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item clearfix animated-element">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2008</div>
+                        <h3>İlk Büyük Projemiz</h3>
+                        <p>İlk büyük ölçekli projemizi, 100 daireli bir sitenin elektrik altyapısını kurarak gerçekleştirdik. Bu proje bizi sektörde tanınan bir firma haline getirdi.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item clearfix animated-element">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2012</div>
+                        <h3>Yeni Ofise Taşınma</h3>
+                        <p>Artan iş hacmimize paralel olarak, daha geniş ve modern bir ofise taşındık. Ekibimiz 15 kişiye ulaştı ve hizmet yelpazesini genişlettik.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item clearfix animated-element">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2016</div>
+                        <h3>Endüstriyel Projelere Başlangıç</h3>
+                        <p>Endüstriyel elektrik sistemleri alanında uzmanlaşarak, büyük fabrika ve üretim tesislerinin elektrik altyapı projelerini üstlenmeye başladık.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item clearfix animated-element">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2020</div>
+                        <h3>Dijital Dönüşüm</h3>
+                        <p>Akıllı ev sistemleri ve enerji verimliliği çözümlerine odaklanarak, dijital çağın gerekliliklerine uyum sağladık. Online hizmet platformumuzu kurduk.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item clearfix animated-element">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2023</div>
+                        <h3>20. Yıl Dönümü</h3>
+                        <p>Bugün 25 kişilik uzman ekibimiz, 500'den fazla başarılı proje ve sektördeki sağlam itibarımızla 20. yılımızı kutluyoruz.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ekibimiz -->
+    <section class="team-section">
+        <div class="container">
+            <div class="section-header animated-element">
+                <h2>Uzman Ekibimiz</h2>
+                <p>Alanında uzman profesyonel kadromuz</p>
+            </div>
+            
+            <div class="team-grid">
+                <div class="team-card animated-element">
+                    <div class="team-img">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Ahmet Yılmaz">
+                    </div>
+                    <div class="team-info">
+                        <h3>Ahmet Yılmaz</h3>
+                        <div class="team-position">Genel Müdür</div>
+                        <div class="team-social">
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="team-card animated-element">
+                    <div class="team-img">
+                        <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Ayşe Kaya">
+                    </div>
+                    <div class="team-info">
+                        <h3>Ayşe Kaya</h3>
+                        <div class="team-position">Proje Müdürü</div>
+                        <div class="team-social">
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="team-card animated-element">
+                    <div class="team-img">
+                        <img src="https://randomuser.me/api/portraits/men/42.jpg" alt="Mehmet Demir">
+                    </div>
+                    <div class="team-info">
+                        <h3>Mehmet Demir</h3>
+                        <div class="team-position">Teknik Müdür</div>
+                        <div class="team-social">
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="team-card animated-element">
+                    <div class="team-img">
+                        <img src="https://randomuser.me/api/portraits/women/42.jpg" alt="Zeynep Öztürk">
+                    </div>
+                    <div class="team-info">
+                        <h3>Zeynep Öztürk</h3>
+                        <div class="team-position">Müşteri İlişkileri Yöneticisi</div>
+                        <div class="team-social">
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content animated-element">
+                <h2>Birlik Elektrik ile Çalışmak İster Misiniz?</h2>
+                <p>Elektrik sistemleriniz için profesyonel destek almak için hemen iletişime geçin.</p>
+                <a href="contact.html" class="btn btn-light">Hemen İletişime Geçin</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2><span class="highlight">Birlik</span> Elektrik</h2>
+                    <p>Güvenilir elektrik çözümleri için yanınızdayız.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h3>Hızlı Bağlantılar</h3>
+                    <ul>
+                        <li><a href="index.html">Ana Sayfa</a></li>
+                        <li><a href="services.html">Hizmetlerimiz</a></li>
+                        <li><a href="about.html">Hakkımızda</a></li>
+                        <li><a href="projects.html">Projelerimiz</a></li>
+                        <li><a href="contact.html">İletişim</a></li>
+                    </ul>
+                </div>
+                <div class="footer-services">
+                    <h3>Hizmetlerimiz</h3>
+                    <ul>
+                        <li><a href="services.html#elektrik-tesisati">Elektrik Tesisatı</a></li>
+                        <li><a href="services.html#aydinlatma-sistemleri">Aydınlatma Sistemleri</a></li>
+                        <li><a href="services.html#ariza-giderme">Arıza Giderme</a></li>
+                        <li><a href="services.html#guc-sistemleri">Güç Sistemleri</a></li>
+                        <li><a href="services.html#guvenlik-sistemleri">Güvenlik Sistemleri</a></li>
+                    </ul>
+                </div>
+                <div class="footer-newsletter">
+                    <h3>Haber Bülteni</h3>
+                    <p>Kampanya ve yeniliklerden haberdar olmak için kaydolun.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="E-posta Adresiniz">
+                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Birlik Elektrik. Tüm Hakları Saklıdır. | Web Tasarım: <a href="#" class="highlight">Birlik Elektrik</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Yukarı Git Butonu -->
+    <a href="#" class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- WhatsApp İletişim Butonu -->
+    <a href="https://wa.me/905001234567" class="whatsapp-button" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Firebase JS -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+    
+    <!-- Firebase Config -->
+    <script src="js/firebase/config.js"></script>
+    <script src="js/firebase/frontend.js"></script>
+    
+    <script>
+        // Sayfa yüklendiğinde
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sayfa başlık animasyonu
+            setTimeout(() => {
+                document.querySelector('.page-header-content').style.opacity = "1";
+                document.querySelector('.page-header-content').style.transform = "translateY(0)";
+            }, 300);
+            
+            // Animasyonlu elementler için Intersection Observer
+            const animatedElements = document.querySelectorAll('.animated-element');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = "1";
+                        entry.target.style.transform = "translateY(0)";
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            // Başlangıçta elementleri gizle
+            animatedElements.forEach((element, index) => {
+                element.style.opacity = "0";
+                element.style.transform = "translateY(20px)";
+                element.style.transitionDelay = `${index * 0.1}s`;
+                observer.observe(element);
+            });
+            
+            // Firebase'den hakkımızda verilerini yükleme
+            if (typeof getAboutData === 'function') {
+                getAboutData()
+                    .then(aboutData => {
+                        // Verileri sayfaya yerleştir
+                        displayAboutData(aboutData);
+                    })
+                    .catch(error => {
+                        console.error("Hakkımızda verileri yüklenirken hata:", error);
+                    });
+            }
+            
+            // Header scroll efekti
+            window.addEventListener('scroll', function() {
+                const header = document.querySelector('.header');
+                if (window.scrollY > 100) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+            
+            // Mobil menü
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const nav = document.querySelector('.nav');
+            
+            mobileMenuBtn.addEventListener('click', function() {
+                nav.classList.toggle('active');
+                mobileMenuBtn.querySelector('i').classList.toggle('fa-bars');
+                mobileMenuBtn.querySelector('i').classList.toggle('fa-times');
+            });
+            
+            // Sayaç animasyonu
+            function startCounter() {
+                const statCounts = document.querySelectorAll('.stat-item span');
+                
+                statCounts.forEach(counter => {
+                    const target = parseInt(counter.textContent);
+                    let count = 0;
+                    const duration = 2000; // ms
+                    const step = Math.ceil(target / (duration / 20)); // 20ms aralıklarla güncelleme
+                    
+                    const updateCount = () => {
+                        if (count < target) {
+                            count += step;
+                            if (count > target) count = target;
+                            counter.textContent = count;
+                            setTimeout(updateCount, 20);
+                        }
+                    };
+                    
+                    updateCount();
+                });
+            }
+            
+            // Sayaçlar görüntüye girdiğinde animasyonu başlat
+            const statsObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        startCounter();
+                        statsObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            const statsContainer = document.querySelector('.stats-container');
+            if (statsContainer) {
+                statsObserver.observe(statsContainer);
+            }
+        });
+        
+        // Hakkımızda verilerini görüntüleme fonksiyonu
+        function displayAboutData(data) {
+            if (data.title) document.getElementById('aboutTitle').innerText = data.title;
+            if (data.subtitle) document.getElementById('aboutSubtitle').innerText = data.subtitle;
+            if (data.content1) document.getElementById('aboutContent1').innerText = data.content1;
+            if (data.content2) document.getElementById('aboutContent2').innerText = data.content2;
+            
+            if (data.image) {
+                const imgElement = document.getElementById('aboutImage');
+                imgElement.src = data.image;
+                imgElement.alt = data.title || 'Hakkımızda Görseli';
+            }
+            
+            // İstatistikler varsa güncelle
+            if (data.stats) {
+                if (data.stats.experience) document.getElementById('aboutExperienceCount').innerText = data.stats.experience;
+                if (data.stats.projects) document.getElementById('aboutProjectsCount').innerText = data.stats.projects;
+                if (data.stats.experts) document.getElementById('aboutExpertsCount').innerText = data.stats.experts;
+                if (data.stats.satisfaction) document.getElementById('aboutSatisfactionCount').innerText = data.stats.satisfaction;
+            }
+        }
+    </script>
+</body>
+</html> 

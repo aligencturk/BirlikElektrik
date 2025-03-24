@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hizmetlerimiz - Birlik Elektrik</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="icon" href="../img/birlik-logo.jpg" type="image/jpg">
+    <!-- SEO Meta Etiketleri -->
+    <meta name="description" content="Birlik Elektrik - Profesyonel elektrik tesisatı, aydınlatma sistemleri, arıza giderme ve endüstriyel elektrik çözümleri">
+    <meta name="keywords" content="elektrik, tesisatı, arıza, aydınlatma, elektrikçi, tamirat, güç sistemleri, elektrik hizmeti">
+    <style>
+        .page-header {
+            height: 40vh;
+            min-height: 300px;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../img/elektrik-banner.jpg') no-repeat center center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white-color);
+            margin-top: 0;
+            padding-top: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 123, 255, 0.3), rgba(255, 193, 7, 0.3));
+            z-index: 1;
+        }
+        
+        .page-header-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        
+        .page-header-content h1 {
+            font-size: var(--h1-size);
+            font-weight: 700;
+            margin-bottom: var(--spacing-4);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .page-header-content p {
+            font-size: var(--font-size-lg);
+            margin-bottom: var(--spacing-5);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+        
+        .breadcrumb {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            font-size: var(--font-size-sm);
+        }
+        
+        .breadcrumb a {
+            color: var(--light-color);
+            transition: var(--transition);
+        }
+        
+        .breadcrumb a:hover {
+            color: var(--secondary-color);
+        }
+        
+        .breadcrumb i {
+            font-size: 10px;
+            margin: 0 5px;
+        }
+        
+        .service-detail {
+            margin-top: var(--spacing-6);
+            margin-bottom: var(--spacing-6);
+        }
+        
+        .service-detail img {
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+        
+        .service-detail:hover img {
+            transform: scale(1.02);
+            box-shadow: var(--box-shadow-lg);
+        }
+        
+        .animated-element {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Üst Menü -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="../img/birlik-logo.jpg" alt="Birlik Elektrik Logo">
+                        <h1><span class="highlight">Birlik</span> Elektrik</h1>
+                    </a>
+                </div>
+                <nav class="nav">
+                    <ul class="nav-list">
+                        <li><a href="index.html">Ana Sayfa</a></li>
+                        <li><a href="services.html" class="active">Hizmetlerimiz</a></li>
+                        <li><a href="about.html">Hakkımızda</a></li>
+                        <li><a href="projects.html">Projelerimiz</a></li>
+                        <li><a href="index.html#iletisim">İletişim</a></li>
+                    </ul>
+                </nav>
+                <div class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sayfa Başlık -->
+    <section class="page-header">
+        <div class="container">
+            <div class="page-header-content">
+                <div class="breadcrumb">
+                    <a href="index.html">Ana Sayfa</a> <i class="fas fa-chevron-right"></i> <span>Hizmetlerimiz</span>
+                </div>
+                <h1>Hizmetlerimiz</h1>
+                <p>Size sunduğumuz profesyonel elektrik çözümleri</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hizmetler -->
+    <section class="services">
+        <div class="container">
+            <div class="section-header animated-element">
+                <h2>Elektrik Hizmetlerimiz</h2>
+                <p>Birlik Elektrik olarak sunduğumuz profesyonel elektrik hizmetleri</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card animated-element">
+                    <div class="service-icon">
+                        <i class="fas fa-plug"></i>
+                    </div>
+                    <h3>Elektrik Tesisatı</h3>
+                    <p>Ev ve işyerleriniz için profesyonel elektrik tesisatı kurulumu ve bakımı yapıyoruz.</p>
+                    <a href="#elektrik-tesisati" class="service-link">Daha Fazla <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="service-card animated-element">
+                    <div class="service-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3>Aydınlatma Sistemleri</h3>
+                    <p>Modern ve enerji tasarruflu aydınlatma çözümleri ile ortamlarınıza değer katıyoruz.</p>
+                    <a href="#aydinlatma-sistemleri" class="service-link">Daha Fazla <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="service-card animated-element">
+                    <div class="service-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h3>Arıza Giderme</h3>
+                    <p>7/24 acil elektrik arıza giderme hizmetimizle yanınızdayız.</p>
+                    <a href="#ariza-giderme" class="service-link">Daha Fazla <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="service-card animated-element">
+                    <div class="service-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Güç Sistemleri</h3>
+                    <p>UPS, jeneratör ve kesintisiz güç kaynağı kurulumu ve bakımı yapıyoruz.</p>
+                    <a href="#guc-sistemleri" class="service-link">Daha Fazla <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="service-card animated-element">
+                    <div class="service-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Güvenlik Sistemleri</h3>
+                    <p>Alarm, kamera ve güvenlik sistemleri kurulumu ve bakımı hizmetleri veriyoruz.</p>
+                    <a href="#guvenlik-sistemleri" class="service-link">Daha Fazla <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="service-card animated-element">
+                    <div class="service-icon">
+                        <i class="fas fa-industry"></i>
+                    </div>
+                    <h3>Endüstriyel Elektrik</h3>
+                    <p>Fabrika ve sanayi tesisleri için özel elektrik çözümleri sunuyoruz.</p>
+                    <a href="#endustriyel-elektrik" class="service-link">Daha Fazla <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hizmet Detayları -->
+    <section id="elektrik-tesisati" class="service-detail">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 animated-element">
+                    <img src="img/elektrik-bg1.jpg" alt="Elektrik Tesisatı">
+                </div>
+                <div class="col-lg-6 animated-element">
+                    <h2>Elektrik Tesisatı</h2>
+                    <p>Birlik Elektrik olarak, ev ve işyerleriniz için profesyonel elektrik tesisatı kurulumu ve bakımı hizmetleri sunuyoruz. Uzman ekibimiz, her türlü elektrik tesisatı işlemini güvenli ve kaliteli bir şekilde gerçekleştirirken, modern teknolojileri kullanarak enerji verimliliğini maksimuma çıkarmayı hedefliyor.</p>
+                    
+                    <p>Elektrik tesisatı hizmetlerimiz arasında:</p>
+                    <ul>
+                        <li>Yeni bina elektrik tesisatı</li>
+                        <li>Mevcut tesisatın yenilenmesi</li>
+                        <li>Elektrik panosu kurulumu ve bakımı</li>
+                        <li>Topraklama sistemleri</li>
+                        <li>Kablo döşeme ve yenileme</li>
+                        <li>Priz ve anahtar montajı</li>
+                    </ul>
+                    
+                    <p>Tüm elektrik tesisatı işlemlerimizde, güvenlik standartlarına uygun malzemeler kullanıyor, işlemleri yönetmeliklere uygun şekilde gerçekleştiriyoruz. Bu sayede hem güvenliğinizi sağlıyor hem de uzun ömürlü tesisatlar kuruyoruz.</p>
+                    
+                    <a href="contact.html" class="btn btn-primary">Hizmet Almak İçin İletişime Geçin</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Diğer Hizmet Detayları benzer şekilde eklenebilir -->
+    <section id="aydinlatma-sistemleri" class="service-detail">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 animated-element">
+                    <h2>Aydınlatma Sistemleri</h2>
+                    <p>Birlik Elektrik olarak, modern ve enerji tasarruflu aydınlatma çözümleri sunarak yaşam ve çalışma alanlarınıza değer katıyoruz. Uzman ekibimiz, estetik ve fonksiyonelliği bir araya getirerek ortamınıza uygun aydınlatma tasarımları oluşturuyor.</p>
+                    
+                    <p>Aydınlatma sistemleri hizmetlerimiz arasında:</p>
+                    <ul>
+                        <li>İç mekan aydınlatma tasarımı ve uygulaması</li>
+                        <li>Dış mekan ve peyzaj aydınlatması</li>
+                        <li>LED aydınlatma sistemleri</li>
+                        <li>Akıllı aydınlatma çözümleri</li>
+                        <li>Dekoratif aydınlatma</li>
+                        <li>Endüstriyel aydınlatma</li>
+                    </ul>
+                    
+                    <p>Aydınlatma çözümlerimizde enerji tasarrufu sağlayan LED teknolojilerini kullanıyor, uzun ömürlü ve verimli sistemler kuruyoruz. Akıllı kontrol sistemleri ile aydınlatma düzeyini ihtiyacınıza göre ayarlayabilir, mobil uygulamalar üzerinden kontrol edebilirsiniz.</p>
+                    
+                    <a href="contact.html" class="btn btn-primary">Hizmet Almak İçin İletişime Geçin</a>
+                </div>
+                <div class="col-lg-6 animated-element">
+                    <img src="img/elektrik-bg2.jpg" alt="Aydınlatma Sistemleri">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Neden Bizi Seçmelisiniz -->
+    <section class="features">
+        <div class="container">
+            <div class="features-content">
+                <div class="features-text">
+                    <div class="section-header left-align animated-element">
+                        <h2>Neden Bizi Seçmelisiniz?</h2>
+                        <p>Birlik Elektrik farkıyla ayrıcalıklı hizmet</p>
+                    </div>
+                    <div class="features-list">
+                        <div class="feature-item animated-element">
+                            <div class="feature-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="feature-info">
+                                <h3>Uzman Kadro</h3>
+                                <p>Deneyimli ve sertifikalı elektrik uzmanlarından oluşan profesyonel ekibimiz</p>
+                            </div>
+                        </div>
+                        <div class="feature-item animated-element">
+                            <div class="feature-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="feature-info">
+                                <h3>Kaliteli Malzeme</h3>
+                                <p>Tüm projelerimizde TSE ve CE sertifikalı kaliteli ekipman ve malzeme kullanımı</p>
+                            </div>
+                        </div>
+                        <div class="feature-item animated-element">
+                            <div class="feature-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="feature-info">
+                                <h3>Garantili Hizmet</h3>
+                                <p>Tüm hizmetlerimizde 2 yıl hizmet ve malzeme garantisi</p>
+                            </div>
+                        </div>
+                        <div class="feature-item animated-element">
+                            <div class="feature-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="feature-info">
+                                <h3>7/24 Destek</h3>
+                                <p>Acil durumlarda 30 dakika içinde müdahale garantisi</p>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="contact.html" class="btn btn-primary mt-30 animated-element">Detaylı Bilgi Alın</a>
+                </div>
+                <div class="features-image animated-element">
+                    <img src="img/elektrik-banner.jpg" alt="Birlik Elektrik Hizmetleri">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content animated-element">
+                <h2>Profesyonel Elektrik Hizmetleri mi Arıyorsunuz?</h2>
+                <p>Birlik Elektrik olarak tüm elektrik işleriniz için yanınızdayız.</p>
+                <a href="contact.html" class="btn btn-light">Hemen İletişime Geçin</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2><span class="highlight">Birlik</span> Elektrik</h2>
+                    <p>Güvenilir elektrik çözümleri için yanınızdayız.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h3>Hızlı Bağlantılar</h3>
+                    <ul>
+                        <li><a href="index.html">Ana Sayfa</a></li>
+                        <li><a href="services.html">Hizmetlerimiz</a></li>
+                        <li><a href="about.html">Hakkımızda</a></li>
+                        <li><a href="projects.html">Projelerimiz</a></li>
+                        <li><a href="contact.html">İletişim</a></li>
+                    </ul>
+                </div>
+                <div class="footer-services">
+                    <h3>Hizmetlerimiz</h3>
+                    <ul>
+                        <li><a href="services.html#elektrik-tesisati">Elektrik Tesisatı</a></li>
+                        <li><a href="services.html#aydinlatma-sistemleri">Aydınlatma Sistemleri</a></li>
+                        <li><a href="services.html#ariza-giderme">Arıza Giderme</a></li>
+                        <li><a href="services.html#guc-sistemleri">Güç Sistemleri</a></li>
+                        <li><a href="services.html#guvenlik-sistemleri">Güvenlik Sistemleri</a></li>
+                    </ul>
+                </div>
+                <div class="footer-newsletter">
+                    <h3>Haber Bülteni</h3>
+                    <p>Kampanya ve yeniliklerden haberdar olmak için kaydolun.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="E-posta Adresiniz">
+                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Birlik Elektrik. Tüm Hakları Saklıdır. | Web Tasarım: <a href="#" class="highlight">Birlik Elektrik</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Yukarı Git Butonu -->
+    <a href="#" class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- WhatsApp İletişim Butonu -->
+    <a href="https://wa.me/905001234567" class="whatsapp-button" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Firebase JS -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+    
+    <!-- Firebase Config -->
+    <script src="js/firebase/config.js"></script>
+    <script src="js/firebase/frontend.js"></script>
+    
+    <script>
+        // Sayfa yüklendiğinde
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sayfa başlık animasyonu
+            setTimeout(() => {
+                document.querySelector('.page-header-content').style.opacity = "1";
+                document.querySelector('.page-header-content').style.transform = "translateY(0)";
+            }, 300);
+            
+            // Animasyonlu elementler için Intersection Observer
+            const animatedElements = document.querySelectorAll('.animated-element');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = "1";
+                        entry.target.style.transform = "translateY(0)";
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            // Başlangıçta elementleri gizle
+            animatedElements.forEach((element, index) => {
+                element.style.opacity = "0";
+                element.style.transform = "translateY(20px)";
+                element.style.transitionDelay = `${index * 0.1}s`;
+                observer.observe(element);
+            });
+            
+            // Header scroll efekti
+            window.addEventListener('scroll', function() {
+                const header = document.querySelector('.header');
+                if (window.scrollY > 100) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+            
+            // Mobil menü
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const nav = document.querySelector('.nav');
+            
+            mobileMenuBtn.addEventListener('click', function() {
+                nav.classList.toggle('active');
+                mobileMenuBtn.querySelector('i').classList.toggle('fa-bars');
+                mobileMenuBtn.querySelector('i').classList.toggle('fa-times');
+            });
+        });
+    </script>
+</body>
+</html> 

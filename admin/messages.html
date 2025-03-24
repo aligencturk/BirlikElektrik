@@ -3,12 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Birlik Elektrik Admin - Mesajlar</title>
-    <link rel="stylesheet" href="../css/admin.css">
+    <title>Mesajlar - Birlik Elektrik</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="icon" href="../img/birlik-logo.jpg" type="image/jpg">
+    <!-- Admin CSS -->
+    <link rel="stylesheet" href="css/admin.css">
 </head>
 <body>
     <!-- Header -->
@@ -19,28 +22,26 @@
                     <button id="sidebarToggle"><i class="fas fa-bars"></i></button>
                 </div>
                 <div class="admin-logo">
-                    <img src="../img/elektrik-bg1.jpg" alt="Birlik Elektrik Logo">
+                    <img src="../img/birlik-logo.jpg" alt="Birlik Elektrik Logo">
                     <h1><span>Birlik</span> Elektrik</h1>
                 </div>
             </div>
         </div>
     </header>
-
+    
     <!-- Sidebar -->
     <aside class="admin-sidebar" id="adminSidebar">
         <div class="admin-sidebar-content">
             <div class="admin-sidebar-user">
-                <div class="admin-user-avatar" id="userInitials">
-                    A
-                </div>
+                <div class="admin-user-avatar" id="userInitials">A</div>
                 <div class="admin-user-info">
-                    <h3 id="userName">Admin</h3>
+                    <h3 id="userName">Admin Kullanıcı</h3>
                     <p id="userEmail">admin@birlikelektrik.com</p>
                 </div>
             </div>
             <ul class="admin-nav">
                 <li class="admin-nav-item">
-                    <a href="index.html" class="admin-nav-link">
+                    <a href="dashboard.html" class="admin-nav-link">
                         <i class="fas fa-tachometer-alt"></i> Dashboard
                     </a>
                 </li>
@@ -77,112 +78,179 @@
             </ul>
         </div>
     </aside>
-
+    
     <!-- Main Content -->
     <main class="admin-content">
         <div class="container">
-            <div class="admin-table-header">
+            <div class="admin-page-title">
                 <h1>Mesajlar</h1>
-                <div class="admin-filter">
-                    <select id="messageFilter" class="admin-form-select">
-                        <option value="all">Tüm Mesajlar</option>
-                        <option value="unread">Okunmamış</option>
-                        <option value="read">Okunmuş</option>
-                    </select>
+                <div class="admin-breadcrumb">
+                    <a href="dashboard.html">Ana Sayfa</a>
+                    <span>/</span>
+                    <span>Mesajlar</span>
                 </div>
             </div>
             
-            <!-- Alert Messages -->
-            <div class="alert alert-success" id="successAlert" style="display: none;"></div>
-            <div class="alert alert-danger" id="errorAlert" style="display: none;"></div>
+            <div class="admin-card">
+                <div class="admin-card-header">
+                    <h2>İletişim Mesajları</h2>
+                    <div class="admin-card-actions">
+                        <button id="refreshMessages" class="btn-icon" title="Yenile">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                        <select id="statusFilter" class="admin-form-select">
+                            <option value="all">Tüm Mesajlar</option>
+                            <option value="unread">Okunmamış</option>
+                            <option value="read">Okunmuş</option>
+                            <option value="replied">Yanıtlanmış</option>
+                            <option value="archived">Arşivlenmiş</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div id="messagesLoading" class="admin-loading">
+                    <i class="fas fa-spinner fa-spin"></i> Mesajlar yükleniyor...
+                </div>
+                
+                <div id="messagesError" class="alert alert-danger" style="display: none;">
+                    Mesajlar yüklenirken bir hata oluştu. Lütfen sayfayı yenileyip tekrar deneyin.
+                </div>
+                
+                <div id="messagesEmpty" class="admin-empty" style="display: none;">
+                    <div class="admin-empty-icon">
+                        <i class="fas fa-inbox"></i>
+                    </div>
+                    <h3>Mesaj Bulunamadı</h3>
+                    <p>Seçilen filtreye uygun mesaj bulunamadı.</p>
+                </div>
+                
+                <div class="admin-table-responsive" id="messagesTableContainer" style="display: none;">
+                    <table class="admin-table" id="messagesTable">
+                        <thead>
+                            <tr>
+                                <th width="5%">Durum</th>
+                                <th width="20%">İsim</th>
+                                <th width="25%">E-posta</th>
+                                <th width="25%">Konu</th>
+                                <th width="15%">Tarih</th>
+                                <th width="10%">İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody id="messagesTableBody">
+                            <!-- Mesajlar JavaScript ile doldurulacak -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
             
-            <!-- Messages Table -->
-            <div class="admin-table-container">
-                <table class="admin-table">
-                    <thead>
-                        <tr>
-                            <th style="width: 5%">Durum</th>
-                            <th style="width: 15%">Ad Soyad</th>
-                            <th style="width: 20%">E-posta</th>
-                            <th style="width: 15%">Telefon</th>
-                            <th style="width: 25%">Mesaj</th>
-                            <th style="width: 10%">Tarih</th>
-                            <th style="width: 10%">İşlemler</th>
-                        </tr>
-                    </thead>
-                    <tbody id="messagesTableBody">
-                        <tr>
-                            <td colspan="7" class="loading">
-                                <i class="fas fa-spinner fa-spin"></i> Mesajlar yükleniyor...
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <!-- Mesaj Detay Modal -->
+            <div class="admin-modal" id="messageDetailModal">
+                <div class="admin-modal-content">
+                    <div class="admin-modal-header">
+                        <h2>Mesaj Detayı</h2>
+                        <button class="admin-modal-close" id="closeMessageModal">&times;</button>
+                    </div>
+                    <div class="admin-modal-body">
+                        <div id="messageDetail">
+                            <div class="admin-detail-group">
+                                <label class="admin-detail-label">Gönderici:</label>
+                                <div class="admin-detail-value" id="messageDetailName"></div>
+                            </div>
+                            <div class="admin-detail-group">
+                                <label class="admin-detail-label">E-posta:</label>
+                                <div class="admin-detail-value">
+                                    <a href="#" id="messageDetailEmail"></a>
+                                </div>
+                            </div>
+                            <div class="admin-detail-group">
+                                <label class="admin-detail-label">Telefon:</label>
+                                <div class="admin-detail-value" id="messageDetailPhone"></div>
+                            </div>
+                            <div class="admin-detail-group">
+                                <label class="admin-detail-label">Konu:</label>
+                                <div class="admin-detail-value" id="messageDetailSubject"></div>
+                            </div>
+                            <div class="admin-detail-group">
+                                <label class="admin-detail-label">Tarih:</label>
+                                <div class="admin-detail-value" id="messageDetailDate"></div>
+                            </div>
+                            <div class="admin-detail-group">
+                                <label class="admin-detail-label">Mesaj:</label>
+                                <div class="admin-detail-value admin-detail-message" id="messageDetailMessage"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="admin-modal-footer">
+                        <button class="btn btn-primary" id="replyMessageBtn">
+                            <i class="fas fa-reply"></i> Yanıtla
+                        </button>
+                        <button class="btn btn-secondary" id="markAsReadBtn">
+                            <i class="fas fa-check"></i> Okundu İşaretle
+                        </button>
+                        <button class="btn btn-danger" id="deleteMessageBtn">
+                            <i class="fas fa-trash-alt"></i> Sil
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Yanıt Modal -->
+            <div class="admin-modal" id="replyModal">
+                <div class="admin-modal-content">
+                    <div class="admin-modal-header">
+                        <h2>Mesaj Yanıtla</h2>
+                        <button class="admin-modal-close" id="closeReplyModal">&times;</button>
+                    </div>
+                    <div class="admin-modal-body">
+                        <form id="replyForm">
+                            <div class="admin-form-group">
+                                <label class="admin-form-label">Alıcı:</label>
+                                <input type="text" class="admin-form-control" id="replyTo" readonly>
+                            </div>
+                            <div class="admin-form-group">
+                                <label class="admin-form-label">Konu:</label>
+                                <input type="text" class="admin-form-control" id="replySubject">
+                            </div>
+                            <div class="admin-form-group">
+                                <label class="admin-form-label">Mesaj:</label>
+                                <textarea class="admin-form-control admin-form-textarea" id="replyMessage" rows="6" placeholder="Mesajınızı buraya yazın..."></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="admin-modal-footer">
+                        <button class="btn btn-primary" id="sendReplyBtn">
+                            <i class="fas fa-paper-plane"></i> Gönder
+                        </button>
+                        <button class="btn btn-secondary" id="cancelReplyBtn">
+                            <i class="fas fa-times"></i> İptal
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Silme Onay Modal -->
+            <div class="admin-modal" id="deleteConfirmModal">
+                <div class="admin-modal-content">
+                    <div class="admin-modal-header">
+                        <h2>Mesajı Sil</h2>
+                        <button class="admin-modal-close" id="closeDeleteModal">&times;</button>
+                    </div>
+                    <div class="admin-modal-body">
+                        <p>Bu mesajı silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.</p>
+                    </div>
+                    <div class="admin-modal-footer">
+                        <button class="btn btn-danger" id="confirmDeleteBtn">
+                            <i class="fas fa-trash-alt"></i> Evet, Sil
+                        </button>
+                        <button class="btn btn-secondary" id="cancelDeleteBtn">
+                            <i class="fas fa-times"></i> İptal
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
-
-    <!-- Message Modal -->
-    <div class="admin-modal" id="messageModal">
-        <div class="admin-modal-content">
-            <div class="admin-modal-header">
-                <h2>Mesaj Detayları</h2>
-                <button class="admin-modal-close" id="closeModal">&times;</button>
-            </div>
-            <div class="admin-modal-body">
-                <div class="message-details">
-                    <div class="message-details-row">
-                        <div class="message-label">Ad Soyad:</div>
-                        <div class="message-value" id="messageNameValue"></div>
-                    </div>
-                    <div class="message-details-row">
-                        <div class="message-label">E-posta:</div>
-                        <div class="message-value" id="messageEmailValue"></div>
-                    </div>
-                    <div class="message-details-row">
-                        <div class="message-label">Telefon:</div>
-                        <div class="message-value" id="messagePhoneValue"></div>
-                    </div>
-                    <div class="message-details-row">
-                        <div class="message-label">Konu:</div>
-                        <div class="message-value" id="messageSubjectValue"></div>
-                    </div>
-                    <div class="message-details-row">
-                        <div class="message-label">Tarih:</div>
-                        <div class="message-value" id="messageDateValue"></div>
-                    </div>
-                    <div class="message-details-row message-content">
-                        <div class="message-label">Mesaj:</div>
-                        <div class="message-value" id="messageContentValue"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="admin-modal-footer">
-                <button class="btn btn-primary" id="markAsReadBtn">Okundu Olarak İşaretle</button>
-                <button class="btn btn-danger" id="deleteMessageBtn">Sil</button>
-                <button class="btn btn-secondary" id="closeMessageBtn">Kapat</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Delete Confirmation Modal -->
-    <div class="admin-modal" id="deleteModal">
-        <div class="admin-modal-content" style="max-width: 400px;">
-            <div class="admin-modal-header">
-                <h2>Mesajı Sil</h2>
-                <button class="admin-modal-close" id="closeDeleteModal">&times;</button>
-            </div>
-            <div class="admin-modal-body">
-                <p>Bu mesajı silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.</p>
-                <input type="hidden" id="deleteMessageId">
-            </div>
-            <div class="admin-modal-footer">
-                <button class="btn btn-secondary" id="cancelDeleteBtn">İptal</button>
-                <button class="btn btn-danger" id="confirmDeleteBtn">Sil</button>
-            </div>
-        </div>
-    </div>
-
+    
     <!-- Firebase JS -->
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
@@ -191,16 +259,51 @@
     <!-- Firebase Config -->
     <script src="../js/firebase/config.js"></script>
     
-    <!-- Admin JS -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Koleksiyona referans oluştur
-            const messagesRef = db.collection('contactMessages');
+            // Firebase ve Firestore referansları
+            const db = firebase.firestore();
+            const messagesCollection = db.collection('messages');
             
-            // Sidebar Toggle
-            const sidebarToggle = document.getElementById('sidebarToggle');
+            // DOM elementleri
             const adminSidebar = document.getElementById('adminSidebar');
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const logoutButton = document.getElementById('logoutButton');
+            const messagesLoading = document.getElementById('messagesLoading');
+            const messagesError = document.getElementById('messagesError');
+            const messagesEmpty = document.getElementById('messagesEmpty');
+            const messagesTableContainer = document.getElementById('messagesTableContainer');
+            const messagesTableBody = document.getElementById('messagesTableBody');
+            const statusFilter = document.getElementById('statusFilter');
+            const refreshMessages = document.getElementById('refreshMessages');
             
+            // Modal elementleri
+            const messageDetailModal = document.getElementById('messageDetailModal');
+            const closeMessageModal = document.getElementById('closeMessageModal');
+            const messageDetailName = document.getElementById('messageDetailName');
+            const messageDetailEmail = document.getElementById('messageDetailEmail');
+            const messageDetailPhone = document.getElementById('messageDetailPhone');
+            const messageDetailSubject = document.getElementById('messageDetailSubject');
+            const messageDetailDate = document.getElementById('messageDetailDate');
+            const messageDetailMessage = document.getElementById('messageDetailMessage');
+            const markAsReadBtn = document.getElementById('markAsReadBtn');
+            const replyMessageBtn = document.getElementById('replyMessageBtn');
+            const deleteMessageBtn = document.getElementById('deleteMessageBtn');
+            
+            const replyModal = document.getElementById('replyModal');
+            const closeReplyModal = document.getElementById('closeReplyModal');
+            const replyTo = document.getElementById('replyTo');
+            const replySubject = document.getElementById('replySubject');
+            const replyMessage = document.getElementById('replyMessage');
+            const sendReplyBtn = document.getElementById('sendReplyBtn');
+            const cancelReplyBtn = document.getElementById('cancelReplyBtn');
+            
+            const deleteConfirmModal = document.getElementById('deleteConfirmModal');
+            const closeDeleteModal = document.getElementById('closeDeleteModal');
+            const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+            const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+            
+            // Sidebar toggle
             sidebarToggle.addEventListener('click', function() {
                 adminSidebar.classList.toggle('show');
                 
@@ -215,9 +318,7 @@
                 }
             });
             
-            // Çıkış yapma
-            const logoutButton = document.getElementById('logoutButton');
-            
+            // Logout function
             logoutButton.addEventListener('click', async function(e) {
                 e.preventDefault();
                 
@@ -243,7 +344,9 @@
                 const userName = document.getElementById('userName');
                 const userInitials = document.getElementById('userInitials');
                 
-                userEmail.textContent = user.email;
+                if (user.email) {
+                    userEmail.textContent = user.email;
+                }
                 
                 if (user.displayName) {
                     userName.textContent = user.displayName;
@@ -261,393 +364,511 @@
                     userInitials.textContent = initials.toUpperCase();
                 } else {
                     // E-posta adresinin ilk harfini kullan
-                    userName.textContent = 'Admin';
                     userInitials.textContent = user.email.charAt(0).toUpperCase();
                 }
                 
                 // Mesajları yükle
-                loadMessages('all');
-            });
-            
-            // Filtreleme
-            const messageFilter = document.getElementById('messageFilter');
-            
-            messageFilter.addEventListener('change', function() {
-                loadMessages(this.value);
-            });
-            
-            // Modal açma/kapama
-            const messageModal = document.getElementById('messageModal');
-            const closeModal = document.getElementById('closeModal');
-            const closeMessageBtn = document.getElementById('closeMessageBtn');
-            
-            closeModal.addEventListener('click', function() {
-                messageModal.classList.remove('show');
-            });
-            
-            closeMessageBtn.addEventListener('click', function() {
-                messageModal.classList.remove('show');
-            });
-            
-            // Delete Modal
-            const deleteModal = document.getElementById('deleteModal');
-            const closeDeleteModal = document.getElementById('closeDeleteModal');
-            const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
-            
-            closeDeleteModal.addEventListener('click', function() {
-                deleteModal.classList.remove('show');
-            });
-            
-            cancelDeleteBtn.addEventListener('click', function() {
-                deleteModal.classList.remove('show');
+                loadMessages();
             });
             
             // Mesajları yükle
-            async function loadMessages(filterType) {
-                try {
-                    const messagesTableBody = document.getElementById('messagesTableBody');
-                    
-                    // Yükleniyor mesajını göster
-                    messagesTableBody.innerHTML = `
-                        <tr>
-                            <td colspan="7" class="loading">
-                                <i class="fas fa-spinner fa-spin"></i> Mesajlar yükleniyor...
-                            </td>
-                        </tr>
-                    `;
-                    
-                    // Filtreli sorgu oluştur
-                    let query = messagesRef.orderBy('createdAt', 'desc');
-                    
-                    if (filterType === 'unread') {
-                        query = query.where('read', '==', false);
-                    } else if (filterType === 'read') {
-                        query = query.where('read', '==', true);
-                    }
-                    
-                    const messagesSnapshot = await query.get();
-                    
-                    if (messagesSnapshot.empty) {
-                        messagesTableBody.innerHTML = `
-                            <tr>
-                                <td colspan="7" style="text-align: center;">Henüz mesaj bulunmuyor.</td>
-                            </tr>
-                        `;
-                        return;
-                    }
-                    
-                    // Mesajları tabloya ekle
-                    messagesTableBody.innerHTML = '';
-                    messagesSnapshot.forEach(doc => {
-                        const message = doc.data();
-                        const messageDate = message.createdAt ? new Date(message.createdAt.toDate()) : new Date();
-                        const formattedDate = formatDate(messageDate);
-                        
-                        // Kısa mesaj metni
-                        const shortMessage = message.message.length > 30 ? 
-                            message.message.substring(0, 30) + '...' : 
-                            message.message;
-                        
-                        messagesTableBody.innerHTML += `
-                            <tr>
-                                <td>
-                                    <span class="message-status ${message.read ? 'read' : 'unread'}">
-                                        <i class="fas ${message.read ? 'fa-envelope-open' : 'fa-envelope'}"></i>
-                                    </span>
-                                </td>
-                                <td>${message.name}</td>
-                                <td>${message.email}</td>
-                                <td>${message.phone || '-'}</td>
-                                <td>${shortMessage}</td>
-                                <td>${formattedDate}</td>
-                                <td class="action-buttons">
-                                    <button class="btn btn-sm btn-primary view-message" data-id="${doc.id}">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                    <button class="btn btn-sm btn-danger delete-message" data-id="${doc.id}">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        `;
-                    });
-                    
-                    // Görüntüleme butonları için event listener
-                    document.querySelectorAll('.view-message').forEach(button => {
-                        button.addEventListener('click', function() {
-                            const messageId = this.getAttribute('data-id');
-                            viewMessage(messageId);
-                        });
-                    });
-                    
-                    // Silme butonları için event listener
-                    document.querySelectorAll('.delete-message').forEach(button => {
-                        button.addEventListener('click', function() {
-                            const messageId = this.getAttribute('data-id');
-                            deleteMessage(messageId);
-                        });
-                    });
-                } catch (error) {
-                    console.error('Mesajlar yüklenirken hata oluştu:', error);
-                    document.getElementById('messagesTableBody').innerHTML = `
-                        <tr>
-                            <td colspan="7" style="text-align: center;">Mesajlar yüklenirken bir hata oluştu.</td>
-                        </tr>
-                    `;
-                }
-            }
-            
-            // Mesaj detaylarını görüntüle
-            async function viewMessage(messageId) {
-                try {
-                    const messageDoc = await messagesRef.doc(messageId).get();
-                    
-                    if (!messageDoc.exists) {
-                        showAlert('Mesaj bulunamadı.', 'error');
-                        return;
-                    }
-                    
-                    const message = messageDoc.data();
-                    const messageDate = message.createdAt ? new Date(message.createdAt.toDate()) : new Date();
-                    const formattedDate = formatDate(messageDate);
-                    
-                    // Modal alanlarını doldur
-                    document.getElementById('messageNameValue').textContent = message.name || '-';
-                    document.getElementById('messageEmailValue').textContent = message.email || '-';
-                    document.getElementById('messagePhoneValue').textContent = message.phone || '-';
-                    document.getElementById('messageSubjectValue').textContent = message.subject || '-';
-                    document.getElementById('messageDateValue').textContent = formattedDate;
-                    document.getElementById('messageContentValue').textContent = message.message || '-';
-                    
-                    // Okundu butonunun durumunu güncelle
-                    const markAsReadBtn = document.getElementById('markAsReadBtn');
-                    if (message.read) {
-                        markAsReadBtn.textContent = 'Okunmadı Olarak İşaretle';
-                        markAsReadBtn.classList.remove('btn-primary');
-                        markAsReadBtn.classList.add('btn-outline-primary');
-                    } else {
-                        markAsReadBtn.textContent = 'Okundu Olarak İşaretle';
-                        markAsReadBtn.classList.remove('btn-outline-primary');
-                        markAsReadBtn.classList.add('btn-primary');
-                    }
-                    
-                    // Okundu/Okunmadı butonuna tıklama eventi
-                    markAsReadBtn.onclick = async function() {
-                        try {
-                            // Butonun metni göre işlem yap
-                            const isMarkedAsRead = message.read;
-                            
-                            // Mesajı güncelle
-                            await messagesRef.doc(messageId).update({
-                                read: !isMarkedAsRead
-                            });
-                            
-                            // Başarı mesajı
-                            showAlert(`Mesaj ${isMarkedAsRead ? 'okunmadı' : 'okundu'} olarak işaretlendi.`, 'success');
-                            
-                            // Listeyi güncelle
-                            loadMessages(messageFilter.value);
-                            
-                            // Modalı kapat
-                            messageModal.classList.remove('show');
-                        } catch (error) {
-                            console.error('Mesaj güncellenirken hata oluştu:', error);
-                            showAlert('Mesaj güncellenirken bir hata oluştu.', 'error');
-                        }
-                    };
-                    
-                    // Silme butonuna tıklama eventi
-                    document.getElementById('deleteMessageBtn').onclick = function() {
-                        messageModal.classList.remove('show');
-                        deleteMessage(messageId);
-                    };
-                    
-                    // Modalı göster
-                    messageModal.classList.add('show');
-                    
-                    // Eğer okunmamışsa, okundu olarak işaretle
-                    if (!message.read) {
-                        await messagesRef.doc(messageId).update({
-                            read: true
-                        });
-                        
-                        // Mesajları yeniden yükle
-                        loadMessages(messageFilter.value);
-                    }
-                } catch (error) {
-                    console.error('Mesaj görüntülenirken hata oluştu:', error);
-                    showAlert('Mesaj görüntülenirken bir hata oluştu.', 'error');
-                }
-            }
-            
-            // Mesaj silme modalını göster
-            function deleteMessage(messageId) {
-                document.getElementById('deleteMessageId').value = messageId;
-                deleteModal.classList.add('show');
-            }
-            
-            // Mesaj silme onay
-            document.getElementById('confirmDeleteBtn').addEventListener('click', async function() {
-                const messageId = document.getElementById('deleteMessageId').value;
+            function loadMessages(status = 'all') {
+                messagesLoading.style.display = 'block';
+                messagesError.style.display = 'none';
+                messagesEmpty.style.display = 'none';
+                messagesTableContainer.style.display = 'none';
                 
-                if (!messageId) {
-                    deleteModal.classList.remove('show');
+                // Mesajları Firestore'dan çek
+                let query = messagesCollection.orderBy('createdAt', 'desc');
+                
+                if (status !== 'all') {
+                    query = query.where('status', '==', status);
+                }
+                
+                query.get()
+                    .then(snapshot => {
+                        messagesLoading.style.display = 'none';
+                        
+                        if (snapshot.empty) {
+                            messagesEmpty.style.display = 'block';
+                            return;
+                        }
+                        
+                        // Mesajları tabloya ekle
+                        messagesTableBody.innerHTML = '';
+                        snapshot.forEach(doc => {
+                            const message = doc.data();
+                            const row = createMessageRow(doc.id, message);
+                            messagesTableBody.appendChild(row);
+                        });
+                        
+                        messagesTableContainer.style.display = 'block';
+                    })
+                    .catch(error => {
+                        console.error('Mesajlar yüklenirken hata oluştu:', error);
+                        messagesLoading.style.display = 'none';
+                        messagesError.style.display = 'block';
+                    });
+            }
+            
+            // Mesaj satırı oluştur
+            function createMessageRow(id, message) {
+                const row = document.createElement('tr');
+                
+                // Durum ikonu
+                let statusIcon = '';
+                let statusClass = '';
+                
+                switch (message.status) {
+                    case 'unread':
+                        statusIcon = '<i class="fas fa-envelope"></i>';
+                        statusClass = 'text-primary';
+                        break;
+                    case 'read':
+                        statusIcon = '<i class="fas fa-envelope-open"></i>';
+                        statusClass = 'text-success';
+                        break;
+                    case 'replied':
+                        statusIcon = '<i class="fas fa-reply"></i>';
+                        statusClass = 'text-info';
+                        break;
+                    case 'archived':
+                        statusIcon = '<i class="fas fa-archive"></i>';
+                        statusClass = 'text-muted';
+                        break;
+                    default:
+                        statusIcon = '<i class="fas fa-envelope"></i>';
+                        statusClass = 'text-primary';
+                }
+                
+                // Tarih formatla
+                const date = message.createdAt ? message.createdAt.toDate() : new Date();
+                const formattedDate = `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
+                
+                row.innerHTML = `
+                    <td class="${statusClass} text-center">${statusIcon}</td>
+                    <td>${message.name || '-'}</td>
+                    <td>${message.email || '-'}</td>
+                    <td>${message.subject || 'Konu Belirtilmemiş'}</td>
+                    <td>${formattedDate}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn-icon view-message" data-id="${id}" title="Görüntüle">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn-icon delete-message" data-id="${id}" title="Sil">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                
+                // Görüntüleme butonu
+                row.querySelector('.view-message').addEventListener('click', function() {
+                    openMessageDetail(id);
+                });
+                
+                // Silme butonu
+                row.querySelector('.delete-message').addEventListener('click', function() {
+                    openDeleteConfirm(id);
+                });
+                
+                return row;
+            }
+            
+            // Mesaj detayını aç
+            let currentMessageId = null;
+            
+            function openMessageDetail(id) {
+                currentMessageId = id;
+                
+                messagesCollection.doc(id).get()
+                    .then(doc => {
+                        if (!doc.exists) {
+                            alert('Mesaj bulunamadı!');
+                            return;
+                        }
+                        
+                        const message = doc.data();
+                        
+                        // Modal içeriğini doldur
+                        messageDetailName.textContent = message.name || '-';
+                        messageDetailEmail.textContent = message.email || '-';
+                        messageDetailEmail.href = `mailto:${message.email}`;
+                        messageDetailPhone.textContent = message.phone || '-';
+                        messageDetailSubject.textContent = message.subject || 'Konu Belirtilmemiş';
+                        
+                        // Tarih formatla
+                        const date = message.createdAt ? message.createdAt.toDate() : new Date();
+                        messageDetailDate.textContent = `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()} ${date.getHours()}:${date.getMinutes().toString().padStart(2, '0')}`;
+                        
+                        messageDetailMessage.textContent = message.message || '';
+                        
+                        // Eğer mesaj okunmamışsa, okundu olarak işaretle
+                        if (message.status === 'unread') {
+                            markAsRead(id, false);
+                            markAsReadBtn.textContent = 'Okundu İşaretlendi';
+                            markAsReadBtn.disabled = true;
+                        } else {
+                            markAsReadBtn.textContent = 'Okundu İşaretle';
+                            markAsReadBtn.disabled = false;
+                        }
+                        
+                        // Modalı göster
+                        messageDetailModal.style.display = 'flex';
+                    })
+                    .catch(error => {
+                        console.error('Mesaj detayı yüklenirken hata oluştu:', error);
+                        alert('Mesaj detayı yüklenirken bir hata oluştu!');
+                    });
+            }
+            
+            // Silme onay modalını aç
+            function openDeleteConfirm(id) {
+                currentMessageId = id;
+                deleteConfirmModal.style.display = 'flex';
+            }
+            
+            // Yanıtlama modalını aç
+            function openReplyModal() {
+                if (!currentMessageId) return;
+                
+                messagesCollection.doc(currentMessageId).get()
+                    .then(doc => {
+                        if (!doc.exists) {
+                            alert('Mesaj bulunamadı!');
+                            return;
+                        }
+                        
+                        const message = doc.data();
+                        
+                        // Modal içeriğini doldur
+                        replyTo.value = message.email || '';
+                        replySubject.value = `RE: ${message.subject || 'İletişim Formu Mesajı'}`;
+                        replyMessage.value = '';
+                        
+                        // Modalı göster
+                        messageDetailModal.style.display = 'none';
+                        replyModal.style.display = 'flex';
+                    })
+                    .catch(error => {
+                        console.error('Mesaj detayı yüklenirken hata oluştu:', error);
+                        alert('Mesaj detayı yüklenirken bir hata oluştu!');
+                    });
+            }
+            
+            // Mesajı okundu olarak işaretle
+            function markAsRead(id, showConfirmation = true) {
+                messagesCollection.doc(id).update({
+                    status: 'read',
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                })
+                .then(() => {
+                    if (showConfirmation) {
+                        alert('Mesaj okundu olarak işaretlendi.');
+                        messageDetailModal.style.display = 'none';
+                    }
+                    loadMessages(statusFilter.value);
+                })
+                .catch(error => {
+                    console.error('Mesaj durumu güncellenirken hata oluştu:', error);
+                    alert('Mesaj durumu güncellenirken bir hata oluştu!');
+                });
+            }
+            
+            // Mesajı yanıtla
+            function replyToMessage() {
+                if (!currentMessageId) return;
+                
+                const recipient = replyTo.value;
+                const subject = replySubject.value;
+                const message = replyMessage.value;
+                
+                if (!recipient || !subject || !message) {
+                    alert('Lütfen tüm alanları doldurun!');
                     return;
                 }
                 
-                try {
-                    // Butonu devre dışı bırak ve yükleniyor göster
-                    this.disabled = true;
-                    this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Siliniyor...';
-                    
-                    // Mesajı sil
-                    await messagesRef.doc(messageId).delete();
-                    
-                    // Modalı kapat
-                    deleteModal.classList.remove('show');
-                    
-                    // Mesajları yeniden yükle
-                    loadMessages(messageFilter.value);
-                    
-                    // Başarı mesajı
-                    showAlert('Mesaj başarıyla silindi.', 'success');
-                } catch (error) {
-                    console.error('Mesaj silinirken hata oluştu:', error);
-                    showAlert('Mesaj silinirken bir hata oluştu.', 'error');
-                } finally {
-                    // Butonu eski haline getir
-                    this.disabled = false;
-                    this.innerHTML = 'Sil';
+                // Normalde burada e-posta gönderme API'si çağrılır
+                // Örnek için sadece mesaj durumunu güncelliyoruz
+                
+                messagesCollection.doc(currentMessageId).update({
+                    status: 'replied',
+                    repliedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    replySubject: subject,
+                    replyMessage: message,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                })
+                .then(() => {
+                    alert('Mesaj başarıyla yanıtlandı.');
+                    replyModal.style.display = 'none';
+                    loadMessages(statusFilter.value);
+                })
+                .catch(error => {
+                    console.error('Mesaj yanıtlanırken hata oluştu:', error);
+                    alert('Mesaj yanıtlanırken bir hata oluştu!');
+                });
+            }
+            
+            // Mesajı sil
+            function deleteMessage() {
+                if (!currentMessageId) return;
+                
+                messagesCollection.doc(currentMessageId).delete()
+                    .then(() => {
+                        alert('Mesaj başarıyla silindi.');
+                        deleteConfirmModal.style.display = 'none';
+                        messageDetailModal.style.display = 'none';
+                        loadMessages(statusFilter.value);
+                    })
+                    .catch(error => {
+                        console.error('Mesaj silinirken hata oluştu:', error);
+                        alert('Mesaj silinirken bir hata oluştu!');
+                    });
+            }
+            
+            // Event Listeners
+            
+            // Filtre değiştiğinde mesajları yeniden yükle
+            statusFilter.addEventListener('change', function() {
+                loadMessages(this.value);
+            });
+            
+            // Yenile butonuna tıklanınca mesajları yeniden yükle
+            refreshMessages.addEventListener('click', function() {
+                loadMessages(statusFilter.value);
+            });
+            
+            // Modalları kapat
+            closeMessageModal.addEventListener('click', function() {
+                messageDetailModal.style.display = 'none';
+            });
+            
+            closeReplyModal.addEventListener('click', function() {
+                replyModal.style.display = 'none';
+            });
+            
+            closeDeleteModal.addEventListener('click', function() {
+                deleteConfirmModal.style.display = 'none';
+            });
+            
+            // Modal dışına tıklanınca kapat
+            window.addEventListener('click', function(e) {
+                if (e.target === messageDetailModal) {
+                    messageDetailModal.style.display = 'none';
+                }
+                if (e.target === replyModal) {
+                    replyModal.style.display = 'none';
+                }
+                if (e.target === deleteConfirmModal) {
+                    deleteConfirmModal.style.display = 'none';
                 }
             });
             
-            // Tarih formatla
-            function formatDate(date) {
-                return `${date.getDate().toString().padStart(2, '0')}.${(date.getMonth() + 1).toString().padStart(2, '0')}.${date.getFullYear()} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
-            }
-            
-            // Uyarı mesajı göster
-            function showAlert(message, type) {
-                const successAlert = document.getElementById('successAlert');
-                const errorAlert = document.getElementById('errorAlert');
-                
-                if (type === 'success') {
-                    successAlert.textContent = message;
-                    successAlert.style.display = 'block';
-                    errorAlert.style.display = 'none';
-                    
-                    // 3 saniye sonra kapat
-                    setTimeout(() => {
-                        successAlert.style.display = 'none';
-                    }, 3000);
-                } else {
-                    errorAlert.textContent = message;
-                    errorAlert.style.display = 'block';
-                    successAlert.style.display = 'none';
-                    
-                    // 5 saniye sonra kapat
-                    setTimeout(() => {
-                        errorAlert.style.display = 'none';
-                    }, 5000);
+            // Buton işlevleri
+            markAsReadBtn.addEventListener('click', function() {
+                if (currentMessageId) {
+                    markAsRead(currentMessageId);
                 }
-            }
+            });
+            
+            replyMessageBtn.addEventListener('click', function() {
+                openReplyModal();
+            });
+            
+            deleteMessageBtn.addEventListener('click', function() {
+                if (currentMessageId) {
+                    openDeleteConfirm(currentMessageId);
+                    messageDetailModal.style.display = 'none';
+                }
+            });
+            
+            sendReplyBtn.addEventListener('click', function() {
+                replyToMessage();
+            });
+            
+            cancelReplyBtn.addEventListener('click', function() {
+                replyModal.style.display = 'none';
+            });
+            
+            confirmDeleteBtn.addEventListener('click', function() {
+                deleteMessage();
+            });
+            
+            cancelDeleteBtn.addEventListener('click', function() {
+                deleteConfirmModal.style.display = 'none';
+            });
         });
     </script>
     
     <style>
-        /* Mesaj durumu stilleri */
-        .message-status {
-            display: inline-block;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            line-height: 30px;
+        /* Mesajlar sayfası özel stiller */
+        .admin-loading {
+            padding: var(--spacing-5);
+            text-align: center;
+            color: var(--gray-600);
+        }
+        
+        .admin-empty {
+            padding: var(--spacing-5);
+            text-align: center;
+            color: var(--gray-600);
+        }
+        
+        .admin-empty-icon {
+            font-size: var(--font-size-3xl);
+            color: var(--gray-400);
+            margin-bottom: var(--spacing-3);
+        }
+        
+        .admin-empty h3 {
+            font-size: var(--h3-size);
+            margin-bottom: var(--spacing-2);
+            color: var(--gray-700);
+        }
+        
+        .text-center {
             text-align: center;
         }
         
-        .message-status.unread {
-            background-color: rgba(0, 123, 255, 0.1);
-            color: #007bff;
+        .text-primary {
+            color: var(--primary-color);
         }
         
-        .message-status.read {
-            background-color: rgba(108, 117, 125, 0.1);
-            color: #6c757d;
+        .text-success {
+            color: var(--success-color);
         }
         
-        /* Mesaj detayları stilleri */
-        .message-details {
+        .text-info {
+            color: var(--info-color);
+        }
+        
+        .text-muted {
+            color: var(--gray-500);
+        }
+        
+        .action-buttons {
             display: flex;
-            flex-direction: column;
-            gap: 12px;
+            gap: var(--spacing-1);
+            justify-content: center;
         }
         
-        .message-details-row {
-            display: flex;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 8px;
-        }
-        
-        .message-label {
-            font-weight: 600;
-            width: 120px;
-            color: #495057;
-        }
-        
-        .message-value {
-            flex: 1;
-        }
-        
-        .message-content {
-            flex-direction: column;
-        }
-        
-        .message-content .message-value {
-            padding-top: 8px;
-            white-space: pre-wrap;
-            line-height: 1.5;
-        }
-        
-        /* Sidebar ve içerik düzenlemeleri */
-        .admin-header-content {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            gap: 15px;
-        }
-        
-        .admin-menu {
-            margin-right: 10px;
-        }
-        
-        .admin-sidebar {
+        /* Modal stiller */
+        .admin-modal {
             position: fixed;
             top: 0;
-            left: -280px;
-            width: 280px;
+            left: 0;
+            width: 100%;
             height: 100%;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            z-index: 1050;
-            transition: left 0.3s ease;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: var(--z-modal);
+        }
+        
+        .admin-modal-content {
+            background-color: var(--white-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow-lg);
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
             overflow-y: auto;
         }
         
-        .admin-sidebar.show {
-            left: 0;
+        .admin-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-3);
+            border-bottom: 1px solid var(--gray-200);
         }
         
-        .admin-content {
-            transition: margin-left 0.3s ease;
+        .admin-modal-header h2 {
+            margin: 0;
+            font-size: var(--h3-size);
+            color: var(--dark-color);
         }
         
-        .admin-sidebar.show + .admin-content {
-            margin-left: 280px;
+        .admin-modal-close {
+            background: none;
+            border: none;
+            font-size: var(--font-size-2xl);
+            line-height: 1;
+            color: var(--gray-600);
+            cursor: pointer;
+            transition: var(--transition);
         }
         
-        @media (max-width: 992px) {
-            .admin-sidebar.show + .admin-content {
-                margin-left: 0;
+        .admin-modal-close:hover {
+            color: var(--danger-color);
+        }
+        
+        .admin-modal-body {
+            padding: var(--spacing-3);
+        }
+        
+        .admin-modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: var(--spacing-2);
+            padding: var(--spacing-3);
+            border-top: 1px solid var(--gray-200);
+        }
+        
+        /* Detay görünümü */
+        .admin-detail-group {
+            margin-bottom: var(--spacing-3);
+        }
+        
+        .admin-detail-label {
+            font-weight: 500;
+            color: var(--gray-700);
+            margin-bottom: var(--spacing-1);
+            display: block;
+        }
+        
+        .admin-detail-value {
+            color: var(--dark-color);
+        }
+        
+        .admin-detail-message {
+            background-color: var(--gray-100);
+            padding: var(--spacing-3);
+            border-radius: var(--border-radius);
+            white-space: pre-wrap;
+            min-height: 100px;
+        }
+        
+        /* Form Seçimi */
+        .admin-form-select {
+            padding: var(--spacing-2) var(--spacing-3);
+            border: 1px solid var(--gray-300);
+            border-radius: var(--border-radius);
+            background-color: var(--white-color);
+            font-family: 'Poppins', sans-serif;
+            font-size: var(--font-size-sm);
+            color: var(--dark-color);
+            cursor: pointer;
+        }
+        
+        .admin-form-select:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+        
+        @media (max-width: 768px) {
+            .admin-modal-content {
+                width: 90%;
+            }
+            
+            .admin-modal-footer {
+                flex-direction: column;
+            }
+            
+            .admin-modal-footer .btn {
+                width: 100%;
             }
         }
     </style>
