@@ -895,45 +895,50 @@ section {
 
 .services-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: var(--spacing-5);
-    padding-top: 20px;
-    padding-bottom: 30px;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 30px;
+    margin-bottom: 50px;
 }
 
 /* Service Cards Güncellenmiş Stil */
 .service-card {
-    background-color: var(--card-bg);
-    padding: var(--spacing-6) var(--spacing-5);
-    border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    padding: 30px;
     text-align: center;
-    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), 
-                box-shadow 0.3s ease, 
-                border-bottom 0.3s ease;
-    border-bottom: 3px solid transparent;
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
     position: relative;
-    z-index: 1;
+    opacity: 1 !important;
+    transform: translateY(0) !important;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 250px;
+    z-index: 5;
+    border-bottom: 3px solid transparent;
     cursor: pointer;
+}
+
+.service-card:hover {
+    transform: translateY(-15px) !important;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    border-bottom: 3px solid var(--primary-color);
 }
 
 .service-card::before {
     content: '';
     position: absolute;
-    top: 0;
+    bottom: 0;
     left: 0;
     width: 100%;
     height: 0;
-    background: linear-gradient(135deg, rgba(0, 123, 255, 0.05), rgba(255, 193, 7, 0.05));
-    transition: height 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
+    background: linear-gradient(180deg, rgba(var(--primary-color-rgb), 0.03) 0%, rgba(var(--primary-color-rgb), 0.1) 100%);
+    transition: all 0.5s ease;
     z-index: -1;
-}
-
-.service-card:hover {
-    transform: translateY(-15px);
-    border-bottom: 3px solid var(--primary-color);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
 }
 
 .service-card:hover::before {
@@ -941,18 +946,24 @@ section {
 }
 
 .service-icon {
-    margin-bottom: var(--spacing-4);
-    position: relative;
-    display: inline-block;
-    background-color: rgba(var(--primary-color-rgb), 0.1);
-    width: 90px;
-    height: 90px;
+    width: 80px;
+    height: 80px;
+    background: var(--primary-color);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 25px;
-    transition: all 0.4s ease;
+    margin: 0 auto 20px;
+    color: #fff;
+    font-size: 30px;
+    position: relative;
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 5px 15px rgba(var(--primary-color-rgb), 0.3);
+}
+
+.service-card:hover .service-icon {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 10px 25px rgba(var(--primary-color-rgb), 0.5);
 }
 
 .service-icon::after {
@@ -961,31 +972,46 @@ section {
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    background: rgba(var(--primary-color-rgb), 0.05);
+    border: 2px dashed rgba(255, 255, 255, 0.5);
     top: 0;
     left: 0;
-    z-index: -1;
-    transform: scale(1.2);
-    transition: transform 0.5s ease;
-}
-
-.service-card:hover .service-icon {
-    background-color: var(--primary-color);
-    transform: rotateY(360deg);
+    animation: spin 30s linear infinite;
+    opacity: 0;
+    transition: opacity 0.5s ease;
 }
 
 .service-card:hover .service-icon::after {
-    transform: scale(1.4);
+    opacity: 1;
 }
 
-.service-icon i {
-    font-size: 36px;
+.service-card h3 {
+    margin-bottom: 15px;
+    color: var(--dark-color);
+    font-size: 1.4rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.service-card:hover h3 {
     color: var(--primary-color);
-    transition: all 0.4s ease;
+    transform: scale(1.05);
 }
 
-.service-card:hover .service-icon i {
-    color: var(--white-color);
+.service-card p {
+    color: #666;
+    margin-bottom: 20px;
+    line-height: 1.6;
+    flex-grow: 1;
+    transition: all 0.3s ease;
+}
+
+.service-card:hover p {
+    color: #333;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 .service-card h3 {
@@ -3456,7 +3482,7 @@ section + section:not(.cta) {
 
 .feature-list li i {
     color: var(--primary-color);
-    margin-right: 8px;
+    margin-right: 10px;
     font-size: 14px;
 }
 
@@ -3905,4 +3931,432 @@ section + section:not(.cta) {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+/* Yükleme ve Hata Durumları */
+.loading, .no-data, .error {
+    text-align: center;
+    padding: 2rem;
+    font-size: 1.1rem;
+    color: #666;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin: 1rem 0;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+}
+
+.loading {
+    color: #007bff;
+    background: #f0f7ff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.loading:after {
+    content: "";
+    width: 30px;
+    height: 30px;
+    border: 3px solid #e0e0e0;
+    border-top: 3px solid #007bff;
+    border-radius: 50%;
+    margin-top: 15px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.error {
+    color: #dc3545;
+    background: #fff5f5;
+    border-left: 4px solid #dc3545;
+}
+
+.no-data {
+    color: #6c757d;
+    background: #f8f9fa;
+    border-left: 4px solid #6c757d;
+}
+
+/* Firebase Bağlantı Durumu */
+.firebase-status {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    font-size: 0.9rem;
+    z-index: 1000;
+    display: none;
+}
+
+.firebase-status.offline {
+    display: block;
+    background: rgba(220, 53, 69, 0.9);
+}
+
+/* Debug ve Hata Yönetimi */
+.firebase-status, .debug-status {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    border-radius: 4px;
+    color: white;
+    font-size: 0.9rem;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    max-width: 80%;
+    word-wrap: break-word;
+}
+
+.firebase-status.offline {
+    display: block;
+    background: rgba(220, 53, 69, 0.9);
+}
+
+#debug-status {
+    bottom: 70px;
+    background: rgba(0, 0, 0, 0.8);
+    border-left: 4px solid #007bff;
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#debug-status:hover {
+    white-space: normal;
+    max-width: 80%;
+}
+
+/* Hizmet Kartları Animasyonları */
+.service-icon i {
+    font-size: 32px;
+    color: white;
+    transition: all 0.5s ease;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+.service-card:hover .service-icon i {
+    transform: rotate(-10deg) scale(1.2);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+}
+
+/* Hizmet Kartları 3D Shadow Efekti */
+.service-card {
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.service-card:hover {
+    transform: translateY(-15px) rotateX(5deg) !important;
+}
+
+/* Kart Dalga Efekti */
+.service-card::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0));
+    transform: rotate(30deg);
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    pointer-events: none;
+}
+
+.service-card:hover::after {
+    animation: shineEffect 1.5s ease-out;
+    opacity: 1;
+}
+
+@keyframes shineEffect {
+    0% {
+        transform: translate(-100%, -100%) rotate(30deg);
+    }
+    100% {
+        transform: translate(50%, 50%) rotate(30deg);
+    }
+}
+
+/* Ana Sayfa Hizmet Detay Kartları */
+#hizmetler .service-detail-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: all 0.4s ease;
+    margin-bottom: 20px;
+}
+
+#hizmetler .service-detail-card:hover {
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    transform: translateY(-10px);
+}
+
+#hizmetler .service-detail-content {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#hizmetler .service-detail-image,
+#hizmetler .service-detail-text {
+    flex: 1;
+    min-width: 300px;
+    padding: 30px;
+}
+
+#hizmetler .service-detail-image img {
+    border-radius: 8px;
+    height: 100%;
+    object-fit: cover;
+    transition: all 0.4s ease;
+}
+
+#hizmetler .service-detail-card:hover .service-detail-image img {
+    transform: scale(1.05);
+}
+
+#hizmetler .service-detail-text h2 {
+    margin-bottom: 20px;
+    color: var(--primary-color);
+    font-size: 28px;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+#hizmetler .service-detail-text h2:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 80px;
+    height: 3px;
+    background: var(--primary-color);
+}
+
+#hizmetler .service-features {
+    margin: 25px 0;
+    padding: 20px;
+    background: rgba(var(--primary-color-rgb), 0.05);
+    border-radius: 8px;
+}
+
+#hizmetler .service-features h3 {
+    margin-bottom: 15px;
+    font-size: 18px;
+    color: var(--dark-color);
+}
+
+#hizmetler .feature-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+}
+
+#hizmetler .feature-list li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+#hizmetler .feature-list li i {
+    color: var(--primary-color);
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+#hizmetler .action-buttons {
+    margin-top: 25px;
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+/* Responsive Ayarlamalar */
+@media (max-width: 768px) {
+    #hizmetler .service-detail-content {
+        flex-direction: column;
+    }
+    
+    #hizmetler .service-detail-image, 
+    #hizmetler .service-detail-text {
+        width: 100%;
+        padding: 20px;
+    }
+    
+    #hizmetler .feature-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Service Box - Ana sayfa hizmetler tasarımı */
+.service-box {
+    margin-bottom: 50px;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+.service-box:hover {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    transform: translateY(-3px);
+}
+
+.service-content {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.service-content.reverse {
+    flex-direction: row-reverse;
+}
+
+.service-text {
+    flex: 1;
+    min-width: 300px;
+    padding: 40px;
+}
+
+.service-text h2 {
+    color: #0054a6;
+    margin-bottom: 10px;
+    font-size: 28px;
+}
+
+.title-line {
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(to right, #0054a6, #ffb400);
+    margin-bottom: 20px;
+}
+
+.service-text p {
+    margin-bottom: 20px;
+    line-height: 1.7;
+    color: #555;
+    font-size: 15px;
+}
+
+.service-features-list {
+    background: rgba(0, 84, 166, 0.05);
+    padding: 20px 25px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+}
+
+.service-features-list h3 {
+    margin-bottom: 15px;
+    font-size: 18px;
+    color: #333;
+    font-weight: 500;
+}
+
+.service-features-list ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+    list-style: none;
+    padding: 0;
+}
+
+.service-features-list li {
+    display: flex;
+    align-items: center;
+}
+
+.bullet {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background-color: #0054a6;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.service-image {
+    flex: 1;
+    min-width: 300px;
+    overflow: hidden;
+    max-height: 500px;
+}
+
+.service-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.service-box:hover .service-image img {
+    transform: scale(1.05);
+}
+
+.service-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .service-content,
+    .service-content.reverse {
+        flex-direction: column;
+    }
+    
+    .service-image {
+        min-height: 250px;
+    }
+}
+
+/* Genel Resim Efektleri - Hero Bölümü Hariç */
+.img-effect-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.img-effect-container:hover {
+    border-color: #0054a6;
+}
+
+.img-effect-container img {
+    transition: all 0.4s ease;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 6px;
+    filter: brightness(1);
+}
+
+.img-effect-container:hover img {
+    filter: brightness(1.05);
+}
+
+.img-effect-overlay {
+    display: none;
 }

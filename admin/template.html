@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Birlik Elektrik</title>
+    
+    <!-- Fontawesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts - Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Admin CSS -->
+    <link rel="stylesheet" href="assets/css/admin.css">
+    
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+    
+    <!-- Firebase Config -->
+    <script src="../js/firebase/config.js"></script>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar" id="sidebar">
+            <div class="admin-sidebar-header">
+                <div class="admin-logo">
+                    <img src="assets/img/logo.jpg" alt="Birlik Elektrik">
+                    <span>Birlik Elektrik</span>
+                </div>
+                <button id="sidebarToggle" class="admin-sidebar-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <div class="admin-sidebar-content">
+                <ul class="admin-menu">
+                    <li class="admin-menu-item">
+                        <a href="index.html" class="admin-menu-link" id="dashboard-link">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                        </a>
+                    </li>
+                    
+                    <li class="admin-menu-item">
+                        <a href="projects.html" class="admin-menu-link" id="projects-link">
+                            <i class="fas fa-project-diagram"></i> Projeler
+                        </a>
+                    </li>
+                    
+                    <li class="admin-menu-item">
+                        <a href="services.html" class="admin-menu-link" id="services-link">
+                            <i class="fas fa-tools"></i> Hizmetler
+                        </a>
+                    </li>
+                    
+                    <li class="admin-menu-item">
+                        <a href="gallery.html" class="admin-menu-link" id="gallery-link">
+                            <i class="fas fa-images"></i> Galeri
+                        </a>
+                    </li>
+                    
+                    <li class="admin-menu-item">
+                        <a href="team.html" class="admin-menu-link" id="team-link">
+                            <i class="fas fa-users"></i> Takım
+                        </a>
+                    </li>
+                    
+                    <li class="admin-menu-item">
+                        <a href="pages.html" class="admin-menu-link" id="pages-link">
+                            <i class="fas fa-file-alt"></i> Sayfalar
+                        </a>
+                    </li>
+                    
+                    <li class="admin-menu-item">
+                        <a href="messages.html" class="admin-menu-link" id="messages-link">
+                            <i class="fas fa-envelope"></i> Mesajlar
+                            <span class="admin-menu-badge" id="unreadMessagesBadge">0</span>
+                        </a>
+                    </li>
+                    
+                    <li class="admin-menu-item">
+                        <a href="users.html" class="admin-menu-link" id="users-link">
+                            <i class="fas fa-user"></i> Kullanıcılar
+                        </a>
+                    </li>
+                    
+                    <li class="admin-menu-item">
+                        <a href="settings.html" class="admin-menu-link" id="settings-link">
+                            <i class="fas fa-cog"></i> Ayarlar
+                        </a>
+                    </li>
+                    
+                    <li class="admin-menu-item">
+                        <a href="data-migration.html" class="admin-menu-link" id="data-migration-link">
+                            <i class="fas fa-database"></i> Veri Aktarımı
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="admin-user-profile">
+                <div class="admin-user-avatar" id="userInitials">AK</div>
+                <div class="admin-user-info">
+                    <div class="admin-user-name" id="userName">Admin Kullanıcı</div>
+                    <div class="admin-user-email" id="userEmail">admin@birlikelektrik.com</div>
+                </div>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Header -->
+            <header class="admin-header">
+                <button id="mobileMenuToggle" class="admin-btn-icon admin-mobile-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <h1 class="admin-header-title">SAYFA BAŞLIĞI</h1>
+                
+                <div class="admin-header-actions">
+                    <div class="dark-mode-toggle">
+                        <button id="darkModeToggle" class="admin-btn-icon">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="admin-user-dropdown">
+                        <button id="logoutButton" class="admin-btn admin-btn-outline-primary">
+                            <i class="fas fa-sign-out-alt"></i> Çıkış
+                        </button>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Content -->
+            <div class="admin-content">
+                <!-- Bildirimler için konteyner -->
+                <div class="admin-alerts"></div>
+                
+                <!-- BURAYA SAYFA İÇERİĞİ GELECEK -->
+                
+            </div>
+            
+            <!-- Footer -->
+            <footer class="admin-footer">
+                &copy; <span id="currentYear">2023</span> Birlik Elektrik Admin Panel. Tüm hakları saklıdır.
+            </footer>
+        </main>
+    </div>
+    
+    <!-- Admin JS -->
+    <script src="assets/js/admin.js"></script>
+    
+    <!-- Sayfa Özgü Script -->
+    <!-- SAYFA ÖZGÜ SCRIPT DOSYASINI BURAYA EKLEYİN -->
+    
+    <script>
+        // Sayfa yüklendiğinde aktif menüyü işaretle
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sayfa başlığını güncelle
+            document.querySelector('.admin-header-title').textContent = 'SAYFA BAŞLIĞI';
+            
+            // Aktif menüyü işaretle (sayfa ID'sine göre)
+            const currentPage = 'SAYFA_ID'; // örn: 'dashboard', 'gallery', 'team' vb.
+            document.querySelectorAll('.admin-menu-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            const activeLink = document.getElementById(currentPage + '-link');
+            if (activeLink) {
+                activeLink.classList.add('active');
+            }
+            
+            // Yıl bilgisini güncelle
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+            
+            // Çıkış düğmesi
+            document.getElementById('logoutButton').addEventListener('click', function() {
+                firebase.auth().signOut().then(function() {
+                    window.location.href = 'login.html';
+                }).catch(function(error) {
+                    showError('Çıkış yapılırken bir hata oluştu.');
+                    console.error(error);
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

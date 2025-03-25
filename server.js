@@ -17,9 +17,7 @@ app.use(helmet({ contentSecurityPolicy: false })); // Güvenlik header'ları (CS
 app.use(morgan('dev')); // Loglama
 
 // Statik dosyaları servis et
-app.use(express.static(path.join(__dirname, './')));
-
-// API rotaları (gerekirse buraya eklenebilir)
+app.use(express.static(path.join(__dirname)));
 
 // Admin sayfalarını koruma - login hariç tüm admin sayfalarını login.html'e yönlendir
 app.get('/admin', (req, res) => {
@@ -28,17 +26,40 @@ app.get('/admin', (req, res) => {
 
 // Admin sayfası rotası - login.html hariç
 app.get('/admin/*', (req, res, next) => {
-  // Eğer login sayfasıysa direkt göster
   if (req.path.includes('login.html')) {
     return next();
   }
-  // Aksi takdirde dosyayı gönder (client-side auth kontrolü yapılacak)
   res.sendFile(path.join(__dirname, req.path));
 });
 
-// Herhangi bir rota tanımlı değilse ana sayfaya yönlendir
-app.get('*', function(req, res) {
+// Pages klasöründeki HTML dosyaları için özel rota
+app.get('/pages/*', (req, res) => {
+  res.sendFile(path.join(__dirname, req.path));
+});
+
+// CSS dosyaları için özel rota
+app.get('/css/*', (req, res) => {
+  res.sendFile(path.join(__dirname, req.path));
+});
+
+// Resimler için özel rota
+app.get('/img/*', (req, res) => {
+  res.sendFile(path.join(__dirname, req.path));
+});
+
+// JavaScript dosyaları için özel rota
+app.get('/js/*', (req, res) => {
+  res.sendFile(path.join(__dirname, req.path));
+});
+
+// Ana sayfa yönlendirmesi
+app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// 404 - Sayfa bulunamadı
+app.use((req, res) => {
+  res.status(404).sendFile(path.join(__dirname, 'pages/404.html'));
 });
 
 // Sunucuyu başlat

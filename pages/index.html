@@ -14,6 +14,78 @@
     <!-- SEO Meta Etiketleri -->
     <meta name="description" content="Birlik Elektrik - Profesyonel elektrik tesisatı, aydınlatma sistemleri, arıza giderme ve endüstriyel elektrik çözümleri">
     <meta name="keywords" content="elektrik, tesisatı, arıza, aydınlatma, elektrikçi, tamirat, güç sistemleri, elektrik hizmeti">
+    <!-- Resimlerin Hover Efektleri için Style -->
+    <style>
+        .img-effect-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+            transition: all 0.4s ease;
+        }
+        
+        .img-effect-container:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+        }
+        
+        .img-effect-container img {
+            transition: all 0.8s ease;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        
+        .img-effect-container:hover img {
+            transform: scale(1.08);
+            filter: brightness(1.05) contrast(1.05);
+        }
+        
+        .img-effect-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 84, 166, 0.1) 0%, rgba(0, 84, 166, 0.2) 100%);
+            z-index: 1;
+            pointer-events: none;
+            border-radius: 8px;
+        }
+        
+        .img-effect-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 180, 0, 0.1) 0%, rgba(255, 180, 0, 0.2) 100%);
+            z-index: 1;
+            pointer-events: none;
+            border-radius: 8px;
+        }
+        
+        .img-effect-container::after {
+            content: '';
+            position: absolute;
+            top: -100%;
+            left: -100%;
+            width: 50%;
+            height: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(35deg);
+            transition: all 0.6s ease;
+            z-index: 2;
+        }
+        
+        .img-effect-container:hover::after {
+            top: 150%;
+            left: 170%;
+            transition-duration: 0.8s;
+        }
+    </style>
 </head>
 <body>
     <!-- Üst Menü -->
@@ -124,55 +196,72 @@
                 <h2>Hizmetlerimiz</h2>
                 <p>Size sunduğumuz profesyonel elektrik hizmetleri</p>
             </div>
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-plug"></i>
+            
+            <!-- Elektrik Tesisatı Detay Kartı -->
+            <div style="background: #fff; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); margin-bottom: 25px; overflow: hidden; max-width: 1000px; margin-left: auto; margin-right: auto;">
+                <div style="display: flex; flex-wrap: wrap;">
+                    <div style="flex: 0.8; min-width: 280px; padding: 12px;" class="img-effect-container">
+                        <img src="../img/tesisat.jpg" alt="Elektrik Tesisatı">
                     </div>
-                    <h3>Elektrik Tesisatı</h3>
-                    <p>Ev ve işyerleriniz için profesyonel elektrik tesisatı kurulumu ve bakımı yapıyoruz.</p>
-                    <a href="contact.html" class="service-link">Daha Fazla <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-lightbulb"></i>
+                    <div style="flex: 1.2; min-width: 280px; padding: 20px;">
+                        <h2 style="color: #0054a6; margin-bottom: 12px; font-size: 24px;">Elektrik Tesisatı</h2>
+                        <p style="font-size: 14px; line-height: 1.5; margin-bottom: 15px;">Birlik Elektrik olarak, ev ve işyerleriniz için profesyonel elektrik tesisatı kurulumu ve bakımı hizmetleri sunuyoruz. Uzman ekibimiz, her türlü elektrik tesisatı işlemini güvenli ve kaliteli bir şekilde gerçekleştirirken, modern teknolojileri kullanarak enerji verimliliğini maksimuma çıkarmayı hedefliyor.</p>
+                        
+                        <div style="background: rgba(0,84,166,0.05); padding: 15px; border-radius: 8px; margin: 15px 0;">
+                            <h3 style="margin-bottom: 10px; font-size: 16px;">Elektrik tesisatı hizmetlerimiz:</h3>
+                            <ul style="list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px;">
+                                <li style="display: flex; align-items: center; font-size: 13px;"><i class="fas fa-check-circle" style="color: #0054a6; margin-right: 8px;"></i> Yeni bina elektrik tesisatı</li>
+                                <li style="display: flex; align-items: center; font-size: 13px;"><i class="fas fa-check-circle" style="color: #0054a6; margin-right: 8px;"></i> Mevcut tesisatın yenilenmesi</li>
+                                <li style="display: flex; align-items: center; font-size: 13px;"><i class="fas fa-check-circle" style="color: #0054a6; margin-right: 8px;"></i> Elektrik panosu kurulumu</li>
+                                <li style="display: flex; align-items: center; font-size: 13px;"><i class="fas fa-check-circle" style="color: #0054a6; margin-right: 8px;"></i> Topraklama sistemleri</li>
+                                <li style="display: flex; align-items: center; font-size: 13px;"><i class="fas fa-check-circle" style="color: #0054a6; margin-right: 8px;"></i> Kablo döşeme ve yenileme</li>
+                                <li style="display: flex; align-items: center; font-size: 13px;"><i class="fas fa-check-circle" style="color: #0054a6; margin-right: 8px;"></i> Priz ve anahtar montajı</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="display: flex; gap: 12px; margin-top: 15px;">
+                            <a href="contact.html" class="btn btn-primary" style="font-size: 14px; padding: 8px 16px;">Hizmet Alın</a>
+                            <a href="services.html" class="btn btn-secondary" style="font-size: 14px; padding: 8px 16px;">Tüm Hizmetlerimiz</a>
+                        </div>
                     </div>
-                    <h3>Aydınlatma Sistemleri</h3>
-                    <p>Modern ve enerji tasarruflu aydınlatma çözümleri ile ortamlarınıza değer katıyoruz.</p>
-                    <a href="contact.html" class="service-link">Daha Fazla <i class="fas fa-arrow-right"></i></a>
                 </div>
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-tools"></i>
+            </div>
+            
+            <!-- JavaScript için gerekli olan boş services-grid -->
+            <div class="services-grid" style="display: none;"></div>
+            
+            <!-- Aydınlatma Sistemleri Detay Kartı -->
+            <div style="background: #fff; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); margin-bottom: 25px; overflow: hidden; max-width: 1000px; margin-left: auto; margin-right: auto;">
+                <div style="display: flex; flex-wrap: wrap;">
+                    <div style="flex: 1.2; min-width: 280px; padding: 20px;">
+                        <h2 style="color: #0054a6; margin-bottom: 12px; font-size: 24px;">Aydınlatma Sistemleri</h2>
+                        <p style="font-size: 14px; line-height: 1.5; margin-bottom: 15px;">Birlik Elektrik olarak, modern ve enerji tasarruflu aydınlatma çözümleri sunarak yaşam ve çalışma alanlarınıza değer katıyoruz. Uzman ekibimiz, estetik ve fonksiyonelliği bir araya getirerek ortamınıza uygun aydınlatma tasarımları oluşturuyor.</p>
+                        
+                        <div style="background: rgba(0,84,166,0.05); padding: 15px; border-radius: 8px; margin: 15px 0;">
+                            <h3 style="margin-bottom: 10px; font-size: 16px;">Aydınlatma sistemleri hizmetlerimiz:</h3>
+                            <ul style="list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px;">
+                                <li style="display: flex; align-items: center; font-size: 13px;"><i class="fas fa-check-circle" style="color: #0054a6; margin-right: 8px;"></i> İç mekan aydınlatma</li>
+                                <li style="display: flex; align-items: center; font-size: 13px;"><i class="fas fa-check-circle" style="color: #0054a6; margin-right: 8px;"></i> Dış mekan aydınlatması</li>
+                                <li style="display: flex; align-items: center; font-size: 13px;"><i class="fas fa-check-circle" style="color: #0054a6; margin-right: 8px;"></i> LED aydınlatma sistemleri</li>
+                                <li style="display: flex; align-items: center; font-size: 13px;"><i class="fas fa-check-circle" style="color: #0054a6; margin-right: 8px;"></i> Akıllı aydınlatma çözümleri</li>
+                                <li style="display: flex; align-items: center; font-size: 13px;"><i class="fas fa-check-circle" style="color: #0054a6; margin-right: 8px;"></i> Dekoratif aydınlatma</li>
+                                <li style="display: flex; align-items: center; font-size: 13px;"><i class="fas fa-check-circle" style="color: #0054a6; margin-right: 8px;"></i> Endüstriyel aydınlatma</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="display: flex; gap: 12px; margin-top: 15px;">
+                            <a href="contact.html" class="btn btn-primary" style="font-size: 14px; padding: 8px 16px;">Hizmet Alın</a>
+                            <a href="services.html" class="btn btn-secondary" style="font-size: 14px; padding: 8px 16px;">Tüm Hizmetlerimiz</a>
+                        </div>
                     </div>
-                    <h3>Arıza Giderme</h3>
-                    <p>7/24 acil elektrik arıza giderme hizmetimizle yanınızdayız.</p>
-                    <a href="contact.html" class="service-link">Daha Fazla <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-bolt"></i>
+                    <div style="flex: 0.8; min-width: 280px; padding: 12px;" class="img-effect-container">
+                        <img src="../img/aydınlatsistemleri.jpg" alt="Aydınlatma Sistemleri">
                     </div>
-                    <h3>Güç Sistemleri</h3>
-                    <p>UPS, jeneratör ve kesintisiz güç kaynağı kurulumu ve bakımı yapıyoruz.</p>
-                    <a href="contact.html" class="service-link">Daha Fazla <i class="fas fa-arrow-right"></i></a>
                 </div>
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3>Güvenlik Sistemleri</h3>
-                    <p>Alarm, kamera ve güvenlik sistemleri kurulumu ve bakımı hizmetleri veriyoruz.</p>
-                    <a href="contact.html" class="service-link">Daha Fazla <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-industry"></i>
-                    </div>
-                    <h3>Endüstriyel Elektrik</h3>
-                    <p>Fabrika ve sanayi tesisleri için özel elektrik çözümleri sunuyoruz.</p>
-                    <a href="contact.html" class="service-link">Daha Fazla <i class="fas fa-arrow-right"></i></a>
-                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <a href="services.html" class="btn btn-primary" style="font-size: 15px; padding: 10px 20px;">Tüm Hizmetlerimizi İnceleyin</a>
             </div>
         </div>
     </section>
@@ -226,7 +315,7 @@
                     </div>
                     <a href="contact.html" class="btn btn-primary mt-30">Detaylı Bilgi Alın</a>
                 </div>
-                <div class="features-image">
+                <div class="features-image img-effect-container">
                     <img src="../img/elektrik-bg1.jpg" alt="Birlik Elektrik Hizmetleri">
                 </div>
             </div>
@@ -255,7 +344,7 @@
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-12">
-                    <div class="about-image">
+                    <div class="about-image img-effect-container">
                         <img id="aboutImage" src="../img/elektrik-banner.jpg" alt="Hakkımızda Görseli">
                     </div>
                 </div>
@@ -340,7 +429,7 @@
             </div>
             <div class="projects-grid">
                 <div class="project-card">
-                    <div class="project-image">
+                    <div class="project-image img-effect-container">
                         <img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80" alt="Site Elektrik Altyapısı">
                         <div class="project-overlay">
                             <a href="#"><i class="fas fa-external-link-alt"></i></a>
@@ -352,7 +441,7 @@
                     </div>
                 </div>
                 <div class="project-card">
-                    <div class="project-image">
+                    <div class="project-image img-effect-container">
                         <img src="https://images.unsplash.com/photo-1590756254933-2873d72a8c8c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80" alt="Fabrika Elektrik Sistemleri">
                         <div class="project-overlay">
                             <a href="#"><i class="fas fa-external-link-alt"></i></a>
@@ -364,7 +453,7 @@
                     </div>
                 </div>
                 <div class="project-card">
-                    <div class="project-image">
+                    <div class="project-image img-effect-container">
                         <img src="https://images.unsplash.com/photo-1611242320536-f12d3541249b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt="AVM Aydınlatma">
                         <div class="project-overlay">
                             <a href="#"><i class="fas fa-external-link-alt"></i></a>
@@ -376,7 +465,7 @@
                     </div>
                 </div>
                 <div class="project-card">
-                    <div class="project-image">
+                    <div class="project-image img-effect-container">
                         <img src="https://images.unsplash.com/photo-1596176530529-78163a4b5ac2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt="Otel Güç Sistemleri">
                         <div class="project-overlay">
                             <a href="#"><i class="fas fa-external-link-alt"></i></a>
@@ -543,49 +632,19 @@
         <i class="fab fa-whatsapp"></i>
     </a>
 
-    <!-- Firebase JS -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage-compat.js"></script>
     
     <!-- Firebase Config -->
     <script src="../js/firebase/config.js"></script>
-    <script src="../js/firebase/frontend.js"></script>
     
-    <script>
-        // Sayfa yüklendiğinde
-        document.addEventListener('DOMContentLoaded', function() {
-            // Hakkımızda verilerini yükleme
-            if (typeof getAboutData === 'function') {
-                getAboutData()
-                    .then(aboutData => {
-                        // Verileri sayfaya yerleştir
-                        displayAboutData(aboutData);
-                    })
-                    .catch(error => {
-                        console.error("Hakkımızda verileri yüklenirken hata:", error);
-                    });
-            } else {
-                console.warn("getAboutData fonksiyonu bulunamadı. Varsayılan veriler kullanılacak.");
-            }
-            
-            // AOS Animasyon kütüphanesini aktifleştir kodu kaldırıldı
-            
-            // Bootstrap tooltip'leri etkinleştir kodu kaldırıldı - Bootstrap dahil edilmediği için bu kod da hata verebilir
-        });
-
-        // Header scroll efekti
-        window.addEventListener('scroll', function() {
-            const header = document.querySelector('.header');
-            if (window.scrollY > 100) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        });
-    </script>
-
-    <script src="../js/script.js"></script>
+    <!-- Hizmetler Script - Sadece services.html sayfasında kullanılacak -->
+    <!-- <script src="../js/services.js"></script> -->
+    
+    <!-- Main JS -->
+    <script src="../js/main.js"></script>
 </body>
 </html> 

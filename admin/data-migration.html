@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veri Aktarımı - Birlik Elektrik Admin</title>
+    
+    <!-- Fontawesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts - Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Admin CSS -->
+    <link rel="stylesheet" href="assets/css/admin.css">
+    
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+    
+    <!-- Firebase Config -->
+    <script src="../js/firebase/config.js"></script>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar" id="sidebar">
+            <div class="admin-sidebar-header">
+                <div class="admin-logo">
+                    <img src="assets/img/logo.jpg" alt="Birlik Elektrik">
+                    <span>Birlik Elektrik</span>
+                </div>
+                <button id="sidebarToggle" class="admin-sidebar-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <div class="admin-sidebar-content">
+                <ul class="admin-menu">
+                    <li class="admin-menu-item">
+                        <a href="index.html" class="admin-menu-link" id="dashboard-link">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                        </a>
+                    </li>
+                    
+                    <li class="admin-menu-item">
+                        <a href="projects.html" class="admin-menu-link" id="projects-link">
+                            <i class="fas fa-project-diagram"></i> Projeler
+                        </a>
+                    </li>
+                    
+                    <li class="admin-menu-item">
+                        <a href="services.html" class="admin-menu-link" id="services-link">
+                            <i class="fas fa-tools"></i> Hizmetler
+                        </a>
+                    </li>
+                    
+                    <li class="admin-menu-item">
+                        <a href="gallery.html" class="admin-menu-link" id="gallery-link">
+                            <i class="fas fa-images"></i> Galeri
+                        </a>
+                    </li>
+                    
+                    <li class="admin-menu-item">
+                        <a href="team.html" class="admin-menu-link" id="team-link">
+                            <i class="fas fa-users"></i> Takım
+                        </a>
+                    </li>
+                    
+                    <li class="admin-menu-item">
+                        <a href="pages.html" class="admin-menu-link" id="pages-link">
+                            <i class="fas fa-file-alt"></i> Sayfalar
+                        </a>
+                    </li>
+                    
+                    <li class="admin-menu-item">
+                        <a href="messages.html" class="admin-menu-link" id="messages-link">
+                            <i class="fas fa-envelope"></i> Mesajlar
+                            <span class="admin-menu-badge" id="unreadMessagesBadge">0</span>
+                        </a>
+                    </li>
+                    
+                    <li class="admin-menu-item">
+                        <a href="users.html" class="admin-menu-link" id="users-link">
+                            <i class="fas fa-user"></i> Kullanıcılar
+                        </a>
+                    </li>
+                    
+                    <li class="admin-menu-item">
+                        <a href="settings.html" class="admin-menu-link" id="settings-link">
+                            <i class="fas fa-cog"></i> Ayarlar
+                        </a>
+                    </li>
+                    
+                    <li class="admin-menu-item">
+                        <a href="data-migration.html" class="admin-menu-link active" id="data-migration-link">
+                            <i class="fas fa-database"></i> Veri Aktarımı
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="admin-user-profile">
+                <div class="admin-user-avatar" id="userInitials">AK</div>
+                <div class="admin-user-info">
+                    <div class="admin-user-name" id="userName">Admin Kullanıcı</div>
+                    <div class="admin-user-email" id="userEmail">admin@birlikelektrik.com</div>
+                </div>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Header -->
+            <header class="admin-header">
+                <button id="mobileMenuToggle" class="admin-btn-icon admin-mobile-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <h1 class="admin-header-title">Veri Aktarımı</h1>
+                
+                <div class="admin-header-actions">
+                    <div class="dark-mode-toggle">
+                        <button id="darkModeToggle" class="admin-btn-icon">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="admin-user-dropdown">
+                        <button id="logoutButton" class="admin-btn admin-btn-outline-primary">
+                            <i class="fas fa-sign-out-alt"></i> Çıkış
+                        </button>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Content -->
+            <div class="admin-content">
+                <!-- Bildirimler için konteyner -->
+                <div id="alertContainer" class="alert-container"></div>
+                
+                <!-- Veri Aktarımı içeriği -->
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <h2 class="admin-card-title">
+                            <i class="fas fa-file-import"></i> Veri İçe Aktar
+                        </h2>
+                    </div>
+                    <div class="admin-card-body">
+                        <div class="admin-form-group">
+                            <label class="admin-form-label">Veri Türü</label>
+                            <select id="importType" class="admin-form-select">
+                                <option value="">Seçiniz...</option>
+                                <option value="projects">Projeler</option>
+                                <option value="services">Hizmetler</option>
+                                <option value="gallery">Galeri</option>
+                                <option value="team">Takım</option>
+                                <option value="pages">Sayfalar</option>
+                                <option value="all">Tüm Veriler</option>
+                            </select>
+                        </div>
+                        
+                        <div class="admin-form-group">
+                            <label class="admin-form-label">JSON Dosyası</label>
+                            <input type="file" id="importFile" class="admin-form-input" accept=".json">
+                            <div class="admin-form-help">Sadece JSON formatı desteklenmektedir.</div>
+                        </div>
+                        
+                        <div class="admin-form-group">
+                            <label class="admin-form-label">İçe Aktarma Seçenekleri</label>
+                            
+                            <div class="admin-form-check">
+                                <input type="checkbox" id="overwriteExisting" class="admin-form-check-input">
+                                <label for="overwriteExisting">Mevcut verilerin üzerine yaz</label>
+                            </div>
+                            
+                            <div class="admin-form-check">
+                                <input type="checkbox" id="importImages" class="admin-form-check-input">
+                                <label for="importImages">Görselleri de içe aktar (eğer mevcutsa)</label>
+                            </div>
+                        </div>
+                        
+                        <button id="startImport" class="admin-btn admin-btn-primary">
+                            <i class="fas fa-file-import"></i> İçe Aktarmayı Başlat
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <h2 class="admin-card-title">
+                            <i class="fas fa-file-export"></i> Veri Dışa Aktar
+                        </h2>
+                    </div>
+                    <div class="admin-card-body">
+                        <div class="admin-form-group">
+                            <label class="admin-form-label">Veri Türü</label>
+                            <select id="exportType" class="admin-form-select">
+                                <option value="">Seçiniz...</option>
+                                <option value="projects">Projeler</option>
+                                <option value="services">Hizmetler</option>
+                                <option value="gallery">Galeri</option>
+                                <option value="team">Takım</option>
+                                <option value="pages">Sayfalar</option>
+                                <option value="all">Tüm Veriler</option>
+                            </select>
+                        </div>
+                        
+                        <div class="admin-form-group">
+                            <label class="admin-form-label">Dışa Aktarma Seçenekleri</label>
+                            
+                            <div class="admin-form-check">
+                                <input type="checkbox" id="includeImages" class="admin-form-check-input">
+                                <label for="includeImages">Görselleri dahil et (bağlantı olarak)</label>
+                            </div>
+                            
+                            <div class="admin-form-check">
+                                <input type="checkbox" id="formatJSON" class="admin-form-check-input" checked>
+                                <label for="formatJSON">JSON dosyasını biçimlendir (okunaklı hale getir)</label>
+                            </div>
+                        </div>
+                        
+                        <button id="startExport" class="admin-btn admin-btn-primary">
+                            <i class="fas fa-file-export"></i> Dışa Aktarmayı Başlat
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <h2 class="admin-card-title">
+                            <i class="fas fa-sync-alt"></i> Veri Senkronizasyonu
+                        </h2>
+                    </div>
+                    <div class="admin-card-body">
+                        <div class="admin-form-group">
+                            <p>Veritabanı yedekleme ve geri yükleme işlemlerini bu bölümden gerçekleştirebilirsiniz.</p>
+                        </div>
+                        
+                        <div class="d-flex" style="gap: 1rem;">
+                            <button id="backupDatabase" class="admin-btn admin-btn-primary">
+                                <i class="fas fa-download"></i> Veritabanını Yedekle
+                            </button>
+                            
+                            <button id="restoreDatabase" class="admin-btn admin-btn-danger">
+                                <i class="fas fa-upload"></i> Veritabanını Geri Yükle
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Web Sayfasından Doğrudan Veri Aktarma -->
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <h2 class="admin-card-title">
+                            <i class="fas fa-globe"></i> Web Sayfasından Doğrudan Veri Aktarma
+                        </h2>
+                    </div>
+                    <div class="admin-card-body">
+                        <div class="admin-form-group">
+                            <p>Bu bölümden web sayfanızda zaten yer alan içerikleri JSON dosyası kullanmadan doğrudan veritabanına aktarabilirsiniz.</p>
+                        </div>
+                        
+                        <div class="admin-form-group">
+                            <label class="admin-form-label">Veri Kaynağı URL</label>
+                            <div class="admin-input-group">
+                                <input type="text" id="sourceUrl" class="admin-form-control" 
+                                       placeholder="http://127.0.0.1:5500/pages/services.html" 
+                                       value="http://127.0.0.1:5500/pages/services.html">
+                                <div class="admin-input-group-append">
+                                    <button id="fetchPageData" class="admin-btn admin-btn-primary" data-original-text="Kontrol Et">
+                                        <i class="fas fa-search"></i> Kontrol Et
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="admin-form-help">
+                                <i class="fas fa-info-circle"></i> CORS kısıtlamaları nedeniyle aynı domain içindeki URL'ler en iyi şekilde çalışır.
+                            </div>
+                        </div>
+                        
+                        <!-- Bulunan Veri Önizleme -->
+                        <div id="dataPreview" class="admin-data-preview" style="display: none;">
+                            <div class="admin-preview-header">
+                                <div class="admin-preview-info">
+                                    <strong>Bulunan Öğeler: </strong>
+                                    <span id="dataFoundCount">0</span>
+                                </div>
+                                <div class="admin-preview-actions">
+                                    <button id="selectAllItems" class="admin-btn admin-btn-sm admin-btn-outline-primary me-2">
+                                        <i class="fas fa-check-square"></i> Tümünü Seç
+                                    </button>
+                                    <button id="deselectAllItems" class="admin-btn admin-btn-sm admin-btn-outline-secondary">
+                                        <i class="fas fa-square"></i> Seçimi Kaldır
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="pageDataList" class="admin-preview-content">
+                                <!-- Önizleme kartları buraya eklenecek -->
+                            </div>
+                        </div>
+                        
+                        <!-- İçe Aktarma Seçenekleri -->
+                        <div id="importOptions" class="mt-4" style="display: none;">
+                            <label class="admin-form-label">İçe Aktarma Ayarları</label>
+                            
+                            <div class="admin-form-row">
+                                <div class="admin-form-check">
+                                    <input type="checkbox" id="overwriteExisting" class="admin-form-check-input">
+                                    <label class="admin-form-check-label" for="overwriteExisting">
+                                        Mevcut kayıtların üzerine yaz
+                                    </label>
+                                    <div class="admin-form-help">
+                                        İşaretlenirse, aynı başlığa sahip kayıtlar güncellenecektir.
+                                    </div>
+                                </div>
+                                
+                                <div class="admin-form-check">
+                                    <input type="checkbox" id="autoActivate" class="admin-form-check-input" checked>
+                                    <label class="admin-form-check-label" for="autoActivate">
+                                        İçe aktarılan içeriği otomatik aktifleştir
+                                    </label>
+                                    <div class="admin-form-help">
+                                        İçe aktarılan tüm hizmetler otomatik olarak aktif duruma getirilecektir.
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="admin-form-actions mt-3">
+                                <button id="startDirectImport" class="admin-btn admin-btn-success" disabled 
+                                        data-original-text="İçe Aktarmayı Başlat">
+                                    <i class="fas fa-file-import"></i> İçe Aktarmayı Başlat
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- İlerleme Göstergesi -->
+                        <div id="importProgressContainer" class="admin-progress-container mt-4" style="display: none;">
+                            <div class="admin-progress-info" id="importProgressText">
+                                0/0 hizmet işlendi
+                            </div>
+                            <div class="admin-progress">
+                                <div id="importProgressBar" class="admin-progress-bar" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- İçe Aktarma Sonuçları -->
+                        <div id="importResultsContainer" class="admin-import-results" style="display: none;">
+                            <h4>İçe Aktarma Sonuçları</h4>
+                            <div id="importResultsList" class="admin-results-list">
+                                <!-- Sonuçlar buraya eklenecek -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <h2 class="admin-card-title">
+                            <i class="fas fa-history"></i> İşlem Geçmişi
+                        </h2>
+                    </div>
+                    <div class="admin-card-body">
+                        <div id="operationHistory">
+                            <p>Henüz bir işlem yapılmadı.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer -->
+            <footer class="admin-footer">
+                &copy; <span id="currentYear">2023</span> Birlik Elektrik Admin Panel. Tüm hakları saklıdır.
+            </footer>
+        </main>
+    </div>
+    
+    <!-- Admin JS -->
+    <script src="assets/js/admin.js"></script>
+    
+    <!-- Veri Aktarımı Özgü Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Yıl bilgisini güncelle
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+            
+            // İçe Aktarma İşlemi
+            document.getElementById('startImport').addEventListener('click', function() {
+                const importType = document.getElementById('importType').value;
+                const importFile = document.getElementById('importFile').files[0];
+                const overwriteExisting = document.getElementById('overwriteExisting').checked;
+                const importImages = document.getElementById('importImages').checked;
+                
+                if (!importType) {
+                    showAlert('Lütfen bir veri türü seçin.', 'error');
+                    return;
+                }
+                
+                if (!importFile) {
+                    showAlert('Lütfen bir JSON dosyası seçin.', 'error');
+                    return;
+                }
+                
+                // Dosya okuma işlemi
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const data = JSON.parse(e.target.result);
+                        importData(importType, data, overwriteExisting, importImages);
+                    } catch (error) {
+                        showAlert('Geçersiz JSON formatı: ' + error.message, 'error');
+                    }
+                };
+                reader.readAsText(importFile);
+            });
+            
+            // Dışa Aktarma İşlemi
+            document.getElementById('startExport').addEventListener('click', function() {
+                const exportType = document.getElementById('exportType').value;
+                const includeImages = document.getElementById('includeImages').checked;
+                const formatJSON = document.getElementById('formatJSON').checked;
+                
+                if (!exportType) {
+                    showAlert('Lütfen bir veri türü seçin.', 'error');
+                    return;
+                }
+                
+                exportData(exportType, includeImages, formatJSON);
+            });
+            
+            // Veritabanı Yedekleme
+            document.getElementById('backupDatabase').addEventListener('click', function() {
+                backupDatabase();
+            });
+            
+            // Veritabanı Geri Yükleme
+            document.getElementById('restoreDatabase').addEventListener('click', function() {
+                if (confirm('Bu işlem mevcut veritabanının üzerine yazacaktır. Devam etmek istiyor musunuz?')) {
+                    // Veritabanı geri yükleme işlemi yapılacak
+                    showAlert('Veritabanı geri yükleme özelliği henüz uygulanmadı.', 'info');
+                }
+            });
+            
+            // Çıkış düğmesi
+            document.getElementById('logoutButton').addEventListener('click', function() {
+                firebase.auth().signOut().then(function() {
+                    window.location.href = 'login.html';
+                }).catch(function(error) {
+                    showAlert('Çıkış yapılırken bir hata oluştu.', 'error');
+                    console.error(error);
+                });
+            });
+        });
+        
+        // Veri İçe Aktarma Fonksiyonu
+        function importData(type, data, overwrite, importImages) {
+            showAlert('Veri içe aktarma başlatıldı...', 'info');
+            
+            // Firebase Firestore referansı
+            const db = firebase.firestore();
+            
+            // İçe aktarılacak koleksiyon adı belirleme
+            let collectionName = type;
+            if (type === 'all') {
+                // Tüm veri türleri için ayrı içe aktarma yapılacak
+                showAlert('Tüm verileri içe aktarma özelliği henüz uygulanmadı.', 'info');
+                return;
+            }
+            
+            // Veri sayacı
+            let importedCount = 0;
+            let errors = 0;
+            
+            // Veri dizisi üzerinde döngü
+            const promises = data.map(item => {
+                // Belge ID'si belirleme
+                const docId = item.id || db.collection(collectionName).doc().id;
+                
+                // Veriyi hazırlama (id alanını kaldırma)
+                const docData = { ...item };
+                if (docData.id) delete docData.id;
+                
+                // Firestore'a yazma
+                return db.collection(collectionName).doc(docId).set(docData, { merge: !overwrite })
+                    .then(() => {
+                        importedCount++;
+                        return true;
+                    })
+                    .catch(error => {
+                        console.error(`Belge içe aktarılırken hata: ${docId}`, error);
+                        errors++;
+                        return false;
+                    });
+            });
+            
+            // Tüm içe aktarma işlemlerinin tamamlanmasını bekleme
+            Promise.all(promises)
+                .then(() => {
+                    // İşlem sonucu raporlama
+                    logOperation('import', type, `${importedCount} belge içe aktarıldı, ${errors} hata oluştu.`);
+                    showAlert(`İçe aktarma tamamlandı. ${importedCount} belge başarıyla içe aktarıldı. ${errors} hata oluştu.`, errors > 0 ? 'warning' : 'success');
+                });
+        }
+        
+        // Veri Dışa Aktarma Fonksiyonu
+        function exportData(type, includeImages, formatJSON) {
+            showAlert('Veri dışa aktarma başlatıldı...', 'info');
+            
+            // Firebase Firestore referansı
+            const db = firebase.firestore();
+            
+            // Dışa aktarılacak koleksiyon adı belirleme
+            let collectionName = type;
+            if (type === 'all') {
+                // Tüm veri türleri için ayrı dışa aktarma yapılacak
+                showAlert('Tüm verileri dışa aktarma özelliği henüz uygulanmadı.', 'info');
+                return;
+            }
+            
+            // Koleksiyonu çekme
+            db.collection(collectionName).get()
+                .then(snapshot => {
+                    if (snapshot.empty) {
+                        showAlert(`Dışa aktarılacak ${collectionName} verisi bulunamadı.`, 'warning');
+                        return;
+                    }
+                    
+                    // Verileri işleme
+                    const exportData = [];
+                    snapshot.forEach(doc => {
+                        const docData = doc.data();
+                        // Belge ID'sini ekleme
+                        exportData.push({
+                            id: doc.id,
+                            ...docData
+                        });
+                    });
+                    
+                    // JSON formatına dönüştürme
+                    const jsonData = JSON.stringify(exportData, null, formatJSON ? 2 : 0);
+                    
+                    // Dosya indirme işlemi
+                    const blob = new Blob([jsonData], { type: 'application/json' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `${collectionName}_export_${new Date().toISOString().split('T')[0]}.json`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    
+                    // İşlem sonucu raporlama
+                    logOperation('export', type, `${exportData.length} belge dışa aktarıldı.`);
+                    showAlert(`Dışa aktarma tamamlandı. ${exportData.length} belge başarıyla dışa aktarıldı.`, 'success');
+                })
+                .catch(error => {
+                    console.error(`Veri dışa aktarılırken hata:`, error);
+                    showAlert(`Dışa aktarma sırasında bir hata oluştu: ${error.message}`, 'error');
+                });
+        }
+        
+        // Veritabanı Yedekleme Fonksiyonu
+        function backupDatabase() {
+            showAlert('Veritabanı yedekleme başlatıldı...', 'info');
+            
+            // Firebase Firestore referansı
+            const db = firebase.firestore();
+            
+            // Tüm koleksiyonlar
+            const collections = ['projects', 'services', 'gallery', 'team', 'pages', 'messages'];
+            
+            // Her koleksiyon için veri çekme
+            const promises = collections.map(collection => {
+                return db.collection(collection).get()
+                    .then(snapshot => {
+                        const data = [];
+                        snapshot.forEach(doc => {
+                            data.push({
+                                id: doc.id,
+                                ...doc.data()
+                            });
+                        });
+                        return { collection, data };
+                    })
+                    .catch(error => {
+                        console.error(`${collection} verileri alınırken hata:`, error);
+                        return { collection, data: [], error: error.message };
+                    });
+            });
+            
+            // Tüm verilerin çekilmesini bekleme
+            Promise.all(promises)
+                .then(results => {
+                    // Sonuçları birleştirme
+                    const backup = {};
+                    let totalDocs = 0;
+                    let errors = 0;
+                    
+                    results.forEach(result => {
+                        backup[result.collection] = result.data;
+                        totalDocs += result.data.length;
+                        if (result.error) errors++;
+                    });
+                    
+                    // JSON formatına dönüştürme
+                    const jsonData = JSON.stringify(backup, null, 2);
+                    
+                    // Dosya indirme işlemi
+                    const blob = new Blob([jsonData], { type: 'application/json' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `birlik_elektrik_backup_${new Date().toISOString().split('T')[0]}.json`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    
+                    // İşlem sonucu raporlama
+                    logOperation('backup', 'all', `${totalDocs} belge yedeklendi, ${errors} koleksiyonda hata oluştu.`);
+                    showAlert(`Veritabanı yedekleme tamamlandı. ${totalDocs} belge başarıyla yedeklendi.`, errors > 0 ? 'warning' : 'success');
+                })
+                .catch(error => {
+                    console.error(`Veritabanı yedeklenirken hata:`, error);
+                    showAlert(`Veritabanı yedekleme sırasında bir hata oluştu: ${error.message}`, 'error');
+                });
+        }
+        
+        // İşlem Günlüğü Fonksiyonu
+        function logOperation(operation, type, result) {
+            const historyElement = document.getElementById('operationHistory');
+            const timestamp = new Date().toLocaleString('tr-TR');
+            
+            const operationText = operation === 'import' ? 'İçe Aktarma' :
+                                operation === 'export' ? 'Dışa Aktarma' :
+                                operation === 'backup' ? 'Yedekleme' : 'İşlem';
+            
+            const typeText = type === 'all' ? 'Tüm Veriler' :
+                          type === 'projects' ? 'Projeler' :
+                          type === 'services' ? 'Hizmetler' :
+                          type === 'gallery' ? 'Galeri' :
+                          type === 'team' ? 'Takım' :
+                          type === 'pages' ? 'Sayfalar' :
+                          type === 'messages' ? 'Mesajlar' : type;
+            
+            const logHTML = `
+            <div class="admin-log-item">
+                <div class="admin-log-header">
+                    <strong>${operationText}: ${typeText}</strong>
+                    <span>${timestamp}</span>
+                </div>
+                <div class="admin-log-content">
+                    ${result}
+                </div>
+            </div>
+            `;
+            
+            // İlk log mesajını temizleme
+            if (historyElement.innerHTML.includes('Henüz bir işlem yapılmadı.')) {
+                historyElement.innerHTML = '';
+            }
+            
+            // Log mesajını ekleme (en üste)
+            historyElement.innerHTML = logHTML + historyElement.innerHTML;
+        }
+        
+        // Uyarı Gösterme Fonksiyonu
+        function showAlert(message, type = 'info') {
+            const alertsContainer = document.getElementById('alertContainer');
+            
+            const alertHTML = `
+            <div class="admin-alert admin-alert-${type}">
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 
+                                type === 'error' ? 'exclamation-circle' : 
+                                type === 'warning' ? 'exclamation-triangle' : 'info-circle'}"></i>
+                <div>${message}</div>
+            </div>
+            `;
+            
+            const alertElement = document.createElement('div');
+            alertElement.innerHTML = alertHTML;
+            
+            alertsContainer.appendChild(alertElement.firstElementChild);
+            
+            // Belirli bir süre sonra uyarıyı kaldırma
+            setTimeout(() => {
+                const insertedAlert = alertsContainer.lastElementChild;
+                insertedAlert.style.opacity = '0';
+                setTimeout(() => {
+                    alertsContainer.removeChild(insertedAlert);
+                }, 300);
+            }, 5000);
+        }
+    </script>
+    
+    <!-- jQuery & Bootstrap (gerekli ise) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- App JS -->
+    <script src="assets/js/data-migration.js"></script>
+    
+    <script>
+        // Sayfa yüklendiğinde çalışacak ayarlamalar
+        document.addEventListener('DOMContentLoaded', function() {
+            // Direkt içe aktarım için UI ayarları
+            const dataPreview = document.getElementById('dataPreview');
+            const importOptions = document.getElementById('importOptions');
+            
+            // dataPreview görünür olduğunda importOptions'ı da göster
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.attributeName === 'style' && 
+                        dataPreview.style.display !== 'none' && 
+                        document.getElementById('dataFoundCount').textContent !== '0') {
+                        importOptions.style.display = 'block';
+                    }
+                });
+            });
+            
+            if (dataPreview) {
+                observer.observe(dataPreview, { attributes: true });
+            }
+        });
+    </script>
+</body>
+</html> 

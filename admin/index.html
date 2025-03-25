@@ -3,687 +3,674 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yönetim Paneli | Birlik Elektrik</title>
+    <title>Dashboard - Birlik Elektrik Admin</title>
+    
+    <!-- Fontawesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts - Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Admin CSS -->
     <link rel="stylesheet" href="assets/css/admin.css">
-    <link rel="icon" href="../img/birlik-logo.jpg" type="image/jpg">
-</head>
-<body>
-    <!-- Ana Container -->
-    <div class="admin-container">
-        <!-- Sidebar -->
-        <aside class="admin-sidebar" id="sidebar">
-            <div class="admin-sidebar-header">
-                <div class="admin-sidebar-logo">
-                    <img src="../img/birlik-logo.jpg" alt="Birlik Elektrik">
-                    <h1>Birlik <span>Elektrik</span></h1>
-                </div>
-                <button class="admin-sidebar-toggle" id="sidebarToggle">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </div>
-
-            <div class="admin-sidebar-user">
-                <div class="admin-sidebar-avatar" id="userInitials">AY</div>
-                <div class="admin-sidebar-userinfo">
-                    <h4 class="admin-sidebar-username" id="userName">Admin Yönetici</h4>
-                    <p class="admin-sidebar-useremail" id="userEmail">admin@birlikelektrik.com</p>
-                </div>
-            </div>
-            
-            <nav class="admin-menu">
-                <div class="admin-menu-section">Ana Menü</div>
-                <ul>
-                    <li class="admin-menu-item">
-                        <a href="index.html" class="admin-menu-link active">
-                            <i class="fas fa-tachometer-alt admin-menu-icon"></i>
-                            <span class="admin-menu-title">Gösterge Paneli</span>
-                        </a>
-                    </li>
-                    <li class="admin-menu-item">
-                        <a href="projects.html" class="admin-menu-link">
-                            <i class="fas fa-project-diagram admin-menu-icon"></i>
-                            <span class="admin-menu-title">Projeler</span>
-                        </a>
-                    </li>
-                    <li class="admin-menu-item">
-                        <a href="services.html" class="admin-menu-link">
-                            <i class="fas fa-tools admin-menu-icon"></i>
-                            <span class="admin-menu-title">Hizmetler</span>
-                        </a>
-                    </li>
-                </ul>
-                
-                <div class="admin-menu-section">İçerik Yönetimi</div>
-                <ul>
-                    <li class="admin-menu-item">
-                        <a href="pages.html" class="admin-menu-link">
-                            <i class="fas fa-file-alt admin-menu-icon"></i>
-                            <span class="admin-menu-title">Sayfalar</span>
-                    </a>
-                </li>
-                    <li class="admin-menu-item">
-                        <a href="gallery.html" class="admin-menu-link">
-                            <i class="fas fa-images admin-menu-icon"></i>
-                            <span class="admin-menu-title">Galeri</span>
-                    </a>
-                </li>
-                    <li class="admin-menu-item">
-                        <a href="team.html" class="admin-menu-link">
-                            <i class="fas fa-users admin-menu-icon"></i>
-                            <span class="admin-menu-title">Ekip</span>
-                    </a>
-                </li>
-                </ul>
-                
-                <div class="admin-menu-section">İletişim</div>
-                <ul>
-                    <li class="admin-menu-item">
-                        <a href="messages.html" class="admin-menu-link">
-                            <i class="fas fa-envelope admin-menu-icon"></i>
-                            <span class="admin-menu-title">Mesajlar</span>
-                            <span class="admin-menu-badge">5</span>
-                    </a>
-                </li>
-                </ul>
-                
-                <div class="admin-menu-section">Ayarlar</div>
-                <ul>
-                    <li class="admin-menu-item">
-                        <a href="settings.html" class="admin-menu-link">
-                            <i class="fas fa-cog admin-menu-icon"></i>
-                            <span class="admin-menu-title">Genel Ayarlar</span>
-                    </a>
-                </li>
-                    <li class="admin-menu-item">
-                        <a href="users.html" class="admin-menu-link">
-                            <i class="fas fa-user-shield admin-menu-icon"></i>
-                            <span class="admin-menu-title">Kullanıcılar</span>
-                    </a>
-                </li>
-                    <li class="admin-menu-item">
-                        <a href="#" id="logoutBtn" class="admin-menu-link">
-                            <i class="fas fa-sign-out-alt admin-menu-icon"></i>
-                            <span class="admin-menu-title">Çıkış Yap</span>
-                    </a>
-                </li>
-            </ul>
-            </nav>
-    </aside>
-
-        <!-- İçerik Sarmalayıcı -->
-        <div class="admin-content-wrapper">
-            <!-- Header -->
-            <header class="admin-header">
-                <div class="admin-header-search">
-                    <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Aramak için yazın...">
-                </div>
-                
-                <div class="admin-header-actions">
-                    <button class="admin-header-action" id="darkModeToggle" title="Karanlık/Açık Mod">
-                        <i class="fas fa-moon"></i>
-                    </button>
-                    <button class="admin-header-action" title="Bildirimler">
-                        <i class="fas fa-bell"></i>
-                        <span class="admin-header-action-badge">3</span>
-                    </button>
-                    <button class="admin-header-action" title="Mesajlar">
-                        <i class="fas fa-envelope"></i>
-                        <span class="admin-header-action-badge">5</span>
-                    </button>
-                    <button class="admin-header-action" id="mobileMenuToggle" title="Menü">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                </div>
-            </header>
-            
-            <!-- Ana İçerik -->
-            <main class="admin-content">
-                <div class="admin-page-title">
-                    <div>
-                        <h1>Gösterge Paneli</h1>
-                        <div class="admin-breadcrumb">
-                            <a href="index.html">Ana Sayfa</a>
-                            <span class="admin-breadcrumb-separator">/</span>
-                            <span>Gösterge Paneli</span>
-                    </div>
-                    </div>
-                    <button class="btn btn-primary">
-                        <i class="fas fa-download"></i> Rapor İndir
-                    </button>
-                </div>
-                
-                <!-- İstatistik Kartları -->
-                <div class="admin-stats-grid">
-                    <div class="admin-stat-card">
-                        <div class="admin-stat-icon bg-primary">
-                            <i class="fas fa-eye"></i>
-                        </div>
-                        <div class="admin-stat-content">
-                            <div class="admin-stat-value">1,285</div>
-                            <p class="admin-stat-label">Toplam Ziyaretçi</p>
-                        </div>
-                    </div>
-                    
-                    <div class="admin-stat-card">
-                        <div class="admin-stat-icon bg-success">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <div class="admin-stat-content">
-                            <div class="admin-stat-value">42%</div>
-                            <p class="admin-stat-label">Ziyaretçi Artışı</p>
-                        </div>
-                    </div>
-                    
-                    <div class="admin-stat-card">
-                        <div class="admin-stat-icon bg-warning">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                        <div class="admin-stat-content">
-                            <div class="admin-stat-value">24</div>
-                            <p class="admin-stat-label">Yeni Mesaj</p>
-                </div>
-                    </div>
-                    
-                    <div class="admin-stat-card">
-                        <div class="admin-stat-icon bg-secondary">
-                            <i class="fas fa-project-diagram"></i>
-                        </div>
-                        <div class="admin-stat-content">
-                            <div class="admin-stat-value">12</div>
-                            <p class="admin-stat-label">Aktif Proje</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="admin-card">
-                    <div class="admin-card-header">
-                        <h2 class="admin-card-title">Son İletişim Mesajları</h2>
-                        <div class="admin-card-actions">
-                            <button class="btn btn-sm btn-light">
-                                <i class="fas fa-sync"></i> Yenile
-                            </button>
-                            <a href="messages.html" class="btn btn-sm btn-primary">
-                                <i class="fas fa-envelope"></i> Tümünü Gör
-                            </a>
-                        </div>
-                    </div>
-                    <div class="admin-card-body">
-                        <div class="admin-table-wrapper">
-                <table class="admin-table">
-                    <thead>
-                        <tr>
-                                        <th>İsim</th>
-                            <th>E-posta</th>
-                                        <th>Konu</th>
-                            <th>Tarih</th>
-                                        <th>Durum</th>
-                                        <th>İşlemler</th>
-                        </tr>
-                    </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Ahmet Yılmaz</td>
-                                        <td>ahmet@gmail.com</td>
-                                        <td>Elektrik Tesisatı Hk.</td>
-                                        <td>24.06.2023</td>
-                                        <td><span class="badge badge-warning">Bekliyor</span></td>
-                                        <td>
-                                            <button class="btn btn-sm btn-light btn-icon" title="Görüntüle">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-light btn-icon" title="Yanıtla">
-                                                <i class="fas fa-reply"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Mehmet Kaya</td>
-                                        <td>mehmet@yahoo.com</td>
-                                        <td>Fiyat Teklifi</td>
-                                        <td>22.06.2023</td>
-                                        <td><span class="badge badge-primary">Yanıtlandı</span></td>
-                                        <td>
-                                            <button class="btn btn-sm btn-light btn-icon" title="Görüntüle">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-light btn-icon" title="Yanıtla">
-                                                <i class="fas fa-reply"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Ayşe Demir</td>
-                                        <td>ayse@gmail.com</td>
-                                        <td>Aydınlatma Projesi</td>
-                                        <td>20.06.2023</td>
-                                        <td><span class="badge badge-success">Tamamlandı</span></td>
-                                        <td>
-                                            <button class="btn btn-sm btn-light btn-icon" title="Görüntüle">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-light btn-icon" title="Yanıtla">
-                                                <i class="fas fa-reply"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Zeynep Şahin</td>
-                                        <td>zeynep@hotmail.com</td>
-                                        <td>Elektrik Arızası</td>
-                                        <td>19.06.2023</td>
-                                        <td><span class="badge badge-danger">İptal Edildi</span></td>
-                                        <td>
-                                            <button class="btn btn-sm btn-light btn-icon" title="Görüntüle">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-light btn-icon" title="Yanıtla">
-                                                <i class="fas fa-reply"></i>
-                                            </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-                    </div>
-                </div>
-                
-                <div class="admin-row">
-                    <!-- Son Projeler -->
-                    <div class="admin-col admin-col-lg-8">
-                        <div class="admin-card">
-                            <div class="admin-card-header">
-                                <h2 class="admin-card-title">Son Projeler</h2>
-                                <div class="admin-card-actions">
-                                    <button class="btn btn-sm btn-primary">
-                                        <i class="fas fa-plus"></i> Yeni Proje
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="admin-card-body">
-                                <div class="admin-project-item">
-                                    <div class="admin-project-info">
-                                        <h3 class="admin-project-title">Fabrika Elektrik Tesisatı</h3>
-                                        <p class="admin-project-desc">Osmaniye OSB'deki fabrikanın elektrik tesisatı</p>
-                                    </div>
-                                    <div class="admin-project-meta">
-                                        <span><i class="fas fa-calendar"></i> 10.06.2023 - 15.08.2023</span>
-                                        <div class="admin-project-progress">
-                                            <div class="progress">
-                                                <div class="progress-bar" style="width: 65%"></div>
-                                            </div>
-                                            <span class="progress-text">65%</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="admin-project-item">
-                                    <div class="admin-project-info">
-                                        <h3 class="admin-project-title">Aydınlatma Projesi</h3>
-                                        <p class="admin-project-desc">Adana Merkez AVM aydınlatma sisteminin yenilenmesi</p>
-                                    </div>
-                                    <div class="admin-project-meta">
-                                        <span><i class="fas fa-calendar"></i> 05.06.2023 - 20.07.2023</span>
-                                        <div class="admin-project-progress">
-                                            <div class="progress">
-                                                <div class="progress-bar" style="width: 35%"></div>
-                                            </div>
-                                            <span class="progress-text">35%</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="admin-project-item">
-                                    <div class="admin-project-info">
-                                        <h3 class="admin-project-title">Site Altyapı Kablolaması</h3>
-                                        <p class="admin-project-desc">Bahçeşehir Konutları elektrik altyapı ve kablolama</p>
-                                    </div>
-                                    <div class="admin-project-meta">
-                                        <span><i class="fas fa-calendar"></i> 01.06.2023 - 30.09.2023</span>
-                                        <div class="admin-project-progress">
-                                            <div class="progress">
-                                                <div class="progress-bar" style="width: 20%"></div>
-                                            </div>
-                                            <span class="progress-text">20%</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Hızlı Erişim -->
-                    <div class="admin-col admin-col-lg-4">
-                        <div class="admin-card">
-                            <div class="admin-card-header">
-                                <h2 class="admin-card-title">Hızlı Erişim</h2>
-                            </div>
-                            <div class="admin-card-body">
-                                <div class="admin-quick-links">
-                                    <a href="projects.html" class="admin-quick-link">
-                                        <i class="fas fa-plus-circle"></i>
-                                        <span>Yeni Proje Ekle</span>
-                                    </a>
-                                    <a href="services.html" class="admin-quick-link">
-                                        <i class="fas fa-tools"></i>
-                                        <span>Hizmet Ekle</span>
-                                    </a>
-                                    <a href="messages.html" class="admin-quick-link">
-                                        <i class="fas fa-envelope-open-text"></i>
-                                        <span>Mesajları Kontrol Et</span>
-                                    </a>
-                                    <a href="settings.html" class="admin-quick-link">
-                                        <i class="fas fa-cog"></i>
-                                        <span>Site Ayarları</span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-            </div>
-        </div>
-    </main>
-        </div>
-    </div>
-
-    <!-- Firebase JS -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
     
     <!-- Firebase Config -->
     <script src="../js/firebase/config.js"></script>
     
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Firebase Auth
-            const auth = firebase.auth();
-            const firestore = firebase.firestore();
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar" id="sidebar">
+            <div class="admin-sidebar-header">
+                <div class="admin-logo">
+                    <img src="assets/img/logo.jpg" alt="Birlik Elektrik">
+                    <span>Birlik Elektrik</span>
+                </div>
+                <button id="sidebarToggle" class="admin-sidebar-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
             
-            // DOM Elements
-            const sidebar = document.getElementById('sidebar');
-            const sidebarToggle = document.getElementById('sidebarToggle');
-            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-            const logoutBtn = document.getElementById('logoutBtn');
-            const userNameElement = document.getElementById('userName');
-            const userEmailElement = document.getElementById('userEmail');
-            const userInitialsElement = document.getElementById('userInitials');
-            const darkModeToggle = document.getElementById('darkModeToggle');
-            
-            // Kullanıcı tercihi için karanlık/açık mod
-            function setDarkMode(isDark) {
-                if (isDark) {
-                    document.body.classList.add('dark-mode');
-                    darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-                    localStorage.setItem('darkMode', 'true');
-                } else {
-                    document.body.classList.remove('dark-mode');
-                    darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-                    localStorage.setItem('darkMode', 'false');
-                }
-            }
-            
-            // Depolanan kullanıcı tercihini kontrol et
-            const savedDarkMode = localStorage.getItem('darkMode') === 'true';
-            setDarkMode(savedDarkMode);
-            
-            // Karanlık mod düğmesi
-            darkModeToggle.addEventListener('click', function() {
-                const isDarkMode = document.body.classList.contains('dark-mode');
-                setDarkMode(!isDarkMode);
-            });
-            
-            // Toggle Sidebar
-            sidebarToggle.addEventListener('click', function() {
-                sidebar.classList.toggle('collapsed');
-                
-                // İkon değiştir
-                    const icon = this.querySelector('i');
-                if (sidebar.classList.contains('collapsed')) {
-                        icon.classList.remove('fa-bars');
-                    icon.classList.add('fa-bars-staggered');
-                    } else {
-                    icon.classList.remove('fa-bars-staggered');
-                        icon.classList.add('fa-bars');
-                    }
-                });
-                
-            // Mobile Menu Toggle
-            mobileMenuToggle.addEventListener('click', function() {
-                sidebar.classList.toggle('show');
-            });
-            
-            // Auth State Changed
-            auth.onAuthStateChanged(function(user) {
-                if (user) {
-                    // User is signed in
-                    userEmailElement.textContent = user.email;
+            <div class="admin-sidebar-content">
+                <ul class="admin-menu">
+                    <li class="admin-menu-item">
+                        <a href="index.html" class="admin-menu-link active" id="dashboard-link">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                        </a>
+                    </li>
                     
-                    // Set user name and initials
-                    if (user.displayName) {
-                        userNameElement.textContent = user.displayName;
-                        
-                        // Set initials
-                        const names = user.displayName.split(' ');
-                        if (names.length > 1) {
-                            userInitialsElement.textContent = names[0].charAt(0) + names[1].charAt(0);
-                        } else {
-                            userInitialsElement.textContent = names[0].charAt(0);
+                    <li class="admin-menu-item">
+                        <a href="projects.html" class="admin-menu-link" id="projects-link">
+                            <i class="fas fa-project-diagram"></i> Projeler
+                        </a>
+                    </li>
+                    
+                    <li class="admin-menu-item">
+                        <a href="services.html" class="admin-menu-link" id="services-link">
+                            <i class="fas fa-tools"></i> Hizmetler
+                        </a>
+                    </li>
+                    
+                    <li class="admin-menu-item">
+                        <a href="gallery.html" class="admin-menu-link" id="gallery-link">
+                            <i class="fas fa-images"></i> Galeri
+                        </a>
+                    </li>
+                    
+                    <li class="admin-menu-item">
+                        <a href="team.html" class="admin-menu-link" id="team-link">
+                            <i class="fas fa-users"></i> Takım
+                        </a>
+                    </li>
+                    
+                    <li class="admin-menu-item">
+                        <a href="pages.html" class="admin-menu-link" id="pages-link">
+                            <i class="fas fa-file-alt"></i> Sayfalar
+                        </a>
+                    </li>
+                    
+                    <li class="admin-menu-item">
+                        <a href="messages.html" class="admin-menu-link" id="messages-link">
+                            <i class="fas fa-envelope"></i> Mesajlar
+                            <span class="admin-menu-badge" id="unreadMessagesBadge">0</span>
+                        </a>
+                    </li>
+                    
+                    <li class="admin-menu-item">
+                        <a href="users.html" class="admin-menu-link" id="users-link">
+                            <i class="fas fa-user"></i> Kullanıcılar
+                        </a>
+                    </li>
+                    
+                    <li class="admin-menu-item">
+                        <a href="settings.html" class="admin-menu-link" id="settings-link">
+                            <i class="fas fa-cog"></i> Ayarlar
+                        </a>
+                    </li>
+                    
+                    <li class="admin-menu-item">
+                        <a href="data-migration.html" class="admin-menu-link" id="data-migration-link">
+                            <i class="fas fa-database"></i> Veri Aktarımı
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="admin-user-profile">
+                <div class="admin-user-avatar" id="userInitials">AK</div>
+                <div class="admin-user-info">
+                    <div class="admin-user-name" id="userName">Admin Kullanıcı</div>
+                    <div class="admin-user-email" id="userEmail">admin@birlikelektrik.com</div>
+                </div>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Header -->
+            <header class="admin-header">
+                <button id="mobileMenuToggle" class="admin-btn-icon admin-mobile-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <h1 class="admin-header-title">Dashboard</h1>
+                
+                <div class="admin-header-actions">
+                    <div class="dark-mode-toggle">
+                        <button id="darkModeToggle" class="admin-btn-icon">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="admin-user-dropdown">
+                        <button id="logoutButton" class="admin-btn admin-btn-outline-primary">
+                            <i class="fas fa-sign-out-alt"></i> Çıkış
+                        </button>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Content -->
+            <div class="admin-content">
+                <!-- Bildirimler için konteyner -->
+                <div class="admin-alerts"></div>
+                
+                <!-- İçerik başlangıcı -->
+                <div class="admin-page-header">
+                    <div class="admin-page-title">
+                        <h1>Genel Bakış</h1>
+                        <div class="admin-breadcrumb">
+                            <a href="index.html">Ana Sayfa</a>
+                            <span class="admin-breadcrumb-separator">/</span>
+                            <span>Dashboard</span>
+                        </div>
+                    </div>
+                    <div class="admin-page-actions">
+                        <div class="admin-date-range">
+                            <select id="dashboardDateRange" class="admin-form-control">
+                                <option value="week">Bu Hafta</option>
+                                <option value="month" selected>Bu Ay</option>
+                                <option value="quarter">Bu Çeyrek</option>
+                                <option value="year">Bu Yıl</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- İstatistik Kartları -->
+                <div class="admin-stats-row">
+                    <div class="admin-stat-card">
+                        <div class="admin-stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="admin-stat-content">
+                            <h3>1,245</h3>
+                            <p>Toplam Ziyaretçi <span class="text-success"><i class="fas fa-arrow-up"></i> 12%</span></p>
+                        </div>
+                    </div>
+                    
+                    <div class="admin-stat-card">
+                        <div class="admin-stat-icon admin-bg-info">
+                            <i class="fas fa-project-diagram"></i>
+                        </div>
+                        <div class="admin-stat-content">
+                            <h3>48</h3>
+                            <p>Aktif Projeler <span class="text-success"><i class="fas fa-arrow-up"></i> 8%</span></p>
+                        </div>
+                    </div>
+                    
+                    <div class="admin-stat-card">
+                        <div class="admin-stat-icon admin-bg-warning">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="admin-stat-content">
+                            <h3>24</h3>
+                            <p>Yeni Mesajlar <span class="text-danger"><i class="fas fa-arrow-down"></i> 3%</span></p>
+                        </div>
+                    </div>
+                    
+                    <div class="admin-stat-card">
+                        <div class="admin-stat-icon admin-bg-success">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div class="admin-stat-content">
+                            <h3>8</h3>
+                            <p>Hizmetler <span class="text-success"><i class="fas fa-arrow-up"></i> 25%</span></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Ana Grid Düzeni -->
+                <div class="row">
+                    <!-- Ziyaretçi İstatistikleri Grafiği -->
+                    <div class="col-lg-8">
+                        <div class="admin-card">
+                        <div class="admin-card-header">
+                                <h5 class="admin-card-title"><i class="fas fa-chart-line"></i> Ziyaretçi İstatistikleri</h5>
+                                <div>
+                                    <select class="form-select form-select-sm" id="chartType">
+                                    <option value="daily">Günlük</option>
+                                    <option value="weekly" selected>Haftalık</option>
+                                    <option value="monthly">Aylık</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="admin-card-body">
+                                <canvas id="visitorStats" height="300"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Son Projeler -->
+                    <div class="col-lg-4">
+                        <div class="admin-card">
+                            <div class="admin-card-header">
+                                <h5 class="admin-card-title"><i class="fas fa-project-diagram"></i> Son Projeler</h5>
+                                <a href="projects.html" class="admin-btn admin-btn-sm admin-btn-outline-primary">Tümünü Gör</a>
+                            </div>
+                            <div class="admin-card-body p-0">
+                                <div class="list-group list-group-flush">
+                                    <a href="#" class="list-group-item list-group-item-action">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h6 class="mb-1">Park Elektrik A.Ş.</h6>
+                                            <span class="admin-badge admin-badge-success">Tamamlandı</span>
+                                        </div>
+                                        <small class="text-muted">Endüstriyel tesis elektrik altyapısı</small>
+                                        <div class="progress mt-2" style="height: 5px;">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="list-group-item list-group-item-action">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h6 class="mb-1">Yeşil Vadi Sitesi</h6>
+                                            <span class="admin-badge admin-badge-warning">Devam Ediyor</span>
+                                        </div>
+                                        <small class="text-muted">Site geneli aydınlatma projesi</small>
+                                        <div class="progress mt-2" style="height: 5px;">
+                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="list-group-item list-group-item-action">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h6 class="mb-1">Deniz Plaza</h6>
+                                            <span class="admin-badge admin-badge-primary">Planlama</span>
+                                        </div>
+                                        <small class="text-muted">Ofis binası enerji optimizasyonu</small>
+                                        <div class="progress mt-2" style="height: 5px;">
+                                            <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="list-group-item list-group-item-action">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h6 class="mb-1">Mavi Köşk</h6>
+                                            <span class="admin-badge admin-badge-info">Onay Bekliyor</span>
+                                        </div>
+                                        <small class="text-muted">Akıllı ev otomasyon sistemi</small>
+                                        <div class="progress mt-2" style="height: 5px;">
+                                            <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer -->
+            <footer class="admin-footer">
+                <div class="admin-footer-copyright">
+                    &copy; <span id="currentYear">2023</span> Birlik Elektrik. Tüm hakları saklıdır.
+                </div>
+                <div class="admin-footer-links">
+                    <a href="#">Yardım</a>
+                    <a href="#">Gizlilik</a>
+                    <a href="#">Şartlar</a>
+                </div>
+            </footer>
+        </main>
+    </div>
+    
+    <!-- Admin JS -->
+    <script src="assets/js/admin.js"></script>
+    <script src="assets/js/dashboard.js"></script>
+    
+    <!-- Grafik İçin JavaScript -->
+    <script>
+        // DOM yüklendiğinde çalışacak kodlar
+        document.addEventListener('DOMContentLoaded', function() {
+            // Ziyaretçi grafiği 
+            const visitorStatsCanvas = document.getElementById('visitorStats');
+            
+            // Grafik verilerini oluştur
+            const labels = ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi', 'Pazar'];
+            const data = {
+                labels: labels,
+                datasets: [{
+                    label: 'Ziyaretçiler',
+                    data: [125, 145, 180, 210, 202, 97, 286],
+                    backgroundColor: 'rgba(0, 123, 255, 0.2)',
+                    borderColor: 'rgb(0, 123, 255)',
+                    borderWidth: 2,
+                    tension: 0.4
+                }]
+            };
+            
+            // Grafik konfigürasyonu
+            const config = {
+                type: 'line',
+                data: data,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
                         }
-                    } else {
-                        userNameElement.textContent = 'Admin Kullanıcı';
-                        userInitialsElement.textContent = user.email.charAt(0).toUpperCase();
+                    },
+                    scales: {
+                        x: {
+                            display: true,
+                            title: {
+                                display: true,
+                                text: 'Gün'
+                            }
+                        },
+                        y: {
+                            display: true,
+                            title: {
+                                display: true,
+                                text: 'Ziyaretçi Sayısı'
+                            },
+                            beginAtZero: true
+                        }
                     }
-                } else {
-                    // User is signed out, redirect to login
-                    window.location.href = 'login.html';
+                },
+            };
+            
+            // Grafiği oluştur
+            const myChart = new Chart(visitorStatsCanvas, config);
+            
+            // Grafik tipini değiştirme işlevi
+            document.getElementById('chartType').addEventListener('change', function() {
+                const chartType = this.value;
+                let newData = [];
+                let newLabels = [];
+                
+                if (chartType === 'daily') {
+                    newLabels = ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi', 'Pazar'];
+                    newData = [125, 145, 180, 210, 202, 97, 286];
+                } else if (chartType === 'weekly') {
+                    newLabels = ['1. Hafta', '2. Hafta', '3. Hafta', '4. Hafta'];
+                    newData = [1245, 1385, 1560, 1730];
+                } else if (chartType === 'monthly') {
+                    newLabels = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran'];
+                    newData = [3200, 3850, 4300, 4150, 4900, 5230];
                 }
+                
+                myChart.data.labels = newLabels;
+                myChart.data.datasets[0].data = newData;
+                myChart.update();
             });
-            
-            // Logout
-            logoutBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                auth.signOut().then(function() {
-                    // Sign-out successful
-                    window.location.href = 'login.html';
-                }).catch(function(error) {
-                    // An error happened
-                    console.error('Çıkış sırasında hata oluştu:', error);
-                });
-            });
-            
-            // Aktif menü öğesini takip etme
-            function setActiveMenuItem() {
-                const currentPage = window.location.pathname.split('/').pop();
-                const menuLinks = document.querySelectorAll('.admin-menu-link');
-                
-                menuLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === currentPage) {
-                        link.classList.add('active');
-                    }
-                });
-                
-                // Anasayfa için özel durum
-                if (currentPage === '' || currentPage === 'index.html') {
-                    const homeLink = document.querySelector('a[href="index.html"]');
-                    if (homeLink) homeLink.classList.add('active');
-                }
-            }
-            
-            // Sayfa yüklendiğinde aktif menüyü işaretle
-            setActiveMenuItem();
         });
     </script>
-
+    
     <style>
-        /* Row ve Column Layout */
-        .admin-row {
-            display: flex;
-            flex-wrap: wrap;
-            margin-right: -15px;
-            margin-left: -15px;
+        /* Dashboard özel stilleri */
+        .admin-dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
         }
         
-        .admin-col {
+        .admin-grid-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .admin-card-lg {
+            grid-column: 1 / -1;
+        }
+        
+        .admin-chart-container {
             position: relative;
             width: 100%;
-            padding-right: 15px;
-            padding-left: 15px;
+            padding: 1rem;
         }
         
-        @media (min-width: 992px) {
-            .admin-col-lg-8 {
-                flex: 0 0 66.666667%;
-                max-width: 66.666667%;
-            }
-            
-            .admin-col-lg-4 {
-                flex: 0 0 33.333333%;
-                max-width: 33.333333%;
-            }
+        .admin-trend-up {
+            color: var(--success-color);
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            margin-top: 0.25rem;
         }
         
-        /* Projeler Listesi */
-        .admin-project-item {
-            background-color: var(--gray-50);
-            border-radius: var(--border-radius);
-            padding: var(--spacing-4);
-            margin-bottom: var(--spacing-3);
-            border: 1px solid var(--gray-200);
+        .admin-trend-down {
+            color: var(--danger-color);
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            margin-top: 0.25rem;
         }
         
-        .admin-project-title {
-            font-size: var(--font-size-lg);
-            font-weight: var(--font-weight-semibold);
-            color: var(--gray-800);
-            margin: 0 0 var(--spacing-1);
+        .admin-trend-neutral {
+            color: var(--text-color-light);
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            margin-top: 0.25rem;
         }
         
-        .admin-project-desc {
-            font-size: var(--font-size-sm);
-            color: var(--gray-600);
-            margin: 0;
+        .admin-recent-messages {
+            display: flex;
+            flex-direction: column;
         }
         
-        .admin-project-meta {
+        .admin-message-preview-item {
+            display: flex;
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .admin-message-preview-item:hover {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+        
+        .admin-message-preview-item.unread {
+            background-color: rgba(0, 123, 255, 0.05);
+        }
+        
+        .admin-message-preview-item.read {
+            background-color: transparent;
+        }
+        
+        .admin-message-preview-item.replied {
+            background-color: rgba(40, 167, 69, 0.05);
+        }
+        
+        .admin-message-preview-status {
+            margin-right: 1rem;
+            font-size: 1rem;
+            color: var(--text-color-light);
+            display: flex;
+            align-items: flex-start;
+            padding-top: 0.25rem;
+        }
+        
+        .admin-message-preview-item.unread .admin-message-preview-status i {
+            color: var(--primary-color);
+        }
+        
+        .admin-message-preview-item.replied .admin-message-preview-status i {
+            color: var(--success-color);
+        }
+        
+        .admin-message-preview-content {
+            flex: 1;
+        }
+        
+        .admin-message-preview-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-top: var(--spacing-3);
-            padding-top: var(--spacing-3);
-            border-top: 1px solid var(--gray-200);
-            font-size: var(--font-size-sm);
-            color: var(--gray-600);
+            margin-bottom: 0.25rem;
         }
         
-        .admin-project-meta span {
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-1);
+        .admin-message-preview-header h4 {
+            margin: 0;
+            font-size: 0.9375rem;
+            font-weight: 600;
         }
         
-        .admin-project-progress {
-            flex: 0 0 150px;
+        .admin-message-preview-header span {
+            font-size: 0.75rem;
+            color: var(--text-color-light);
         }
         
-        .progress {
-            height: 8px;
-            background-color: var(--gray-200);
-            border-radius: var(--border-radius-full);
+        .admin-message-preview-subject {
+            font-weight: 500;
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .admin-message-preview-text {
+            font-size: 0.8125rem;
+            color: var(--text-color-light);
+            white-space: nowrap;
             overflow: hidden;
-            margin-bottom: var(--spacing-1);
-        }
-        
-        .progress-bar {
-            height: 100%;
-            background-color: var(--primary);
-            border-radius: var(--border-radius-full);
-        }
-        
-        .progress-text {
-            font-size: var(--font-size-xs);
-            color: var(--gray-700);
-            font-weight: var(--font-weight-medium);
-            text-align: right;
-            display: block;
+            text-overflow: ellipsis;
         }
         
         /* Hızlı Erişim */
-        .admin-quick-links {
-            display: flex;
-            flex-direction: column;
-            gap: var(--spacing-3);
+        .admin-quick-actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 1rem;
         }
         
-        .admin-quick-link {
+        .admin-quick-action {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 1.25rem 0.75rem;
+            border-radius: var(--card-border-radius);
+            background-color: var(--card-bg);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            text-decoration: none;
+            color: var(--text-color);
+        }
+        
+        .admin-quick-action:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            color: var(--primary-color);
+        }
+        
+        .admin-quick-action-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background-color: rgba(0, 123, 255, 0.1);
+            color: var(--primary-color);
             display: flex;
             align-items: center;
-            gap: var(--spacing-3);
-            padding: var(--spacing-3);
-            background-color: var(--gray-50);
-            border-radius: var(--border-radius);
-            color: var(--gray-700);
-            transition: var(--transition-base);
-            border: 1px solid var(--gray-200);
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
         }
         
-        .admin-quick-link:hover {
-            background-color: var(--primary);
-            color: var(--white);
-            transform: translateY(-2px);
+        .admin-quick-action-text {
+            font-weight: 500;
+            font-size: 0.875rem;
         }
         
-        .admin-quick-link i {
-            font-size: var(--font-size-xl);
-            width: 24px;
-            text-align: center;
+        .admin-project-image {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-right: 0.75rem;
+            flex-shrink: 0;
         }
         
-        /* Dark mode styles */
-        .dark-mode .admin-project-item,
-        .dark-mode .admin-quick-link {
-            background-color: var(--gray-700);
-            border-color: var(--gray-600);
+        .admin-project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         
-        .dark-mode .admin-project-meta {
-            border-top-color: var(--gray-600);
+        .admin-project-info h4 {
+            margin: 0 0 0.25rem 0;
+            font-size: 0.9375rem;
+            font-weight: 600;
         }
         
-        @media (max-width: 991.98px) {
-            .admin-project-meta {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: var(--spacing-2);
+        .admin-project-info p {
+            margin: 0;
+            font-size: 0.75rem;
+            color: var(--text-color-light);
+        }
+        
+        .d-flex {
+            display: flex;
+        }
+        
+        .align-center {
+            align-items: center;
+        }
+        
+        .gap-1 {
+            gap: 0.25rem;
+        }
+        
+        .text-right {
+            text-align: right;
+        }
+        
+        .mt-1 {
+            margin-top: 0.25rem;
+        }
+        
+        .p-0 {
+            padding: 0 !important;
+        }
+        
+        /* Karanlık mod uyarlamaları */
+        body.dark-mode .admin-message-preview-item {
+            border-bottom-color: rgba(255, 255, 255, 0.05);
+        }
+        
+        body.dark-mode .admin-message-preview-item:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        
+        body.dark-mode .admin-message-preview-item.unread {
+            background-color: rgba(0, 123, 255, 0.1);
+        }
+        
+        body.dark-mode .admin-message-preview-item.replied {
+            background-color: rgba(40, 167, 69, 0.1);
+        }
+        
+        body.dark-mode .admin-quick-action {
+            background-color: #2d3436;
+            border-color: rgba(255, 255, 255, 0.05);
+        }
+        
+        @media (min-width: 992px) {
+            .admin-dashboard-grid {
+                grid-template-columns: repeat(6, 1fr);
             }
             
-            .admin-project-progress {
-                width: 100%;
-                flex: none;
+            .admin-card-lg {
+                grid-column: span 6;
+            }
+            
+            .admin-grid-row {
+                grid-column: span 6;
             }
         }
         
-        /* Sidebarın taşmaması için stil düzenlemeleri */
-        .admin-sidebar {
-            overflow-y: hidden; /* scroll olmaması için */
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .admin-menu {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            padding-bottom: var(--spacing-5);
-        }
-        
-        .admin-menu-section {
-            margin-top: var(--spacing-4);
+        @media (min-width: 1200px) {
+            .admin-dashboard-grid {
+                grid-template-columns: repeat(12, 1fr);
+            }
+            
+            .admin-card-lg {
+                grid-column: span 8;
+            }
+            
+            .admin-grid-row {
+                grid-column: span 8;
+            }
+            
+            .admin-card:nth-child(3) {
+                grid-column: span 4;
+                grid-row: span 2;
+            }
         }
     </style>
 </body>
